@@ -35,7 +35,7 @@ public class Customer extends Person {
         System.out.print("Gender (M/F): ");
         String gender = (TARCatering.scan.next().charAt(0) == 'M') ? "Male" : "Female";
 
-        System.out.print("Phone No. (011-xxxxxxx): ");
+        System.out.print("Phone No. (01x-xxxxxxx): ");
         String phoneNum = TARCatering.scan.next();
 
         String address = "";
