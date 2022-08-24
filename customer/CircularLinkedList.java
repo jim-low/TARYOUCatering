@@ -40,9 +40,14 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 	}
 
 	@Override
-	public T remove() {
-		// TODO Auto-generated method stub
-		return null;
+	public T remove() { // remove at the head
+        T item = this.head.getData();
+
+        this.head = this.head.getNext();
+        this.last.setNext(this.head);
+        --this.size;
+
+		return item;
 	}
 
 	@Override
