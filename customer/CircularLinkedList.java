@@ -58,7 +58,15 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 
 	@Override
 	public boolean search(T data) {
-		// TODO Auto-generated method stub
+        Node<T> curr = this.head;
+
+        while (!curr.getNext().equals(this.head)) {
+            if (curr.getData().equals(data)) {
+                return true;
+            }
+            curr = curr.getNext();
+        }
+
 		return false;
 	}
 
