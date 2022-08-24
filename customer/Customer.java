@@ -27,7 +27,7 @@ public class Customer extends Person {
         System.out.println("Creating user account:-");
 
         System.out.print("Name: ");
-        String name = TARCatering.scan.next();
+        String name = TARCatering.scan.nextLine();
 
         System.out.print("Email: ");
         String email = TARCatering.scan.next();
@@ -35,14 +35,15 @@ public class Customer extends Person {
         System.out.print("Gender (M/F): ");
         String gender = (TARCatering.scan.next().charAt(0) == 'M') ? "Male" : "Female";
 
-        System.out.print("Phone No.: ");
+        System.out.print("Phone No. (011-xxxxxxx): ");
         String phoneNum = TARCatering.scan.next();
 
         String address = "";
         System.out.print("Do you wish to save a default address? (Y/N): ");
         if (TARCatering.scan.next().toUpperCase().charAt(0) == 'Y') {
             System.out.print("Default Address: ");
-            address = TARCatering.scan.next();
+            TARCatering.scan.next();
+            address = TARCatering.scan.nextLine();
         }
 
         Address defaultAddress = new Address(name + "'s Default Address", address, "", "");
