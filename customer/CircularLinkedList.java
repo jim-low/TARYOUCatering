@@ -18,8 +18,19 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 
 	@Override
 	public void insert(T data) {
-		// TODO Auto-generated method stub
+        Node<T> node = new Node<T>(data);
 
+        if (this.head == null) {
+            this.head = node;
+            this.last = node;
+        }
+        else {
+            this.last.setNext(node);
+            this.last = node;
+        }
+
+        node.setNext(this.head);
+        ++this.size;
 	}
 
 	@Override
