@@ -14,11 +14,11 @@ public class Customer extends Person {
         this.savedAddress = savedAddress;
     }
 
-	public Address getSavedAddress() {
-		return savedAddress;
-	}
+    public Address getSavedAddress() {
+        return savedAddress;
+    }
 
-	public void setSavedAddress(Address savedAddress) {
-		this.savedAddress = savedAddress;
-	}
+    public void setSavedAddress(Address savedAddress) {
+        this.savedAddress = savedAddress;
+    }
 }
