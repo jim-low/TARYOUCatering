@@ -4,7 +4,8 @@ package general;
  * Person
  */
 public class Person {
-    private int userID;
+    private static int idNumber = 1000;
+    private String userID;
     private String name;
     private String email;
     private String gender;
@@ -23,37 +24,44 @@ public class Person {
         this.email = email;
         this.gender = gender;
         this.phoneNum = phoneNum;
+
+        this.userID = String.format("U%d", idNumber);
+        ++idNumber;
     }
 
-	public String getName() {
-		return name;
-	}
+    public String getUserID() {
+        return userID;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getGender() {
-		return gender;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+    public String getGender() {
+        return gender;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getPhoneNum() {
-		return phoneNum;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setPhoneNum(String phoneNum) {
-		this.phoneNum = phoneNum;
-	}
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
 }
