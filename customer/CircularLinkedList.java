@@ -34,12 +34,6 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 	}
 
 	@Override
-	public void insert(T data, int index) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public T remove() { // remove at the head
         if (this.head == null) {
             return null;
@@ -52,12 +46,6 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
         --this.size;
 
 		return item;
-	}
-
-	@Override
-	public T remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
