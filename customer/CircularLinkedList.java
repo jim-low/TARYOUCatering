@@ -7,10 +7,12 @@ import utils.Node;
  */
 public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
     private Node<T> head;
+    private Node<T> last;
     private int size;
 
     public CircularLinkedList() {
         this.head = null;
+        this.last = null;
         this.size = 0;
     }
 
