@@ -1,6 +1,6 @@
 package customer;
 
-import utils.Node;
+import general.Node;
 
 /**
  * CircularLinkedList
