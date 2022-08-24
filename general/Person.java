@@ -25,7 +25,7 @@ public class Person {
         this.gender = gender;
         this.phoneNum = phoneNum;
 
-        this.userID = String.format("U%d", idNumber);
+        this.userID = "U" + idNumber;
         ++idNumber;
     }
 

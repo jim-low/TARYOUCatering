@@ -4,7 +4,8 @@ package general;
  * Address
  */
 public class Address {
-    private int addressID;
+    private static int idNumber = 1000;
+    private String addressID;
     private String addressName;
     private String addressLine1;
     private String addressLine2;
@@ -15,7 +16,14 @@ public class Address {
         this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.addressLine3 = addressLine3;
+
+        this.addressID = "A" + idNumber;
+        ++idNumber;
     }
+
+	public String getAddressID() {
+		return addressID;
+	}
 
 	public String getAddressName() {
 		return addressName;
