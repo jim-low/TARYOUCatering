@@ -41,6 +41,10 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 
 	@Override
 	public T remove() { // remove at the head
+        if (this.head == null) {
+            return null;
+        }
+
         T item = this.head.getData();
 
         this.head = this.head.getNext();
