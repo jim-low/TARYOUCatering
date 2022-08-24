@@ -6,14 +6,22 @@ package general;
 public class Person {
     private int userID;
     private String name;
-    private String gender;
     private String email;
+    private String gender;
     private String phoneNum;
 
-    public Person(String name, String gender, String email, String phoneNum) {
+    public Person() {
+        this("", "", "", "");
+    }
+
+    public Person(String name, String email) {
+        this(name, "", email, "");
+    }
+
+    public Person(String name, String email, String gender, String phoneNum) {
         this.name = name;
-        this.gender = gender;
         this.email = email;
+        this.gender = gender;
         this.phoneNum = phoneNum;
     }
 
