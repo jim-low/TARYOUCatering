@@ -1,6 +1,10 @@
 package main;
 
+import java.util.Scanner;
+
 public class TARCatering {
+    public static Scanner scan = new Scanner(System.in);
+
     public static void main(String[] args) {
         mainBanner();
     }
