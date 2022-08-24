@@ -1,10 +1,12 @@
 package customer;
 
+import utils.Node;
+
 /**
  * CircularLinkedList
  */
 public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
-    private T head;
+    private Node<T> head;
     private int size;
 
     public CircularLinkedList() {
