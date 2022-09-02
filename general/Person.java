@@ -3,7 +3,7 @@ package general;
 /**
  * Person
  */
-public class Person implements Comparable<Person> {
+public class Person {
     private static int idNumber = 1000;
     private String userID;
     private String name;
@@ -65,19 +65,8 @@ public class Person implements Comparable<Person> {
         this.phoneNum = phoneNum;
     }
 
-	@Override
-	public int compareTo(Person o) {
-        int currID = Integer.parseInt(this.userID.substring(1));
-        int compareID = Integer.parseInt(o.getUserID().substring(1));
-
-        if (currID > compareID) {
-            return 1;
-        }
-
-        if (currID < compareID) {
-            return -1;
-        }
-
-		return 0;
-	}
+    @Override
+    public String toString() {
+        return String.format("%s %s", this.name, this.userID);
+    }
 }
