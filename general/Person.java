@@ -64,4 +64,9 @@ public class Person {
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", this.name, this.userID);
+    }
 }

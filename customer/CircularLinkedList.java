@@ -49,6 +49,40 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 	}
 
 	@Override
+	public T remove(T data) {
+        if (this.head == null) {
+            return null;
+        }
+
+        if (this.size == 1) {
+            return this.remove();
+        }
+
+        T item = null;
+        Node<T> curr = this.head;
+        Node<T> prev = null;
+
+        while (curr.getNext() != null) {
+            if (curr.getData().toString().equals(data.toString())) {
+                item = curr.getData();
+                break;
+            }
+
+            prev = curr;
+            curr = curr.getNext();
+        }
+
+        if (item == null) {
+            return null;
+        }
+
+        prev.setNext(curr.getNext());
+        --this.size;
+
+        return item;
+	}
+
+	@Override
 	public boolean search(T data) {
         Node<T> curr = this.head;
 
