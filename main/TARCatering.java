@@ -134,7 +134,7 @@ public class TARCatering {
                         break;
                     }
                     
-                    System.out.print("Enter the ID you want to search by : ");
+                    System.out.print("Enter the ID you want to remove by : ");
                     String removeId = scan.nextLine() + scan.nextLine();
                     
                     //find the object
