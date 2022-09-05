@@ -53,14 +53,15 @@ public class TARCatering {
         String date;
         System.out.println("\n*******************Payment Menu*************************");
         System.out.println("1) Display Payment List                                 ");
-        System.out.println("2) Add Payment (WIP, only fixed obj payment atm)        ");
-        System.out.println("3) Remove Payment (WIP, only with fixed obj atm)        ");
+        System.out.println("2) Add Payment                                          ");
+        System.out.println("3) Remove Payment (Error in ADT)                        ");
         System.out.println("4) Search Payment                                       ");
         System.out.println("5) Delete Payment List                                  ");
         System.out.println("6) Exit Payment Menu                                    ");
         System.out.println("********************************************************");
-        System.out.println("Enter a choice : ");
+        System.out.print("Enter a choice : ");
         choice = scan.nextInt();
+        System.out.println();
         
             switch (choice) {
                 case 1: //display
@@ -74,7 +75,9 @@ public class TARCatering {
                         Payment pay = payIterator.next();
                         date = dateFormat.format(pay.getPaymentDate());
                         System.out.println("paymentID = " + pay.getPaymentID() + ", paymentAmt = " + pay.getPaymentAmt() + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
-                    }   
+                    } 
+                    
+                    System.out.println("Current amount of Records : " + payList.getNumberOfEntries());
                     
                     
                     //test printing all records with ToString (Not suggested, should not print from entity class)
@@ -97,7 +100,7 @@ public class TARCatering {
                     System.out.print("\nEnter the Payment Amount : ");
                     Double addAmt = scan.nextDouble();
                     
-                    System.out.print("Enter the Date of the Payment : ");
+                    System.out.print("\nEnter the Date of the Payment : ");
                     System.out.print("\nDay Of Payment : ");
                     int day = scan.nextInt();
                     System.out.print("\nMonth Of Payment : ");
@@ -105,15 +108,18 @@ public class TARCatering {
                     System.out.print("\nYear Of Payment : ");
                     int year = scan.nextInt();
                     
-                    System.out.println("\n\nEnter the Payment Method :");
+                    System.out.println("\nEnter the Payment Method :");
                     String addMethod = scan.nextLine() + scan.nextLine();
                     
                     LocalDate dToAdd = LocalDate.of(year,month,day);
                     Payment checkpay = new Payment(addId, addAmt, dToAdd, addMethod);
                     
                     if (!payList.contains(checkpay)){
-                        payList.add(checkpay);
-                        System.out.println("New payment added.");
+                        if (!payList.add(checkpay)){
+                            System.out.println("ERROR: Unable to add.");
+                        }
+                        
+                        else System.out.println("New payment added.");
                     }
                     
                     else {
@@ -128,14 +134,34 @@ public class TARCatering {
                         break;
                     }
                     
-                    Payment testRemove = new Payment("P0001", 3.33, d2, "MAYBANK");
-                    if (!payList.remove(testRemove)){
-                        System.out.println("No such record found! No changes made to List!");
+                    System.out.print("Enter the ID you want to search by : ");
+                    String removeId = scan.nextLine() + scan.nextLine();
+                    
+                    //find the object
+                    while(payIterator.hasNext()){
+                        Payment pay = payIterator.next();
+                        if(removeId.equals(pay.getPaymentID())){
+                            if(!payList.remove(pay)){
+                                System.out.println("\nERROR: Unable to remove record.");
+                            }
+                            
+                            else{
+                                System.out.println("\nRecord Found and Removed!");
+                            }
+                            break;
+                        }
                     }
-                    else{
-                        System.out.println("Record Deleted! ");
-                    }   
+                    
                     break;
+                    
+                    //Payment testRemove = new Payment("P0001", 3.33, d2, "MAYBANK");
+                    //if (!payList.remove(testRemove)){
+                    //    System.out.println("No such record found! No changes made to List!");
+                    //}
+                    //else{
+                    //    System.out.println("Record Deleted! ");
+                    //}   
+                    //break;
                     
                 case 4: //search
                     boolean found = false;
