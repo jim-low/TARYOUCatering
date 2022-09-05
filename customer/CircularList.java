@@ -5,12 +5,12 @@ import general.Node;
 /**
  * CircularLinkedList
  */
-public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
+public class CircularList<T> implements CircularListInterface<T> {
     private Node<T> head;
     private Node<T> last;
     private int size;
 
-    public CircularLinkedList() {
+    public CircularList() {
         this.head = null;
         this.last = null;
         this.size = 0;
