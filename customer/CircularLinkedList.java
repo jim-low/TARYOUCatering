@@ -16,8 +16,8 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
         this.size = 0;
     }
 
-	@Override
-	public void insert(T data) {
+    @Override
+    public void insert(T data) {
         Node<T> node = new Node<T>(data);
 
         if (this.head == null) {
@@ -31,10 +31,10 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 
         node.setNext(this.head);
         ++this.size;
-	}
+    }
 
-	@Override
-	public T remove() { // remove at the head
+    @Override
+    public T remove() { // remove at the head
         if (this.head == null) {
             return null;
         }
@@ -45,11 +45,11 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
         this.last.setNext(this.head);
         --this.size;
 
-		return item;
-	}
+        return item;
+    }
 
-	@Override
-	public T remove(T data) {
+    @Override
+    public T remove(T data) {
         if (this.head == null) {
             return null;
         }
@@ -80,10 +80,10 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
         --this.size;
 
         return item;
-	}
+    }
 
-	@Override
-	public boolean search(T data) {
+    @Override
+    public boolean search(T data) {
         Node<T> curr = this.head;
 
         while (!curr.getNext().equals(this.head)) {
@@ -93,11 +93,11 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
             curr = curr.getNext();
         }
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public int size() {
-		return this.size;
-	}
+    @Override
+    public int size() {
+        return this.size;
+    }
 }

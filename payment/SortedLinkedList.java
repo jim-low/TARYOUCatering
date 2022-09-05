@@ -13,8 +13,8 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
     private int numberOfEntries;
 
     public SortedLinkedList() {
-    firstNode = null;
-    numberOfEntries = 0;
+        firstNode = null;
+        numberOfEntries = 0;
     }
 
     //add an entry, return true if successful.
@@ -25,27 +25,27 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         Node nodeBefore = null;
         Node currentNode = firstNode;
         while (currentNode != null && newEntry.compareTo((T)currentNode.getData()) > 0) {
-          nodeBefore = currentNode;
-          currentNode = currentNode.getNext();
+            nodeBefore = currentNode;
+            currentNode = currentNode.getNext();
         }
 
         if (isEmpty() || (nodeBefore == null)) {
-          newNode.setNext(firstNode);
-          firstNode = newNode;
+            newNode.setNext(firstNode);
+            firstNode = newNode;
         }
 
         else {
-          newNode.setNext(currentNode);
-          nodeBefore.setNext(newNode);
+            newNode.setNext(currentNode);
+            nodeBefore.setNext(newNode);
         }
         numberOfEntries++;
         return true;
 
         /*REFERENCE (list based on date (ignore tq))
-        Node newNode = new Node(newEntry); //create a newNode object to determine the node you want to add.
+          Node newNode = new Node(newEntry); //create a newNode object to determine the node you want to add.
 
-        Node nBefore = null; //variable for the node before
-        Node nCurrent = firstNode; //variable for the current node (currently set to the first position)
+          Node nBefore = null; //variable for the node before
+          Node nCurrent = firstNode; //variable for the current node (currently set to the first position)
 
         //initializaing obj
         Payment paymentToAdd = (Payment)newEntry; // assume the node to be added is a payment object
@@ -73,18 +73,18 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
 
         //if the array is empty
         if (isEmpty() || (nBefore == null)) {
-          newNode.setNext(firstNode); //the newNode will be set as the first node
-          firstNode = newNode; //initialize the first Node in the list with the new node
+        newNode.setNext(firstNode); //the newNode will be set as the first node
+        firstNode = newNode; //initialize the first Node in the list with the new node
         }
 
         //if it's not empty
         else {
-          newNode.setNext(nCurrent); //the newNode's nextNode will be the nCurrent (assuming it should be newNode is earlier than currentNode)
-          nBefore.setNext(newNode); //nBefore's nextNode will be set to the newNode.
-          //imagine it like this
-          // 1 -> 3(nBefore) -> 5(nCurrent) (to add: 4 (newNode))
-          //to
-          // 1 -> 3 -> 4(nBefore.setNext(newNode)) -> 5(newNode.setNext)
+        newNode.setNext(nCurrent); //the newNode's nextNode will be the nCurrent (assuming it should be newNode is earlier than currentNode)
+        nBefore.setNext(newNode); //nBefore's nextNode will be set to the newNode.
+        //imagine it like this
+        // 1 -> 3(nBefore) -> 5(nCurrent) (to add: 4 (newNode))
+        //to
+        // 1 -> 3 -> 4(nBefore.setNext(newNode)) -> 5(newNode.setNext)
         }
         numberOfEntries++; //increase the number of entries.
         return true;
@@ -114,7 +114,7 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
                 beforeNode = currentNode;
                 currentNode = currentNode.getNext();
                 count++;
-            }
+                }
 
             System.out.println(beforeNode.getData()); //test (WARNING: beforeNode is Null.)
             System.out.println(currentNode.getData()); //test
@@ -140,82 +140,82 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
                 numberOfEntries--;
                 return true;
             }
-        }
-        return false;
+            }
+            return false;
 
-    }
-
-
-    //search if there is the spesified entry is in the list, otherwise, return false.
-    public boolean contains(T anEntry){
-        boolean found = false;
-        Node tempNode = firstNode;
-
-        while (!found && (tempNode != null)) {
-          if (anEntry.compareTo((T)tempNode.getData()) <= 0) {
-            found = true;
-          } else {
-            tempNode = tempNode.getNext();
-          }
         }
 
-        if (tempNode != null && tempNode.getData().toString().equals(anEntry.toString())) {
-          return true;
+
+        //search if there is the spesified entry is in the list, otherwise, return false.
+        public boolean contains(T anEntry){
+            boolean found = false;
+            Node tempNode = firstNode;
+
+            while (!found && (tempNode != null)) {
+                if (anEntry.compareTo((T)tempNode.getData()) <= 0) {
+                    found = true;
+                } else {
+                    tempNode = tempNode.getNext();
+                }
+            }
+
+            if (tempNode != null && tempNode.getData().toString().equals(anEntry.toString())) {
+                return true;
+            }
+
+            else {
+                return false;
+            }
         }
 
-        else {
-          return false;
+        //remove all entries from the list.
+        public void clear(){
+            firstNode = null;
+            numberOfEntries = 0;
         }
+
+        //get how many total entries are in the list.
+        public int getNumberOfEntries(){
+            return numberOfEntries;
+        }
+
+        public Iterator<T> getIterator(){
+            return new ListIterator();
+        }
+
+        //for getIterator function
+        private class ListIterator implements Iterator<T>{
+            //private int index=0 "start with the first item"
+            private Node currentNode = firstNode;
+
+            public boolean hasNext(){
+                return currentNode != null;
+            }
+
+            public T next(){ //return the node's data (like going thru the next index (not actually index but smth like that.))
+                T currentData = null;
+                if (hasNext()){
+                    currentData = (T)currentNode.getData();
+                    currentNode = currentNode.getNext();
+                }
+                return currentData;
+            }
+        }
+
+
+        public String toString() {
+            String outputStr = "";
+            Node currentNode = firstNode;
+            while (currentNode != null) {
+                outputStr += currentNode.getData() + "\n";;
+                currentNode = currentNode.getNext();
+            }
+            return outputStr;
+        }
+
+        //check if the array is empty, return true if it is empty.
+        public boolean isEmpty(){
+            return (numberOfEntries == 0);
+        }
+
     }
-
-    //remove all entries from the list.
-    public void clear(){
-        firstNode = null;
-        numberOfEntries = 0;
-    }
-
-    //get how many total entries are in the list.
-    public int getNumberOfEntries(){
-        return numberOfEntries;
-    }
-
-    public Iterator<T> getIterator(){
-        return new ListIterator();
-    }
-
-    //for getIterator function
-    private class ListIterator implements Iterator<T>{
-      //private int index=0 "start with the first item"
-      private Node currentNode = firstNode;
-
-      public boolean hasNext(){
-          return currentNode != null;
-      }
-
-      public T next(){ //return the node's data (like going thru the next index (not actually index but smth like that.))
-          T currentData = null;
-          if (hasNext()){
-              currentData = (T)currentNode.getData();
-              currentNode = currentNode.getNext();
-          }
-          return currentData;
-      }
-  }
-
-
-    public String toString() {
-    String outputStr = "";
-    Node currentNode = firstNode;
-    while (currentNode != null) {
-      outputStr += currentNode.getData() + "\n";;
-      currentNode = currentNode.getNext();
-    }
-    return outputStr;
-    }
-
-    //check if the array is empty, return true if it is empty.
-    public boolean isEmpty(){
-        return (numberOfEntries == 0);
-    }
-
-}
