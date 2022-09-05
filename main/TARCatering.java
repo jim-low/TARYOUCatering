@@ -30,24 +30,24 @@ public class TARCatering {
         System.out.println("  /_/ /_/  |_/_/ |_| /_/\\____/\\____/\\____/\\__,_/\\__/\\___/_/  /_/_/ /_/\\__, /");
         System.out.println("                                                                     /____/");
     }
-
+    
     //Leong Wen Wei (Test Functions)
-    public static void testPayment(){
-
+    public static void testPayment(){ 
+        
         int choice = 0; //for Payment Menu
-
+        
         SortedListInterface<Payment> payList = new SortedLinkedList<>();
-
+        
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
 
-        //create and add the employee object
+        //create and add the employee object 
         LocalDate d1 = LocalDate.of(2002,11,11);
         payList.add(new Payment("P0002", 4.33, d1, "VISA"));
         LocalDate d2 = LocalDate.of(2022,12,12);
         payList.add(new Payment("P0001", 3.33, d2, "MAYBANK"));
         payList.add(new Payment("P0003", 3.33, d2, "MAYBANK"));
         payList.add(new Payment("P0005", 3.33, d2, "MAYBANK"));
-
+           
         do{
         Iterator<Payment> payIterator = payList.getIterator();
         String date;
@@ -61,7 +61,7 @@ public class TARCatering {
         System.out.println("********************************************************");
         System.out.println("Enter a choice : ");
         choice = scan.nextInt();
-
+        
             switch (choice) {
                 case 1: //display
                     //display (using iterator to print)
@@ -69,34 +69,34 @@ public class TARCatering {
                         System.out.println("Your List is Empty...");
                         break;
                     }
-
+                    
                     while(payIterator.hasNext()){
                         Payment pay = payIterator.next();
                         date = dateFormat.format(pay.getPaymentDate());
                         System.out.println("paymentID = " + pay.getPaymentID() + ", paymentAmt = " + pay.getPaymentAmt() + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
-                    }
-
-
+                    }   
+                    
+                    
                     //test printing all records with ToString (Not suggested, should not print from entity class)
                     /*
                     System.out.println("===========list============\n" + payList.toString());
                     System.out.println("Records added = " + payList.getNumberOfEntries());
                     System.out.println("===========================\n");
                     */
-
-
+                    
+ 
                     break;
-
+                    
                 case 2: //add
-
+                    
                     System.out.println("To test contains(), there will be no generation or validation for ID.");
-
+                    
                     System.out.print("Enter the ID you want to add by : ");
                     String addId = scan.nextLine() + scan.nextLine();
-
+                    
                     System.out.print("\nEnter the Payment Amount : ");
                     Double addAmt = scan.nextDouble();
-
+                    
                     System.out.print("Enter the Date of the Payment : ");
                     System.out.print("\nDay Of Payment : ");
                     int day = scan.nextInt();
@@ -104,39 +104,39 @@ public class TARCatering {
                     int month = scan.nextInt();
                     System.out.print("\nYear Of Payment : ");
                     int year = scan.nextInt();
-
+                    
                     System.out.println("\n\nEnter the Payment Method :");
                     String addMethod = scan.nextLine() + scan.nextLine();
-
+                    
                     LocalDate dToAdd = LocalDate.of(year,month,day);
                     Payment checkpay = new Payment(addId, addAmt, dToAdd, addMethod);
-
+                    
                     if (!payList.contains(checkpay)){
                         payList.add(checkpay);
                         System.out.println("New payment added.");
                     }
-
+                    
                     else {
                         System.out.println("This payment already exists.");
                     }
 
                     break;
-
+                    
                 case 3: //remove
                     if (payList.isEmpty()){
                         System.out.println("You have nothing to delete, the list is empty...");
                         break;
                     }
-
+                    
                     Payment testRemove = new Payment("P0001", 3.33, d2, "MAYBANK");
                     if (!payList.remove(testRemove)){
                         System.out.println("No such record found! No changes made to List!");
                     }
                     else{
                         System.out.println("Record Deleted! ");
-                    }
+                    }   
                     break;
-
+                    
                 case 4: //search
                     boolean found = false;
                     System.out.println("Enter the ID you want to search by : ");
@@ -151,30 +151,30 @@ public class TARCatering {
                             break;
                         }
                     }
-
+                    
                     if (found == false) System.out.println("\n===No Such Record found...===");
                     break;
-
+                    
                 case 5: //clear
                         System.out.println("I don't know why you wanted to delete all the records, but ok boss.");
                         payList.clear();
                         System.out.println("PAYMENT LIST CLEARED.");
                     break;
-
+                    
                 case 6://exit
                         System.out.println("Bye bye!");
-
+  
                     break;
-
+                    
                 default:
                     System.out.println("\nERROR: Please insert a number from 1 to 6.\n");
                     break;
             }
         }
         while (choice < 6);
-
+        
 
     }
-
-
+    
+    
 }
