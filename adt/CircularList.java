@@ -1,11 +1,11 @@
-package customer;
+package adt;
 
 import general.Node;
 
 /**
  * CircularLinkedList
  */
-public class CircularList<T> implements CircularListInterface<T> {
+public class CircularList<T extends Comparable<T>> implements CircularListInterface<T> {
     private Node<T> head;
     private Node<T> last;
     private int size;
@@ -83,17 +83,22 @@ public class CircularList<T> implements CircularListInterface<T> {
     }
 
     @Override
-    public boolean search(T data) {
-        Node<T> curr = this.head;
-
-        while (!curr.getNext().equals(this.head)) {
-            if (curr.getData().equals(data)) {
-                return true;
-            }
-            curr = curr.getNext();
+    public T search(T data) {
+        if (this.head == null) {
+            return null;
         }
 
-        return false;
+        Node<T> curr = this.head;
+
+        for (int i = 0; i < this.size; ++i) {
+            System.out.println("searching");
+            if (curr.getData().compareTo(data) == 0) {
+                return curr.getData();
+            }
+            curr.setNext(curr.getNext());
+        }
+
+        return null;
     }
 
     @Override
