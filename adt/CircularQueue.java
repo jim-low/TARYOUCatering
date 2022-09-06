@@ -1,22 +1,26 @@
 package adt;
 
+import general.Node;
+
 /**
  * CircularQueue
  */
 public class CircularQueue<T> implements CircularQueueInterface<T> {
-    private Node lastNode;
+    private Node<T> lastNode;
     
     public CircularQueue(){
         lastNode = null;
     }
     
     public void enqueue (T newEntry){
-        Node newNode = new Node (newEntry, null);
+        Node<T> newNode = new Node<T> (newEntry);
         if(isEmpty()){
-            newNode.next = newNode;
+            newNode.setNext(newNode);
         }else{
-            newNode.next = lastNode.next;
-            lastNode.next = newNode;
+//            newNode.next = lastNode.next;
+            newNode.setNext(lastNode.getNext());
+//            lastNode.next = newNode;
+            lastNode.setNext(newNode);
         }
         lastNode = newNode;
     }
@@ -25,10 +29,11 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
         T front = null;
         if(!isEmpty()){
             front = getFront();
-            if(lastNode.next == lastNode){
+            if(lastNode.getNext() == lastNode){
                 lastNode = null;
             }else{
-                lastNode.next = lastNode.next.next;
+//                lastNode.next = lastNode.next.next;
+                lastNode.setNext(lastNode.getNext().getNext());
             }
         }
         
@@ -38,7 +43,8 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
     public T getFront() {
         T frontData = null;
         if(!isEmpty()){
-            frontData = lastNode.next.data;
+//            frontData = lastNode.next.data;
+            frontData = lastNode.getNext().getData();
         }
         return frontData;
     }
@@ -49,23 +55,8 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
     
     public void clear(){
         if(lastNode != null){
-            lastNode.next = null;
+            lastNode.setNext(null);
         }
         lastNode = null;
-    }
-    
-    private class Node{
-        private T data;
-        private Node next;
-        
-        public Node(T data){
-            this.data = null;
-            this.next = null;
-        }
-        
-        public Node (T data, Node anotherNode){
-            this.data = data;
-            this.next = anotherNode;
-        }
     }
 }
