@@ -1,13 +1,13 @@
-package entity;
+package order;
 
-public class Package {
+public class Package implements Comparable<Package>{
     private String packageID;
     private String desc;
-    private String packageSize;
+    private char packageSize;
     private Double price;
     private String[] food;
 
-    public Package(String packageID, String desc, String packageSize, Double price, String[] food) {
+    public Package(String packageID, String desc, char packageSize, Double price, String[] food) {
         this.packageID = packageID;
         this.desc = desc;
         this.packageSize = packageSize;
@@ -31,11 +31,11 @@ public class Package {
         this.desc = desc;
     }
 
-    public String getPackageSize() {
+    public char getPackageSize() {
         return packageSize;
     }
 
-    public void setPackageSize(String packageSize) {
+    public void setPackageSize(char packageSize) {
         this.packageSize = packageSize;
     }
 
@@ -58,6 +58,14 @@ public class Package {
     @Override
     public String toString() {
         return "Package{" + "packageID=" + packageID + ", desc=" + desc + ", packageSize=" + packageSize + ", price=" + price + ", food=" + food + '}';
+    }
+
+    @Override
+    public int compareTo(Package p) {
+        int id = Integer.parseInt(this.packageID.replaceAll("[a-zA-Z]", ""));
+        int pID = Integer.parseInt(p.packageID.replaceAll("[a-zA-Z]", ""));
+        
+        return(id- pID);
     }
     
     
