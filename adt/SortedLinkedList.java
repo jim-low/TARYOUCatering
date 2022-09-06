@@ -1,7 +1,7 @@
 package adt;
 
 //DO NOT use any predefined collection interfaces and classes from the Java Collections Framework.
-import payment.SortedListInterface;
+import adt.SortedListInterface;
 import java.util.Date;
 import payment.Payment;
 import general.Node;
