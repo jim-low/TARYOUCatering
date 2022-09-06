@@ -1,4 +1,9 @@
-package entity;
+package order;
+
+import general.Person;
+import general.Address;
+import payment.Payment;
+
 import java.util.Date;
 
 public class Order {
