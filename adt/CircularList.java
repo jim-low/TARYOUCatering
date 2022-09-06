@@ -1,23 +1,23 @@
-package customer;
+package adt;
 
 import general.Node;
 
 /**
  * CircularLinkedList
  */
-public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
+public class CircularList<T extends Comparable<T>> implements CircularListInterface<T> {
     private Node<T> head;
     private Node<T> last;
     private int size;
 
-    public CircularLinkedList() {
+    public CircularList() {
         this.head = null;
         this.last = null;
         this.size = 0;
     }
 
-	@Override
-	public void insert(T data) {
+    @Override
+    public void insert(T data) {
         Node<T> node = new Node<T>(data);
 
         if (this.head == null) {
@@ -31,10 +31,10 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
 
         node.setNext(this.head);
         ++this.size;
-	}
+    }
 
-	@Override
-	public T remove() { // remove at the head
+    @Override
+    public T remove() { // remove at the head
         if (this.head == null) {
             return null;
         }
@@ -45,11 +45,11 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
         this.last.setNext(this.head);
         --this.size;
 
-		return item;
-	}
+        return item;
+    }
 
-	@Override
-	public T remove(T data) {
+    @Override
+    public T remove(T data) {
         if (this.head == null) {
             return null;
         }
@@ -80,24 +80,29 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T> {
         --this.size;
 
         return item;
-	}
+    }
 
-	@Override
-	public boolean search(T data) {
-        Node<T> curr = this.head;
-
-        while (!curr.getNext().equals(this.head)) {
-            if (curr.getData().equals(data)) {
-                return true;
-            }
-            curr = curr.getNext();
+    @Override
+    public T search(T data) {
+        if (this.head == null) {
+            return null;
         }
 
-		return false;
-	}
+        Node<T> curr = this.head;
 
-	@Override
-	public int size() {
-		return this.size;
-	}
+        for (int i = 0; i < this.size; ++i) {
+            System.out.println("searching");
+            if (curr.getData().compareTo(data) == 0) {
+                return curr.getData();
+            }
+            curr.setNext(curr.getNext());
+        }
+
+        return null;
+    }
+
+    @Override
+    public int size() {
+        return this.size;
+    }
 }
