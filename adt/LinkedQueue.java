@@ -5,12 +5,12 @@ import java.util.Iterator;
 public class LinkedQueue<T> implements QueueInterface<T>{
 
   private Node firstNode;
-  private Node lastNode;  
+  private Node lastNode;
 
   public LinkedQueue() {
     firstNode = null;
     lastNode = null;
-  } 
+  }
 
   public void enqueue(T newEntry) {
     Node newNode = new Node(newEntry, null);
@@ -22,7 +22,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
     }
 
     lastNode = newNode;
-  } 
+  }
 
   public T getFront() {
     T front = null;
@@ -32,7 +32,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
     }
 
     return front;
-  } 
+  }
 
   public T dequeue() {
     T front = null;
@@ -44,7 +44,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
       if (firstNode == null) {
         lastNode = null;
       }
-    } 
+    }
 
     return front;
   } // end dequeue
@@ -56,8 +56,8 @@ public class LinkedQueue<T> implements QueueInterface<T>{
   public void clear() {
     firstNode = null;
     lastNode = null;
-  } 
-  
+  }
+
   public Iterator<T> getIterator() {
     return new LinkedQueueIterator();
   }
@@ -85,10 +85,10 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return null;
       }
     }
-    
+
     public boolean searchNode(T nodeEntry){
         Node newNode = new Node(nodeEntry, null);
-        
+
         if(next() !=null){
             while(next().equals(newNode)){
                 return true;
@@ -97,21 +97,21 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return false;
     }
   }
-  
+
 
   private class Node {
 
-    private T data; 
-    private Node next; 
+    private T data;
+    private Node next;
 
     private Node(T data) {
       this.data = data;
       this.next = null;
-    } 
+    }
 
     private Node(T data, Node next) {
       this.data = data;
       this.next = next;
-    } 
-  } 
-} 
+    }
+  }
+}

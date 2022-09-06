@@ -7,7 +7,7 @@ import main.TARCatering;
 /**
  * Customer
  */
-public class Customer extends Person {
+public class Customer extends Person implements Comparable<Customer> {
     private Address savedAddress;
 
     public Customer(String name, String email, String gender, String phoneNum, Address savedAddress) {
@@ -50,4 +50,12 @@ public class Customer extends Person {
 
         return new Customer(name, email, gender, phoneNum, defaultAddress);
     }
+
+	@Override
+	public int compareTo(Customer o) {
+        if (this.getName().equals(o.getName()) && this.getEmail().equals(o.getEmail())) {
+            return 0;
+        }
+		return -1;
+	}
 }
