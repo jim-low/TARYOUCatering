@@ -1,4 +1,4 @@
-package payment;
+package adt;
 //refer to lecture slides, Appendix 7.1 Sorted List Implementation
 
 import java.util.Iterator;

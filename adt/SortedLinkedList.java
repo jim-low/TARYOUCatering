@@ -1,11 +1,10 @@
-package payment;
+package adt;
 
 //DO NOT use any predefined collection interfaces and classes from the Java Collections Framework.
-import payment.SortedListInterface;
-import java.util.Date;
 import payment.Payment;
 import general.Node;
 import java.util.Iterator;
+import adt.SortedListInterface;
 
 public class SortedLinkedList<T extends Comparable<T>> implements SortedListInterface<T> {
     //remember to add validations for your ADTs, other validations that are not related to ADTs are not required.
@@ -116,9 +115,6 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
                 count++;
                 }
 
-            System.out.println(beforeNode.getData()); //test (WARNING: beforeNode is Null.)
-            System.out.println(currentNode.getData()); //test
-
             //if target is not found.
             if (currentNode == null){
                 return false;
@@ -126,9 +122,9 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
 
             //if the first record is the one to be removed...(WIP)
             if (beforeNode == null){
-                Node temp = currentNode; //ignore
-                currentNode.setNext(currentNode.getNext()); //ignore
-                //currentNode = currentNode.getNext();
+                Node temp = currentNode; 
+                currentNode.setNext(currentNode.getNext()); 
+                temp.setData(null);
                 numberOfEntries--;
                 return true;
             }

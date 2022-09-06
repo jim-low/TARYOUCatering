@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Iterator;
 import payment.Payment;
-import payment.SortedLinkedList; //may need to change to adt package
-import payment.SortedListInterface; //may need to change to adt package
+import adt.SortedLinkedList; //may need to change to adt package
+import adt.SortedListInterface; //may need to change to adt package
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
@@ -44,9 +44,11 @@ public class TARCatering {
         LocalDate d1 = LocalDate.of(2002,11,11);
         payList.add(new Payment("P0002", 4.33, d1, "VISA"));
         LocalDate d2 = LocalDate.of(2022,12,12);
+        LocalDate d3 = LocalDate.of(2022,10,10);
+        LocalDate d4 = LocalDate.of(2022,1,1);
         payList.add(new Payment("P0001", 3.33, d2, "MAYBANK"));
-        payList.add(new Payment("P0003", 3.33, d2, "MAYBANK"));
-        payList.add(new Payment("P0005", 3.33, d2, "MAYBANK"));
+        payList.add(new Payment("P0003", 3.33, d3, "MAYBANK"));
+        payList.add(new Payment("P0005", 3.33, d4, "MAYBANK"));
 
         do{
             Iterator<Payment> payIterator = payList.getIterator();
@@ -127,14 +129,25 @@ public class TARCatering {
                         System.out.println("You have nothing to delete, the list is empty...");
                         break;
                     }
-
-                    Payment testRemove = new Payment("P0001", 3.33, d2, "MAYBANK");
-                    if (!payList.remove(testRemove)){
-                        System.out.println("No such record found! No changes made to List!");
+                    
+                    System.out.print("Enter the ID you want to remove by : ");
+                    String removeId = scan.nextLine() + scan.nextLine();
+                    
+                    //find the object
+                    while(payIterator.hasNext()){
+                        Payment pay = payIterator.next();
+                        if(removeId.equals(pay.getPaymentID())){
+                            if(!payList.remove(pay)){
+                                System.out.println("\nERROR: Unable to remove record.");
+                            }
+                            
+                            else{
+                                System.out.println("\nRecord Found and Removed!");
+                            }
+                            break;
+                        }
                     }
-                    else{
-                        System.out.println("Record Deleted! ");
-                    }
+                    
                     break;
 
                 case 4: //search
