@@ -1,5 +1,6 @@
 package customer;
 
+import adt.CircularList;
 import general.Address;
 import general.Person;
 import main.TARCatering;
@@ -7,8 +8,10 @@ import main.TARCatering;
 /**
  * Customer
  */
-public class Customer extends Person {
+public class Customer extends Person implements Comparable<Customer> {
     private Address savedAddress;
+    public static CircularList<Customer> customerList = new CircularList<>();
+    public static Customer loggedInCustomer = null;
 
     public Customer(String name, String email, String gender, String phoneNum, Address savedAddress) {
         super(name, email, gender, phoneNum);
@@ -50,4 +53,38 @@ public class Customer extends Person {
 
         return new Customer(name, email, gender, phoneNum, defaultAddress);
     }
+
+    public static boolean login(Customer details) {
+        if (loggedInCustomer != null) {
+            System.out.println("Existing session ongoing.");
+            return false;
+        }
+
+        Customer found = customerList.search(details);
+        if (found == null) {
+            System.out.println("Could not find records. (check entered details)");
+            return false;
+        }
+
+        loggedInCustomer = found;
+        return true;
+    }
+
+    public static void logout() {
+        if (loggedInCustomer == null) {
+            System.out.println("No existing session.");
+            return;
+        }
+
+        loggedInCustomer = null;
+        System.out.println("Logged out");
+    }
+
+	@Override
+	public int compareTo(Customer o) {
+        if (this.getName().equals(o.getName()) && this.getEmail().equals(o.getEmail())) {
+            return 0;
+        }
+		return -1;
+	}
 }
