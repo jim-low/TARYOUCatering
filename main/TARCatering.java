@@ -4,9 +4,11 @@ import java.time.LocalDate; //Date display weird outpur, assumed to be unsupport
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Iterator;
+import java.util.InputMismatchException;
 import payment.Payment;
 import adt.SortedLinkedList; //may need to change to adt package
 import adt.SortedListInterface; //may need to change to adt package
+import java.lang.Math;   
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
@@ -29,6 +31,7 @@ public class TARCatering {
         System.out.println("   / / / ___ |/ _, _/ / / /_/ / /_/ / /___/ /_/ / /_/  __/ /  / / / / / /_/ /");
         System.out.println("  /_/ /_/  |_/_/ |_| /_/\\____/\\____/\\____/\\__,_/\\__/\\___/_/  /_/_/ /_/\\__, /");
         System.out.println("                                                                     /____/");
+        System.out.println(Math.random());
     }
 
     //Leong Wen Wei (Test Functions)
@@ -42,28 +45,29 @@ public class TARCatering {
 
         //create and add the employee object
         LocalDate d1 = LocalDate.of(2002,11,11);
-        payList.add(new Payment("P0002", 4.33, d1, "VISA"));
         LocalDate d2 = LocalDate.of(2022,12,12);
         LocalDate d3 = LocalDate.of(2022,10,10);
         LocalDate d4 = LocalDate.of(2022,1,1);
-        payList.add(new Payment("P0001", 3.33, d2, "MAYBANK"));
-        payList.add(new Payment("P0003", 3.33, d3, "MAYBANK"));
-        payList.add(new Payment("P0005", 3.33, d4, "MAYBANK"));
+        payList.add(new Payment("P0001", 400.33, d1, "VISA"));
+        payList.add(new Payment("P0002", 366.33, d2, "MAYBANK"));
+        payList.add(new Payment("P0003", 347.33, d3, "MAYBANK"));
+        payList.add(new Payment("P0004", 943.33, d4, "MAYBANK"));
 
         do{
             Iterator<Payment> payIterator = payList.getIterator();
             String date;
             System.out.println("\n*******************Payment Menu*************************");
             System.out.println("1) Display Payment List                                 ");
-            System.out.println("2) Add Payment (WIP, only fixed obj payment atm)        ");
-            System.out.println("3) Remove Payment (WIP, only with fixed obj atm)        ");
+            System.out.println("2) Add Payment                                          ");
+            System.out.println("3) Remove Payment                                       ");
             System.out.println("4) Search Payment                                       ");
             System.out.println("5) Delete Payment List                                  ");
             System.out.println("6) Exit Payment Menu                                    ");
             System.out.println("********************************************************");
-            System.out.println("Enter a choice : ");
+            System.out.print("Enter a choice : ");
             choice = scan.nextInt();
-
+            System.out.println();
+            
             switch (choice) {
                 case 1: //display
                     //display (using iterator to print)
@@ -71,11 +75,13 @@ public class TARCatering {
                         System.out.println("Your List is Empty...");
                         break;
                     }
-
+                    System.out.println("--------------------------------------------------------------------------------------------------");
                     while(payIterator.hasNext()){
                         Payment pay = payIterator.next();
                         date = dateFormat.format(pay.getPaymentDate());
-                        System.out.println("paymentID = " + pay.getPaymentID() + ", paymentAmt = " + pay.getPaymentAmt() + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
+
+                        System.out.println("paymentID = " + pay.getPaymentID() + String.format(" , paymentAmt = %.2f", pay.getPaymentAmt()) + " , paymentDate = " + date + " , paymentMethod = " + pay.getPaymentMethod());
+                        System.out.println("---------------------------------------------------------------------------------------------------");
                     }
 
 
@@ -90,28 +96,122 @@ public class TARCatering {
                     break;
 
                 case 2: //add
-
-                    System.out.println("To test contains(), there will be no generation or validation for ID.");
-
-                    System.out.print("Enter the ID you want to add by : ");
+                    int day;
+                    int month;
+                    int year;
+                    
+                    //generate own payment ID.
+                    String generatePayId;
+                    boolean newPayId = true;
+                    
+                    do{
+                    //generate a random number of a paymentID format
+                    int generateNum = (int)(Math.random() * (5 - 1 + 1) + 1);
+                    
+                    //generate necessary zeros
+                    if(generateNum < 10) generatePayId = "P000" + String.valueOf(generateNum);
+                    
+                    else if (generateNum < 100) generatePayId = "P00" + String.valueOf(generateNum);
+                    
+                    else if (generateNum < 1000) generatePayId = "P0" + String.valueOf(generateNum);
+                    
+                    else generatePayId = "P" + String.valueOf(generateNum);
+                        
+                    //generated number is created, check if it is a duplicate.
+                        newPayId = true;
+                        payIterator = payList.getIterator(); //reinitialize...?
+                        while(payIterator.hasNext()){
+                            Payment pay = payIterator.next();
+                            if(generatePayId.equals(pay.getPaymentID())){
+                                System.out.println("DUPE!");
+                                newPayId = false;
+                            }
+                        }
+                        
+                    } while (newPayId == false);
+                    
+                    //display the Id to be added.
+                    System.out.println("Payment ID: " + generatePayId);
+                    
+                    /*
+                    
+                    
+                    System.out.print("\nEnter the ID you want to add by : ");
                     String addId = scan.nextLine() + scan.nextLine();
+                    
+                    -----------
+                    boolean correctInput = true;
+                    boolean addDupeId = false; 
+                    int addNum = 0;
+                    String addId = "";
+                    do{
+                        System.out.print("\nEnter the ID you want to add by : P");
+                        addNum = scan.nextInt();
+                                
+                        if (addNum > 9999 || addNum <= 0){
+                        System.out.println("\nPlease use a range from 1 - 9999");
+                        correctInput = false;
+                        }           
+                        
+                        //generate the String id
+                        if(addNum < 10) addId = "P000" + String.valueOf(addNum);
+                        
+                        else if (addNum < 100) addId = "P00" + String.valueOf(addNum);
+                        
+                        else if (addNum < 1000) addId = "P0" + String.valueOf(addNum);
+                        
+                        else addId = "P" + String.valueOf(addNum);
+                        
+                        System.out.println("your string: " + addId);
+                        
+                        //loop through the entire list to check duplicates
+                        addDupeId = false;
+                        while(payIterator.hasNext()){
+                            Payment pay = payIterator.next();
+                               if(addId.equals(pay.getPaymentID())){
+                                   System.out.println("\nDuplicate Id, please select a new ID.");
+                                   addDupeId = true;
+                               }
+                        }
+                        
+                    } while (addDupeId == true);
+                    */
 
                     System.out.print("\nEnter the Payment Amount : ");
                     Double addAmt = scan.nextDouble();
 
-                    System.out.print("Enter the Date of the Payment : ");
-                    System.out.print("\nDay Of Payment : ");
-                    int day = scan.nextInt();
-                    System.out.print("\nMonth Of Payment : ");
-                    int month = scan.nextInt();
-                    System.out.print("\nYear Of Payment : ");
-                    int year = scan.nextInt();
+                    System.out.print("\nEnter the Date of the Payment : ");
+                    
+                    do{
+                    System.out.print("\nDay Of Payment (integer) : ");
+                    day = scan.nextInt();
+                        if(day > 12 || day < 1){
+                           System.out.println("\nIncorrect day. Try again.");
+                        }
+                    }while (day > 12 || day < 1);
+                    
+                    do{
+                        System.out.print("\nMonth Of Payment (integer) : ");
+                        month = scan.nextInt();
+                        if(month > 12 || month < 1){
+                           System.out.println("\nIncorrect month. Try again.");
+                        }
+                    }while (month > 12 || month < 1);
+                    
+                    do{
+                        System.out.print("\nYear Of Payment (integer) : ");
+                        year = scan.nextInt();
+                        if(year > 9999 || year < 1000){
+                           System.out.println("\nIncorrect/unrealistic year. Try again.");
+                        }
+                    }while (year > 9999 || year < 1000);
+                    
 
                     System.out.println("\n\nEnter the Payment Method :");
                     String addMethod = scan.nextLine() + scan.nextLine();
 
                     LocalDate dToAdd = LocalDate.of(year,month,day);
-                    Payment checkpay = new Payment(addId, addAmt, dToAdd, addMethod);
+                    Payment checkpay = new Payment(generatePayId, addAmt, dToAdd, addMethod);
 
                     if (!payList.contains(checkpay)){
                         if (!payList.add(checkpay)){
@@ -154,7 +254,7 @@ public class TARCatering {
                     break;
 
                 case 4: //search
-                    boolean found = false;
+                    boolean searchFound = false;
                     System.out.println("Enter the ID you want to search by : ");
                     String searchId = scan.nextLine() + scan.nextLine();
                     while(payIterator.hasNext()){
@@ -163,12 +263,12 @@ public class TARCatering {
                         if(searchId.equals(pay.getPaymentID())){
                             System.out.println("\n===Record found!===");
                             System.out.println("paymentID = " + pay.getPaymentID() + ", paymentAmt = " + pay.getPaymentAmt() + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
-                            found = true;
+                            searchFound = true;
                             break;
                         }
                     }
 
-                    if (found == false) System.out.println("\n===No Such Record found...===");
+                    if (searchFound == false) System.out.println("\n===No Such Record found...===");
                     break;
 
                 case 5: //clear

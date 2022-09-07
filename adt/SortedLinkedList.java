@@ -19,11 +19,12 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
     //add an entry, return true if successful.
     public boolean add(T newEntry){
 
-        Node newNode = new Node(newEntry);
+        Node<T> newNode = new Node<T>(newEntry);
 
-        Node nodeBefore = null;
-        Node currentNode = firstNode;
-        while (currentNode != null && newEntry.compareTo((T)currentNode.getData()) > 0) {
+        Node<T> nodeBefore = null;
+        Node<T> currentNode = firstNode;
+        
+        while (currentNode != null && newEntry.compareTo(currentNode.getData()) > 0) {
             nodeBefore = currentNode;
             currentNode = currentNode.getNext();
         }
@@ -97,12 +98,15 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         //is empty
         if(firstNode == null){
             return false;
-        } else{
+        } 
+        
+        else{
             int count = 0;
-            Node beforeNode = null;
-            Node currentNode = firstNode;
-
-            while(currentNode != null && !currentNode.getData().toString().equals(anEntry.toString())){
+            
+            /*
+            while(currentNode != null && !currentNode.getData().toString().equals(anEntry.toString())){ //while curr.getNext == NULL
+                //if it's the first node...
+                //cu
                 //(currentNode != null && anEntry.compareTo((T)currentNode.getData()) >= 0)
                 //newEntry.compareTo((T)currentNode.getData()) > 0
                 //tempNode.getData().toString().equals(anEntry.toString())
@@ -113,7 +117,7 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
                 beforeNode = currentNode;
                 currentNode = currentNode.getNext();
                 count++;
-                }
+            }
 
             //if target is not found.
             if (currentNode == null){
@@ -122,9 +126,7 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
 
             //if the first record is the one to be removed...(WIP)
             if (beforeNode == null){
-                Node temp = currentNode; 
                 currentNode.setNext(currentNode.getNext()); 
-                temp.setData(null);
                 numberOfEntries--;
                 return true;
             }
@@ -136,6 +138,36 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
                 numberOfEntries--;
                 return true;
             }
+            */
+            
+            Node<T> beforeNode = null;
+            Node<T> currentNode = firstNode;
+            int listIndex = 0;
+            while (currentNode != null){ //loop until the end
+                
+                if(currentNode.getData().compareTo(anEntry) == 0){ //found the matching record
+                    
+                    if(currentNode.equals(firstNode)){ //does it match with the first node?
+                        firstNode = currentNode.getNext();
+                    }
+                    
+                    else if (listIndex == numberOfEntries - 1){ //does it match with the last node?
+                        beforeNode.setNext(null);
+                    }
+                    
+                    else{ //does it match anywhere other than the last or first node?
+                        beforeNode.setNext(currentNode.getNext());
+                    }
+                    
+                    return true;
+                }
+                
+                beforeNode = currentNode;
+                currentNode = currentNode.getNext();
+                ++listIndex;
+            }
+            
+            
             }
             return false;
 
