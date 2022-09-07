@@ -64,9 +64,9 @@ public class Package implements Comparable<Package>{
     public int compareTo(Package p) {
         int id = Integer.parseInt(this.packageID.replaceAll("[a-zA-Z]", ""));
         int pID = Integer.parseInt(p.packageID.replaceAll("[a-zA-Z]", ""));
-        
+
         return(id- pID);
     }
-    
-    
+
+
 }

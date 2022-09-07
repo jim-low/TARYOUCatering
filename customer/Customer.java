@@ -93,11 +93,11 @@ public class Customer extends Person implements Comparable<Customer> {
         }
     }
 
-	@Override
-	public int compareTo(Customer o) {
+    @Override
+    public int compareTo(Customer o) {
         if (this.getName().equals(o.getName()) && this.getEmail().equals(o.getEmail())) {
             return 0;
         }
-		return -1;
-	}
+        return -1;
+    }
 }
