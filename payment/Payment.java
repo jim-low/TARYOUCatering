@@ -66,7 +66,7 @@ public class Payment implements Comparable<Payment>{
 
     @Override
     public String toString() {
-        return "paymentID = " + paymentID + ", paymentAmt = " + paymentAmt + ", paymentDate = " + paymentDate + ", paymentMethod = " + paymentMethod;
+        return "paymentID = " + paymentID + String.format(" , paymentAmt = %.2f", paymentAmt) + ", paymentDate = " + paymentDate + ", paymentMethod = " + paymentMethod;
     }
 
     @Override

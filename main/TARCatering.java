@@ -1,13 +1,12 @@
 package main;
 
-import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
+import java.time.LocalDate; //Date import displays weird output, assumed to be unsupported, changed to Local Date instead.
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Iterator;
-import java.util.InputMismatchException;
 import payment.Payment;
-import adt.SortedLinkedList; //may need to change to adt package
-import adt.SortedListInterface; //may need to change to adt package
+import adt.SortedLinkedList; 
+import adt.SortedListInterface; 
 import java.lang.Math;   
 
 public class TARCatering {
@@ -31,7 +30,6 @@ public class TARCatering {
         System.out.println("   / / / ___ |/ _, _/ / / /_/ / /_/ / /___/ /_/ / /_/  __/ /  / / / / / /_/ /");
         System.out.println("  /_/ /_/  |_/_/ |_| /_/\\____/\\____/\\____/\\__,_/\\__/\\___/_/  /_/_/ /_/\\__, /");
         System.out.println("                                                                     /____/");
-        System.out.println(Math.random());
     }
 
     //Leong Wen Wei (Test Functions)
@@ -84,7 +82,8 @@ public class TARCatering {
                         System.out.println("---------------------------------------------------------------------------------------------------");
                     }
 
-
+                    System.out.println("Amount of Records = " + payList.getNumberOfEntries());
+                    
                     //test printing all records with ToString (Not suggested, should not print from entity class)
                     /*
                        System.out.println("===========list============\n" + payList.toString());
@@ -106,7 +105,7 @@ public class TARCatering {
                     
                     do{
                     //generate a random number of a paymentID format
-                    int generateNum = (int)(Math.random() * (5 - 1 + 1) + 1);
+                    int generateNum = (int)(Math.random() * (9999 - 1 + 1) + 1);
                     
                     //generate necessary zeros
                     if(generateNum < 10) generatePayId = "P000" + String.valueOf(generateNum);
@@ -119,11 +118,10 @@ public class TARCatering {
                         
                     //generated number is created, check if it is a duplicate.
                         newPayId = true;
-                        payIterator = payList.getIterator(); //reinitialize...?
+                        payIterator = payList.getIterator(); //reset iterator, to reset positions.
                         while(payIterator.hasNext()){
                             Payment pay = payIterator.next();
                             if(generatePayId.equals(pay.getPaymentID())){
-                                System.out.println("DUPE!");
                                 newPayId = false;
                             }
                         }
@@ -132,50 +130,6 @@ public class TARCatering {
                     
                     //display the Id to be added.
                     System.out.println("Payment ID: " + generatePayId);
-                    
-                    /*
-                    
-                    
-                    System.out.print("\nEnter the ID you want to add by : ");
-                    String addId = scan.nextLine() + scan.nextLine();
-                    
-                    -----------
-                    boolean correctInput = true;
-                    boolean addDupeId = false; 
-                    int addNum = 0;
-                    String addId = "";
-                    do{
-                        System.out.print("\nEnter the ID you want to add by : P");
-                        addNum = scan.nextInt();
-                                
-                        if (addNum > 9999 || addNum <= 0){
-                        System.out.println("\nPlease use a range from 1 - 9999");
-                        correctInput = false;
-                        }           
-                        
-                        //generate the String id
-                        if(addNum < 10) addId = "P000" + String.valueOf(addNum);
-                        
-                        else if (addNum < 100) addId = "P00" + String.valueOf(addNum);
-                        
-                        else if (addNum < 1000) addId = "P0" + String.valueOf(addNum);
-                        
-                        else addId = "P" + String.valueOf(addNum);
-                        
-                        System.out.println("your string: " + addId);
-                        
-                        //loop through the entire list to check duplicates
-                        addDupeId = false;
-                        while(payIterator.hasNext()){
-                            Payment pay = payIterator.next();
-                               if(addId.equals(pay.getPaymentID())){
-                                   System.out.println("\nDuplicate Id, please select a new ID.");
-                                   addDupeId = true;
-                               }
-                        }
-                        
-                    } while (addDupeId == true);
-                    */
 
                     System.out.print("\nEnter the Payment Amount : ");
                     Double addAmt = scan.nextDouble();
@@ -272,13 +226,12 @@ public class TARCatering {
                     break;
 
                 case 5: //clear
-                    System.out.println("I don't know why you wanted to delete all the records, but ok boss.");
                     payList.clear();
                     System.out.println("PAYMENT LIST CLEARED.");
                     break;
 
                 case 6://exit
-                    System.out.println("Bye bye!");
+                    System.out.println("End of Payment module!");
 
                     break;
 

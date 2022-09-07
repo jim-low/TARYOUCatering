@@ -40,55 +40,6 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         }
         numberOfEntries++;
         return true;
-
-        /*REFERENCE (list based on date (ignore tq))
-          Node newNode = new Node(newEntry); //create a newNode object to determine the node you want to add.
-
-          Node nBefore = null; //variable for the node before
-          Node nCurrent = firstNode; //variable for the current node (currently set to the first position)
-
-        //initializaing obj
-        Payment paymentToAdd = (Payment)newEntry; // assume the node to be added is a payment object
-        Date dateEntry = paymentToAdd.getPaymentDate(); //get the newEntry's Date ( assumed to be a Payment object.)
-        Payment paymentToCompare = (Payment)firstNode.getData();
-        Date dateToCompare = paymentToCompare.getPaymentDate();
-
-        //for REF onlyc(NODE CLASS)
-        //private T data;
-        //private Node<T> next;
-        //private Node<T> prev;
-
-        //if the current node is not null, and the spesified entry's date is later than the nCurrent's Date
-        while (nCurrent != null && dateEntry.compareTo((dateToCompare)) > 0){ //continue to loop it
-        nBefore = nCurrent; // The current node will be the node before it
-        nCurrent = nCurrent.getNext(); //the current node's next node will be the current node
-        //imagine the loop like this
-        // [D1] -> (D2) -> D3 -> D4
-        //to
-        // D1 -> [D2] -> (D3) -> D4 (and so on...)
-        //REINITIALIZE dateToCompare
-        paymentToCompare = (Payment)nCurrent.getData(); //change the payment object to the next payment object in the array.
-        dateToCompare = paymentToCompare.getPaymentDate(); //reinitialize dateToCompare with the new next Payment Object
-        }
-
-        //if the array is empty
-        if (isEmpty() || (nBefore == null)) {
-        newNode.setNext(firstNode); //the newNode will be set as the first node
-        firstNode = newNode; //initialize the first Node in the list with the new node
-        }
-
-        //if it's not empty
-        else {
-        newNode.setNext(nCurrent); //the newNode's nextNode will be the nCurrent (assuming it should be newNode is earlier than currentNode)
-        nBefore.setNext(newNode); //nBefore's nextNode will be set to the newNode.
-        //imagine it like this
-        // 1 -> 3(nBefore) -> 5(nCurrent) (to add: 4 (newNode))
-        //to
-        // 1 -> 3 -> 4(nBefore.setNext(newNode)) -> 5(newNode.setNext)
-        }
-        numberOfEntries++; //increase the number of entries.
-        return true;
-        */
     }
 
     //remove a specified entry, return true if successful.
@@ -102,43 +53,6 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         
         else{
             int count = 0;
-            
-            /*
-            while(currentNode != null && !currentNode.getData().toString().equals(anEntry.toString())){ //while curr.getNext == NULL
-                //if it's the first node...
-                //cu
-                //(currentNode != null && anEntry.compareTo((T)currentNode.getData()) >= 0)
-                //newEntry.compareTo((T)currentNode.getData()) > 0
-                //tempNode.getData().toString().equals(anEntry.toString())
-                //while(currentNode != null && currentNode.data.compareTo(anEntry)<0){ (original, compareTo Has an issue.)
-                System.out.println(anEntry); //test
-                System.out.println(currentNode.getData()); //test
-                System.out.println("can't find anything! Next!"); //test
-                beforeNode = currentNode;
-                currentNode = currentNode.getNext();
-                count++;
-            }
-
-            //if target is not found.
-            if (currentNode == null){
-                return false;
-            }
-
-            //if the first record is the one to be removed...(WIP)
-            if (beforeNode == null){
-                currentNode.setNext(currentNode.getNext()); 
-                numberOfEntries--;
-                return true;
-            }
-
-            //if target is found
-            if(currentNode.getData().toString().equals(anEntry.toString())){
-                beforeNode.setNext(currentNode.getNext());
-                currentNode = null;
-                numberOfEntries--;
-                return true;
-            }
-            */
             
             Node<T> beforeNode = null;
             Node<T> currentNode = firstNode;
@@ -159,6 +73,7 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
                         beforeNode.setNext(currentNode.getNext());
                     }
                     
+                    numberOfEntries--;
                     return true;
                 }
                 
