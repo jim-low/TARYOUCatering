@@ -1,6 +1,4 @@
 package adt;
-import order.Package;
-
 import java.util.Iterator;
 
 public class SortedArrayList<T extends Comparable<T>> implements SortedListInterface<T> {

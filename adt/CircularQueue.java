@@ -1,9 +1,6 @@
 package adt;
 
-
 import general.Node;
-
-
 
 /**
  * CircularQueue
@@ -11,15 +8,15 @@ import general.Node;
 public class CircularQueue<T> implements CircularQueueInterface<T> {
     private Node<T> lastNode;
 
-    public CircularQueue(){
+    public CircularQueue() {
         lastNode = null;
     }
 
-    public void enqueue (T newEntry){
+    public void enqueue (T newEntry) {
         Node<T> newNode = new Node<T> (newEntry);
-        if(isEmpty()){
+        if(isEmpty()) {
             newNode.setNext(newNode);
-        }else{
+        } else {
             //            newNode.next = lastNode.next;
             newNode.setNext(lastNode.getNext());
             //            lastNode.next = newNode;
@@ -30,11 +27,11 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
 
     public T dequeue() {
         T front = null;
-        if(!isEmpty()){
+        if (!isEmpty()) {
             front = getFront();
-            if(lastNode.getNext() == lastNode){
+            if (lastNode.getNext() == lastNode) {
                 lastNode = null;
-            }else{
+            } else {
                 //                lastNode.next = lastNode.next.next;
                 lastNode.setNext(lastNode.getNext().getNext());
             }
@@ -45,7 +42,7 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
 
     public T getFront() {
         T frontData = null;
-        if(!isEmpty()){
+        if (!isEmpty()) {
             //            frontData = lastNode.next.data;
             frontData = lastNode.getNext().getData();
         }
@@ -56,7 +53,7 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
         return lastNode == null;
     }
 
-    public void clear(){
+    public void clear() {
         if(lastNode != null){
             lastNode.setNext(null);
         }
