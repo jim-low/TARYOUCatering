@@ -1,7 +1,7 @@
 package adt;
 
 //DO NOT use any predefined collection interfaces and classes from the Java Collections Framework.
-import payment.SortedListInterface;
+import adt.SortedListInterface;
 import java.util.Date;
 import payment.Payment;
 import general.Node;
@@ -16,7 +16,7 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         firstNode = null;
         numberOfEntries = 0;
     }
-
+    
     //add an entry, return true if successful.
     public boolean add(T newEntry){
 
@@ -182,6 +182,14 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         public Iterator<T> getIterator(){
             return new ListIterator();
         }
+
+    @Override
+    public T search(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    public boolean edit(int selectedIndex, T replaceEntry) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
         //for getIterator function
         private class ListIterator implements Iterator<T>{

@@ -19,9 +19,11 @@ import java.util.Date;
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
-
+    String[] foodArr1;
+    String[] foodArr2;
+    String[] foodArr3;
     public SortedListInterface<Package> packages = new SortedArrayList<>();
-
+    
     public static void main(String[] args) {
         TARCatering system = new TARCatering();
 
@@ -49,51 +51,78 @@ public class TARCatering {
 
     //OrderCrap
     public void initialize(){
-        String[] foodArr1 = {"Fishes", "Meat-lookalike vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
+        String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
         String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
-
         packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
     }
+    
     public void choosePackage(){
-        int sizeChoice=0;
+        int sizeChoice = 0;
         int packageChoice;
         do{
             System.out.println("Choose the package to order: ");
-            System.out.println("(1)Package 1 ");
-            System.out.println("(2)Package 2 ");
-            System.out.println("(3)Package 3 ");
+            for(int i=1;i<=packages.getNumberOfEntries();i++){
+                System.out.println("(" + i + ")Package " + i + ", " + packages.search(i-1).getDesc());
+            }
             System.out.println("(4)Exit");
             packageChoice = scan.nextInt();
+            
+            if(packageChoice <=0 || packageChoice >=5){
+                System.out.println("Invalid Choice. Try Again.");
+            }else{
+                do{
+                    System.out.println("Choose package size to serve: ");
+                    System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
+                    System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
+                    System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
+                    System.out.println("4. Back");
+                    sizeChoice = scan.nextInt();
 
-            do{
-                System.out.println("Choose package size to serve: ");
-                System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
-                System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
-                System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
-                System.out.println("4. Back");
-
-            }while(sizeChoice < 1 || sizeChoice > 4);
-
-
-        }while(packageChoice < 1 || packageChoice > 4 || sizeChoice == 4);
-
-
+                }while(sizeChoice <= 0 || sizeChoice >= 5);
+            }
+        }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
+            
+            
+            switch(sizeChoice){
+                case 1:{
+                    packages.edit(sizeChoice-1, new Package(packages.search(sizeChoice-1).getPackageID(), packages.search(sizeChoice-1).getDesc(), 'S' , 
+                            packages.search(sizeChoice-1).getPrice(), packages.search(sizeChoice-1).getFood()));
+                    System.out.println(packages.search(sizeChoice-1));
+                    break;
+                }
+                case 2:{
+                    packages.edit(sizeChoice-1, new Package(packages.search(sizeChoice-1).getPackageID(), packages.search(sizeChoice-1).getDesc(), 'S' , 
+                            packages.search(sizeChoice-1).getPrice(), packages.search(sizeChoice-1).getFood()));
+                    System.out.println(packages.search(sizeChoice-1));
+                    break;
+                }
+                case 3:{
+                    packages.edit(sizeChoice-1, new Package(packages.search(sizeChoice-1).getPackageID(), packages.search(sizeChoice-1).getDesc(), 'S' , 
+                            packages.search(sizeChoice-1).getPrice(), packages.search(sizeChoice-1).getFood()));
+                    System.out.println(packages.search(sizeChoice-1));
+                    break;
+                }
+                default:{
+                    break;
+                }
+                
+            }
     }
-
-
+    
+    
     public static void showInput(){
         /*
-           orderList.enqueue(new Order("O0001", new Person("Brian", "Male", "C0001", "brian@gmail.com","011-12100350"),
-           new Package("PK001", "Random Desc here", "5 people", 100.00, foodArr), new Payment("PM001", 100.00, new Date(22/06/2022), "Credit Card"), "Not Done",
-           new Address(null, "Home", "addressline1", "addressLine2", "addressLine3"), new Date(22-6-2022), new Date(10-9-2022)));
-           */
+        orderList.enqueue(new Order("O0001", new Person("Brian", "Male", "C0001", "brian@gmail.com","011-12100350"), 
+                new Package("PK001", "Random Desc here", "5 people", 100.00, foodArr), new Payment("PM001", 100.00, new Date(22/06/2022), "Credit Card"), "Not Done", 
+                new Address(null, "Home", "addressline1", "addressLine2", "addressLine3"), new Date(22-6-2022), new Date(10-9-2022)));
+        */
         QueueInterface<Order> orderList = new LinkedQueue<>();
-        System.out.println(orderList.getFront());
+        System.out.println(orderList.getNewNode());
     }
-
+    
     //Leong Wen Wei (Test Functions)
     public static void testPayment(){
 

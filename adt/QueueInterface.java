@@ -8,8 +8,12 @@ public interface QueueInterface<T> {
 
     public T dequeue();
 
-    public T getFront();
-
+  public Iterator<T> getIterator();
+  
+  public T getNewNode();
+  
+  public T getFront();
+  
     public boolean isEmpty();
 
     public void clear();
