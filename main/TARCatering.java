@@ -28,9 +28,9 @@ public class TARCatering {
         TARCatering system = new TARCatering();
 
         mainBanner();
-        //testPayment();
-        system.initialize();
-        system.choosePackage();
+        testPayment();
+        //system.initialize();
+        //system.choosePackage();
         //showInput();
     }
 
@@ -254,8 +254,8 @@ public class TARCatering {
                     break;
 
                 case 6://exit
-                    System.out.println("Bye bye!");
-
+                    //System.out.println("Bye bye!");
+                    System.out.println(payList.getLast());
                     break;
 
                 default:
