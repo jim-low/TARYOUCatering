@@ -31,7 +31,7 @@ class Menu {
         if (TARCatering.flag == Flag.NO_LOGIN) {
             System.out.println("1. Login");
             System.out.println("2. Create Account");
-            return;
+            System.out.println("3. Exit");
         }
 
         if (TARCatering.flag == Flag.CUSTOMER_LOGIN) {
@@ -39,6 +39,7 @@ class Menu {
             System.out.println("2. Check orders");
             System.out.println("3. Check payments");
             System.out.println("4. Logout");
+            System.out.println("5. Exit");
         }
 
         if (TARCatering.flag == Flag.STAFF_LOGIN) {
@@ -46,6 +47,7 @@ class Menu {
             System.out.println("2. Remove Package");
             System.out.println("3. Edit Package");
             System.out.println("4. Logout");
+            System.out.println("5. Exit");
         }
     }
 }
