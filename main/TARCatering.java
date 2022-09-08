@@ -1,20 +1,35 @@
 package main;
 
-import java.time.LocalDate; //Date import displays weird output, assumed to be unsupported, changed to Local Date instead.
+import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Iterator;
 import payment.Payment;
-import adt.SortedLinkedList; 
-import adt.SortedListInterface; 
-import java.lang.Math;   
+import adt.SortedLinkedList; //may need to change to adt package
+import adt.SortedListInterface; //may need to change to adt package
+import order.Order;
+import order.OrderList;
+import order.Package;
+import general.Person;
+import general.Address;
+import adt.LinkedQueue;
+import adt.QueueInterface;
+import adt.SortedArrayList;
+import java.util.Date;
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
 
+    public SortedListInterface<Package> packages = new SortedArrayList<>();
+
     public static void main(String[] args) {
+        TARCatering system = new TARCatering();
+
         mainBanner();
-        testPayment();
+        //testPayment();
+        system.initialize();
+        system.choosePackage();
+        //showInput();
     }
 
     public static void mainBanner() {
@@ -32,6 +47,53 @@ public class TARCatering {
         System.out.println("                                                                     /____/");
     }
 
+    //OrderCrap
+    public void initialize(){
+        String[] foodArr1 = {"Fishes", "Meat-lookalike vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
+        String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
+        String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
+
+        packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
+        packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
+        packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
+    }
+    public void choosePackage(){
+        int sizeChoice=0;
+        int packageChoice;
+        do{
+            System.out.println("Choose the package to order: ");
+            System.out.println("(1)Package 1 ");
+            System.out.println("(2)Package 2 ");
+            System.out.println("(3)Package 3 ");
+            System.out.println("(4)Exit");
+            packageChoice = scan.nextInt();
+
+            do{
+                System.out.println("Choose package size to serve: ");
+                System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
+                System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
+                System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
+                System.out.println("4. Back");
+
+            }while(sizeChoice < 1 || sizeChoice > 4);
+
+
+        }while(packageChoice < 1 || packageChoice > 4 || sizeChoice == 4);
+
+
+    }
+
+
+    public static void showInput(){
+        /*
+           orderList.enqueue(new Order("O0001", new Person("Brian", "Male", "C0001", "brian@gmail.com","011-12100350"),
+           new Package("PK001", "Random Desc here", "5 people", 100.00, foodArr), new Payment("PM001", 100.00, new Date(22/06/2022), "Credit Card"), "Not Done",
+           new Address(null, "Home", "addressline1", "addressLine2", "addressLine3"), new Date(22-6-2022), new Date(10-9-2022)));
+           */
+        QueueInterface<Order> orderList = new LinkedQueue<>();
+        System.out.println(orderList.getFront());
+    }
+
     //Leong Wen Wei (Test Functions)
     public static void testPayment(){
 
@@ -43,29 +105,28 @@ public class TARCatering {
 
         //create and add the employee object
         LocalDate d1 = LocalDate.of(2002,11,11);
+        payList.add(new Payment("P0002", 4.33, d1, "VISA"));
         LocalDate d2 = LocalDate.of(2022,12,12);
         LocalDate d3 = LocalDate.of(2022,10,10);
         LocalDate d4 = LocalDate.of(2022,1,1);
-        payList.add(new Payment("P0001", 400.33, d1, "VISA"));
-        payList.add(new Payment("P0002", 366.33, d2, "MAYBANK"));
-        payList.add(new Payment("P0003", 347.33, d3, "MAYBANK"));
-        payList.add(new Payment("P0004", 943.33, d4, "MAYBANK"));
+        payList.add(new Payment("P0001", 3.33, d2, "MAYBANK"));
+        payList.add(new Payment("P0003", 3.33, d3, "MAYBANK"));
+        payList.add(new Payment("P0005", 3.33, d4, "MAYBANK"));
 
         do{
             Iterator<Payment> payIterator = payList.getIterator();
             String date;
             System.out.println("\n*******************Payment Menu*************************");
             System.out.println("1) Display Payment List                                 ");
-            System.out.println("2) Add Payment                                          ");
-            System.out.println("3) Remove Payment                                       ");
+            System.out.println("2) Add Payment (WIP, only fixed obj payment atm)        ");
+            System.out.println("3) Remove Payment (WIP, only with fixed obj atm)        ");
             System.out.println("4) Search Payment                                       ");
             System.out.println("5) Delete Payment List                                  ");
             System.out.println("6) Exit Payment Menu                                    ");
             System.out.println("********************************************************");
-            System.out.print("Enter a choice : ");
+            System.out.println("Enter a choice : ");
             choice = scan.nextInt();
-            System.out.println();
-            
+
             switch (choice) {
                 case 1: //display
                     //display (using iterator to print)
@@ -73,17 +134,14 @@ public class TARCatering {
                         System.out.println("Your List is Empty...");
                         break;
                     }
-                    System.out.println("--------------------------------------------------------------------------------------------------");
+
                     while(payIterator.hasNext()){
                         Payment pay = payIterator.next();
                         date = dateFormat.format(pay.getPaymentDate());
-
-                        System.out.println("paymentID = " + pay.getPaymentID() + String.format(" , paymentAmt = %.2f", pay.getPaymentAmt()) + " , paymentDate = " + date + " , paymentMethod = " + pay.getPaymentMethod());
-                        System.out.println("---------------------------------------------------------------------------------------------------");
+                        System.out.println("paymentID = " + pay.getPaymentID() + ", paymentAmt = " + pay.getPaymentAmt() + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
                     }
 
-                    System.out.println("Amount of Records = " + payList.getNumberOfEntries());
-                    
+
                     //test printing all records with ToString (Not suggested, should not print from entity class)
                     /*
                        System.out.println("===========list============\n" + payList.toString());
@@ -95,84 +153,32 @@ public class TARCatering {
                     break;
 
                 case 2: //add
-                    int day;
-                    int month;
-                    int year;
-                    
-                    //generate own payment ID.
-                    String generatePayId;
-                    boolean newPayId = true;
-                    
-                    do{
-                    //generate a random number of a paymentID format
-                    int generateNum = (int)(Math.random() * (9999 - 1 + 1) + 1);
-                    
-                    //generate necessary zeros
-                    if(generateNum < 10) generatePayId = "P000" + String.valueOf(generateNum);
-                    
-                    else if (generateNum < 100) generatePayId = "P00" + String.valueOf(generateNum);
-                    
-                    else if (generateNum < 1000) generatePayId = "P0" + String.valueOf(generateNum);
-                    
-                    else generatePayId = "P" + String.valueOf(generateNum);
-                        
-                    //generated number is created, check if it is a duplicate.
-                        newPayId = true;
-                        payIterator = payList.getIterator(); //reset iterator, to reset positions.
-                        while(payIterator.hasNext()){
-                            Payment pay = payIterator.next();
-                            if(generatePayId.equals(pay.getPaymentID())){
-                                newPayId = false;
-                            }
-                        }
-                        
-                    } while (newPayId == false);
-                    
-                    //display the Id to be added.
-                    System.out.println("Payment ID: " + generatePayId);
+
+                    System.out.println("To test contains(), there will be no generation or validation for ID.");
+
+                    System.out.print("Enter the ID you want to add by : ");
+                    String addId = scan.nextLine() + scan.nextLine();
 
                     System.out.print("\nEnter the Payment Amount : ");
                     Double addAmt = scan.nextDouble();
 
-                    System.out.print("\nEnter the Date of the Payment : ");
-                    
-                    do{
-                    System.out.print("\nDay Of Payment (integer) : ");
-                    day = scan.nextInt();
-                        if(day > 12 || day < 1){
-                           System.out.println("\nIncorrect day. Try again.");
-                        }
-                    }while (day > 12 || day < 1);
-                    
-                    do{
-                        System.out.print("\nMonth Of Payment (integer) : ");
-                        month = scan.nextInt();
-                        if(month > 12 || month < 1){
-                           System.out.println("\nIncorrect month. Try again.");
-                        }
-                    }while (month > 12 || month < 1);
-                    
-                    do{
-                        System.out.print("\nYear Of Payment (integer) : ");
-                        year = scan.nextInt();
-                        if(year > 9999 || year < 1000){
-                           System.out.println("\nIncorrect/unrealistic year. Try again.");
-                        }
-                    }while (year > 9999 || year < 1000);
-                    
+                    System.out.print("Enter the Date of the Payment : ");
+                    System.out.print("\nDay Of Payment : ");
+                    int day = scan.nextInt();
+                    System.out.print("\nMonth Of Payment : ");
+                    int month = scan.nextInt();
+                    System.out.print("\nYear Of Payment : ");
+                    int year = scan.nextInt();
 
                     System.out.println("\n\nEnter the Payment Method :");
                     String addMethod = scan.nextLine() + scan.nextLine();
 
                     LocalDate dToAdd = LocalDate.of(year,month,day);
-                    Payment checkpay = new Payment(generatePayId, addAmt, dToAdd, addMethod);
+                    Payment checkpay = new Payment(addId, addAmt, dToAdd, addMethod);
 
                     if (!payList.contains(checkpay)){
-                        if (!payList.add(checkpay)){
-                            System.out.println("ERROR: Unable to add.");
-                        }
-                        
-                        else System.out.println("New payment added.");
+                        payList.add(checkpay);
+                        System.out.println("New payment added.");
                     }
 
                     else {
@@ -208,7 +214,7 @@ public class TARCatering {
                     break;
 
                 case 4: //search
-                    boolean searchFound = false;
+                    boolean found = false;
                     System.out.println("Enter the ID you want to search by : ");
                     String searchId = scan.nextLine() + scan.nextLine();
                     while(payIterator.hasNext()){
@@ -217,21 +223,22 @@ public class TARCatering {
                         if(searchId.equals(pay.getPaymentID())){
                             System.out.println("\n===Record found!===");
                             System.out.println("paymentID = " + pay.getPaymentID() + ", paymentAmt = " + pay.getPaymentAmt() + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
-                            searchFound = true;
+                            found = true;
                             break;
                         }
                     }
 
-                    if (searchFound == false) System.out.println("\n===No Such Record found...===");
+                    if (found == false) System.out.println("\n===No Such Record found...===");
                     break;
 
                 case 5: //clear
+                    System.out.println("I don't know why you wanted to delete all the records, but ok boss.");
                     payList.clear();
                     System.out.println("PAYMENT LIST CLEARED.");
                     break;
 
                 case 6://exit
-                    System.out.println("End of Payment module!");
+                    System.out.println("Bye bye!");
 
                     break;
 

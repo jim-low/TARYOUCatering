@@ -1,4 +1,9 @@
-package entity;
+package order;
+
+import general.Person;
+import general.Address;
+import payment.Payment;
+
 import java.util.Date;
 
 public class Order {
@@ -88,11 +93,11 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() + 
-                "\nPackageID: " + packageID.getPackageID() + "\nPaymentID: " + paymentID.getPaymentID() + "\nStatus:" + status + 
-                "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + "\nCateringAddressLine2: " + cateringAddress.getAddressLine2() +
-                "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate:" + orderDate + "\nCaterDate: " + caterDate;
+        return "Order: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() +
+            "\nPackageID: " + packageID.getPackageID() + "\nPaymentID: " + paymentID.getPaymentID() + "\nStatus:" + status +
+            "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + "\nCateringAddressLine2: " + cateringAddress.getAddressLine2() +
+            "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate:" + orderDate + "\nCaterDate: " + caterDate;
     }
 
-    
+
 }

@@ -1,14 +1,16 @@
-package entity;
+package order;
+
+import staff.Staff;
 
 import adt.LinkedQueue;
 
 public class OrderList {
     private Order orderID;
-    private LinkedQueue<Staff> userIDs;
+    private String[] staffIDs;
 
-    public OrderList(Order orderID, LinkedQueue<Staff> userIDs) {
+    public OrderList(Order orderID, String[] staffIDs) {
         this.orderID = orderID;
-        this.userIDs = userIDs;
+        this.staffIDs = staffIDs;
     }
 
     public Order getOrderID() {
@@ -19,18 +21,13 @@ public class OrderList {
         this.orderID = orderID;
     }
 
-    public LinkedQueue<Staff> getUserIDs() {
-        return userIDs;
+    public String[] getStaffIDs() {
+        return staffIDs;
     }
 
-    public void setUserIDs(LinkedQueue<Staff> userIDs) {
-        this.userIDs = userIDs;
+    public void setStaffIDs(String[] staffIDs) {
+        this.staffIDs = staffIDs;
     }
 
-    @Override
-    public String toString() {
-        return "OrderList{" + "orderID=" + orderID + ", userIDs=" + userIDs + '}';
-    }
-    
-    
+
 }
