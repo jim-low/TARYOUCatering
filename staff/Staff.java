@@ -5,6 +5,6 @@ package staff;
  */
 public class Staff {
     public Staff(){
-        
+
     }
 }

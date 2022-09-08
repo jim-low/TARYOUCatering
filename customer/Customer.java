@@ -80,11 +80,24 @@ public class Customer extends Person implements Comparable<Customer> {
         System.out.println("Logged out");
     }
 
-	@Override
-	public int compareTo(Customer o) {
+    public static void deleteCustomer(Customer details) {
+        if (loggedInCustomer == null) {
+            System.out.println("Please login first");
+            return;
+        }
+
+        System.out.print("Are you sure you want to delete Account " + details.getName() + "? (Y/N): ");
+        if (TARCatering.scan.next().charAt(0) == 'y' || TARCatering.scan.next().charAt(0) == 'Y') {
+            customerList.remove(details);
+            System.out.println("Account removed");
+        }
+    }
+
+    @Override
+    public int compareTo(Customer o) {
         if (this.getName().equals(o.getName()) && this.getEmail().equals(o.getEmail())) {
             return 0;
         }
-		return -1;
-	}
+        return -1;
+    }
 }

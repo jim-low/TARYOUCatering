@@ -28,6 +28,4 @@ public class OrderList {
     public void setStaffIDs(String[] staffIDs) {
         this.staffIDs = staffIDs;
     }
-
-    
 }

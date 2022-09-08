@@ -26,7 +26,7 @@ public class TARCatering {
     
     public static void main(String[] args) {
         TARCatering system = new TARCatering();
-        
+
         mainBanner();
         //testPayment();
         system.initialize();
@@ -54,7 +54,6 @@ public class TARCatering {
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
         String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
-        
         packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
