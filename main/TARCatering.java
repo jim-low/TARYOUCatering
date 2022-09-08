@@ -8,13 +8,13 @@ import payment.Payment;
 import adt.SortedLinkedList; //may need to change to adt package
 import adt.SortedListInterface; //may need to change to adt package
 import order.Order;
-import order.OrderList;
 import order.Package;
 import general.Person;
 import general.Address;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
+import customer.Customer;
 import java.util.Date;
 
 public class TARCatering {
@@ -22,7 +22,13 @@ public class TARCatering {
     String[] foodArr1;
     String[] foodArr2;
     String[] foodArr3;
+    int sizeChoice = 0;
+    int packageChoice;
+    
     public SortedListInterface<Package> packages = new SortedArrayList<>();
+    
+    
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
     
     public static void main(String[] args) {
         TARCatering system = new TARCatering();
@@ -30,8 +36,7 @@ public class TARCatering {
         mainBanner();
         //testPayment();
         system.initialize();
-        system.choosePackage();
-        //showInput();
+        system.EnqueueOrder(system.Order());
     }
 
     public static void mainBanner() {
@@ -59,9 +64,10 @@ public class TARCatering {
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
     }
     
-    public void choosePackage(){
-        int sizeChoice = 0;
-        int packageChoice;
+    public int Order(){
+        char size = ' '; 
+        double addPrice = 0;
+        
         do{
             System.out.println("Choose the package to order: ");
             for(int i=1;i<=packages.getNumberOfEntries();i++){
@@ -84,53 +90,47 @@ public class TARCatering {
                 }while(sizeChoice <= 0 || sizeChoice >= 5);
             }
         }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
-            
-            
-            switch(sizeChoice){
-                case 1:{
-                    packages.edit(sizeChoice-1, new Package(packages.search(sizeChoice-1).getPackageID(), packages.search(sizeChoice-1).getDesc(), 'S' , 
-                            packages.search(sizeChoice-1).getPrice(), packages.search(sizeChoice-1).getFood()));
-                    System.out.println(packages.search(sizeChoice-1));
-                    break;
-                }
-                case 2:{
-                    packages.edit(sizeChoice-1, new Package(packages.search(sizeChoice-1).getPackageID(), packages.search(sizeChoice-1).getDesc(), 'S' , 
-                            packages.search(sizeChoice-1).getPrice(), packages.search(sizeChoice-1).getFood()));
-                    System.out.println(packages.search(sizeChoice-1));
-                    break;
-                }
-                case 3:{
-                    packages.edit(sizeChoice-1, new Package(packages.search(sizeChoice-1).getPackageID(), packages.search(sizeChoice-1).getDesc(), 'S' , 
-                            packages.search(sizeChoice-1).getPrice(), packages.search(sizeChoice-1).getFood()));
-                    System.out.println(packages.search(sizeChoice-1));
-                    break;
-                }
-                default:{
-                    break;
-                }
-                
-            }
+        
+        
+        if(sizeChoice == 1){
+            size = 'S';
+            addPrice = 20.00;
+        }else if(sizeChoice == 2){
+            size = 'M';
+            addPrice = 40.00;
+        }else if(sizeChoice == 3){
+            size = 'L';
+            addPrice = 60.00;
+        }
+        
+        
+        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size , 
+            packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
+                   
+        System.out.println(packages.search(packageChoice - 1));
+        
+        return (packageChoice - 1);
     }
-    
-    
-    public static void showInput(){
-        /*
-        orderList.enqueue(new Order("O0001", new Person("Brian", "Male", "C0001", "brian@gmail.com","011-12100350"), 
-                new Package("PK001", "Random Desc here", "5 people", 100.00, foodArr), new Payment("PM001", 100.00, new Date(22/06/2022), "Credit Card"), "Not Done", 
-                new Address(null, "Home", "addressline1", "addressLine2", "addressLine3"), new Date(22-6-2022), new Date(10-9-2022)));
-        */
+     
+    public void EnqueueOrder(int packageChoice){
         QueueInterface<Order> orderList = new LinkedQueue<>();
+        Order o = new Order();
+        Address newAddress = new Address("addressName", "address1", "address2", "address3");
+        Customer customer = new Customer("Brian", "hktalonz@gmail.com", "Male", "01112100350", newAddress);
+        Payment newPayment = new Payment("P001", packages.search(packageChoice).getPrice(), LocalDate.now() , "BANK IN");
+        LocalDate caterDate = LocalDate.of(2022, 10, 13);
+        
+        orderList.enqueue(new Order("O001",customer, packages.search(packageChoice), newPayment, "Not Done", newAddress, LocalDate.now(), caterDate));
         System.out.println(orderList.getNewNode());
     }
     
     //Leong Wen Wei (Test Functions)
-    public static void testPayment(){
+    public void testPayment(){
 
         int choice = 0; //for Payment Menu
 
         SortedListInterface<Payment> payList = new SortedLinkedList<>();
 
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
 
         //create and add the employee object
         LocalDate d1 = LocalDate.of(2002,11,11);

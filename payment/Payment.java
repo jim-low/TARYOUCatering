@@ -18,6 +18,10 @@ public class Payment implements Comparable<Payment>{
         this.paymentMethod = paymentMethod;
     }
 
+    public Payment() {
+        
+    }
+
     public void setPaymentID(String paymentID) {
         this.paymentID = paymentID;
     }
