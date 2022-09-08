@@ -262,6 +262,7 @@ public class TARCatering {
                     System.out.println("\nERROR: Please insert a number from 1 to 6.\n");
                     break;
             }
+            
         }
         while (choice < 6);
 
