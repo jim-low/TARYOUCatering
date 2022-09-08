@@ -66,14 +66,21 @@ public class Payment implements Comparable<Payment>{
 
     @Override
     public String toString() {
-        return "paymentID = " + paymentID + ", paymentAmt = " + paymentAmt + ", paymentDate = " + paymentDate + ", paymentMethod = " + paymentMethod;
+        return "paymentID = " + paymentID + String.format(" , paymentAmt = %.2f", paymentAmt) + ", paymentDate = " + paymentDate + ", paymentMethod = " + paymentMethod;
     }
 
     @Override
-    public int compareTo(Payment p) { //compare using ID, assuming (Letters)(Numbers)
-        String[] numToCompare = p.paymentID.split("[a-zA-Z]+");
-        String[] currentNum = this.paymentID.split("[a-zA-Z]+");
-        return Integer.parseInt(currentNum[1]) - Integer.parseInt(numToCompare[1]);
+    public int compareTo(Payment p) { 
+        //if comparing using id
+        //String[] numToCompare = p.paymentID.split("[a-zA-Z]+");
+        //String[] currentNum = this.paymentID.split("[a-zA-Z]+");
+        //return Integer.parseInt(currentNum[1]) - Integer.parseInt(numToCompare[1]);
+        
+        //compare using dates
+        LocalDate dateToCompare = p.getPaymentDate();
+        LocalDate currentPDate = this.paymentDate;
+        int dateCompareValue = currentPDate.compareTo(dateToCompare);
+        return dateCompareValue;
     }
 
 }
