@@ -20,7 +20,7 @@ public class Package implements Comparable<Package>{
     public Package(String packageID){
         this.packageID= packageID;
     }
-    
+
     public String getPackageID() {
         return packageID;
     }
@@ -64,7 +64,7 @@ public class Package implements Comparable<Package>{
     @Override
     public String toString() {
         String showString = "packageID=" + packageID + ", desc=" + desc + ", packageSize=" + packageSize + ", price=" + price + ", food= ";
-        
+
         for(int i = 0; i< food.length;i++){
             if(i != food.length-1){
                 showString += food[i] +", ";
@@ -72,11 +72,10 @@ public class Package implements Comparable<Package>{
                 showString += food[i];
             }
         }
-        
-        
+
+
         return showString;
     }
-    
     @Override
     public int compareTo(Package p) {
         int id = Integer.parseInt(this.packageID.replaceAll("[a-zA-Z]", ""));
