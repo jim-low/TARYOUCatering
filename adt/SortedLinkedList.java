@@ -141,7 +141,6 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         
         while(currentNode.getNext() != null){
             currentNode = currentNode.getNext();
-            System.out.println(currentNode.getData());
         }
         
         return currentNode.getData();
