@@ -23,6 +23,14 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
     lastNode = newNode;
   }
+  public T getNewNode(){
+      T back = null;
+      if (!isEmpty()) {
+      back = lastNode.data;
+    }
+
+    return back;
+  }
 
   public T getFront() {
     T front = null;

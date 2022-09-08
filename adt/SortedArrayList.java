@@ -8,7 +8,7 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
   private T[] array;
   private int numberOfEntries;
   private static final int DEFAULT_CAPACITY = 25;
-
+  
   public SortedArrayList() {
     this(DEFAULT_CAPACITY);
   }
@@ -28,16 +28,37 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     numberOfEntries++;
     return true;
   }
-
   
-  // 4     7    11  13          11
+  public T search(int newIndex){
+      T entry = null;
+      int index = 0;
+      if(!isEmpty()){
+          while(index < numberOfEntries && newIndex < numberOfEntries){
+            index++;
+        }
+          entry = array[newIndex];
+      }
+      
+      return entry;
+  }
+  
+  public boolean edit(int selectedIndex, T replaceEntry){
+      T entry = null;
+      if(!isEmpty()){
+          entry = search(selectedIndex);
+          array[selectedIndex] = replaceEntry;
+          
+          return true;
+      }
+      return false;
+  }
+
   public boolean remove(T anEntry) {
     //check if empty
     if(numberOfEntries == 0){
         return false;
     }else{
         //get the right index number        
-        //0->4  compareTo( - )      11  = -7        less than 0
         int index = 0;      
         while(index < numberOfEntries && array[index].compareTo(anEntry) < 0){
             index++;

@@ -8,6 +8,10 @@ public interface QueueInterface<T> {
 
   public T dequeue();
 
+  public Iterator<T> getIterator();
+  
+  public T getNewNode();
+  
   public T getFront();
 
   public boolean isEmpty();
