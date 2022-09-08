@@ -10,7 +10,7 @@ import main.TARCatering;
 public class Staff extends Person{
     private String position;
     private double salary;
-    private CircularQueue<StaffSchedule> scheduleList = new CircularQueue<>();
+    private static CircularQueue<StaffSchedule> scheduleList = new CircularQueue<>();
     
     //Constructor
     public Staff(String name, String email, String gender, String phoneNum, String position, double salary){
@@ -63,40 +63,9 @@ public class Staff extends Person{
 
         return new Staff(name, email, gender, phoneNum, position, salary);
     }
-    
-    //Create new package
-    public static Package createPackage(){
-        System.out.println("Creating new package:-");
-        
-        System.out.print("Package ID: ");
-        String packageID = TARCatering.scan.nextLine();
-        
-        System.out.print("Package Description: ");
-        String desc = TARCatering.scan.nextLine();
-        
-        System.out.print("Package Size: ");
-        char packageSize = TARCatering.scan.next().charAt(0);
-        
-        System.out.print("Price: ");
-        double price = TARCatering.scan.nextDouble();
-        
-        System.out.print("Number of food in package: ");
-        int noOfFood = TARCatering.scan.nextInt();
-        String[] food = new String[noOfFood];
-        for(int i = 0; i < noOfFood; i++){
-            System.out.print("Food included: ");
-            food[i] = TARCatering.scan.nextLine();
-        }
-        
-        return new Package(packageID, desc, packageSize, price, food);
-    }
-    
+
     //Retrieve Staff Schedule
-    public static CircularQueue<StaffSchedule> checkStaffSchedule)(){
-    
+    public static CircularQueue<StaffSchedule> checkStaffSchedule(){
+        
     }
-    
-    /*
-    i am not sure if need createPackage() and checkStaffSchedule or not but i'll just leave this here for now
-    */
 }
