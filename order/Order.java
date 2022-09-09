@@ -1,22 +1,32 @@
 package order;
 
+import adt.LinkedQueue;
+import adt.QueueInterface;
+import customer.Customer;
 import general.Person;
 import general.Address;
 import payment.Payment;
+        
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public class Order {
     private String orderID;
-    private Person customerID;
+    private Customer customerID;
     private Package packageID;
     private Payment paymentID;
     private String status;
     private Address cateringAddress;
-    private Date orderDate;
-    private Date caterDate;
-
-    public Order(String orderID, Person customerID, Package packageID, Payment paymentID, String status, Address cateringAddress, Date orderDate, Date caterDate) {
+    private LocalDate orderDate;
+    private LocalDate caterDate;
+    QueueInterface<Order> orderList = new LinkedQueue<>();
+    
+    public Order(){
+        
+    }
+    
+    public Order(String orderID, Customer customerID, Package packageID, Payment paymentID, String status, Address cateringAddress, LocalDate orderDate, LocalDate caterDate) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.packageID = packageID;
@@ -35,11 +45,11 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public Person getCustomerID() {
+    public Customer getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(Person customerID) {
+    public void setCustomerID(Customer customerID) {
         this.customerID = customerID;
     }
 
@@ -75,20 +85,27 @@ public class Order {
         this.cateringAddress = cateringAddress;
     }
 
-    public Date getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
-    public Date getCaterDate() {
+    public LocalDate getCaterDate() {
         return caterDate;
     }
 
-    public void setCaterDate(Date caterDate) {
+    public void setCaterDate(LocalDate caterDate) {
         this.caterDate = caterDate;
+    }
+    
+    public String generateID(){
+        return String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
+    }
+    public String getOrder(){
+        return orderList.getNewNode().getOrderID();
     }
 
     @Override
@@ -96,7 +113,7 @@ public class Order {
         return "Order: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() +
             "\nPackageID: " + packageID.getPackageID() + "\nPaymentID: " + paymentID.getPaymentID() + "\nStatus:" + status +
             "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + "\nCateringAddressLine2: " + cateringAddress.getAddressLine2() +
-            "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate:" + orderDate + "\nCaterDate: " + caterDate;
+            "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate;
     }
 
 
