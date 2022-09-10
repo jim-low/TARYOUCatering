@@ -137,9 +137,9 @@ public class TARCatering {
 
         LocalDate caterDate = LocalDate.of(2022,10,22);;
 
-        Order o1 = new Order("O001", c1, packages.search(0), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
-        Order o2 = new Order("O002", c2, packages.search(1), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
-        Order o3 = new Order("O003", c3, packages.search(2), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o1 = new Order("O001", c1, new Package("PK001", "Vegetarian Friendly", 'S', 40.00, foodArr1), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o2 = new Order("O002", c2, new Package("PK002", "No Babi", 'M', 60.00, foodArr2), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o3 = new Order("O003", c3, new Package("PK003", "Standard food normal people eat, babi bankyak", 'L', 80.00, foodArr3), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
         orderList.enqueue(o1);
         orderList.enqueue(o2);
         orderList.enqueue(o3);
