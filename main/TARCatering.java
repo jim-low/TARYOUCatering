@@ -238,6 +238,9 @@ public class TARCatering {
         System.out.println("Choose the package to order: ");
 
         int i;
+        char size = ' ';
+        double addPrice = 0;
+        
         for(i = 0; i < packages.getNumberOfEntries(); i++) {
             System.out.println((i + 1) + ") " + packages.search(i).getDesc());
         }
@@ -255,8 +258,6 @@ public class TARCatering {
         int sizeChoice = scan.nextInt();
         System.out.println();
 
-        char size;
-        double addPrice;
         switch (sizeChoice) {
             case 1:
                 size = 'S';
@@ -276,11 +277,40 @@ public class TARCatering {
                 System.out.println("Invalid Response! try again.");
                 break;
         }
+        
+        selectedPackage -=1;
+        
+        Package newPackage = new Package(packages.search(selectedPackage).getPackageID(), packages.search(selectedPackage).getDesc(), size , 
+            packages.search(selectedPackage).getPrice() + addPrice, packages.search(selectedPackage).getFood());
 
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        Order order = new Order(newID, loggedInCustomer, packages.search(selectedPackage - 1), "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        Order order = new Order(newID, loggedInCustomer, newPackage, "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
         System.out.println("Successfully placed order");
+    }
+    
+    
+    public void editOrder(){
+        int editChoice;
+        Iterator<Order> orders = orderList.getIterator();
+        
+        do{
+            while (orders.hasNext()) {
+                Order order = orders.next();
+                if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                    System.out.println(order);
+                }
+            }
+            
+            System.out.println("\nSelect a order to edit: ");
+            editChoice = scan.nextInt();
+            if(editChoice > orderList.totalEntries()){
+                System.out.println("Invalid input. Try Again!");
+            }
+        }while(editChoice < 0 || editChoice > orderList.totalEntries());
+        
+        //orderList.editNode(editChoice , new Order());
+        
     }
 
     public static void createAccount() {
