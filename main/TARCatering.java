@@ -1,8 +1,8 @@
 package main;
 
 import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
 import java.util.Iterator;
 import payment.Payment;
 import adt.SortedLinkedList; //may need to change to adt package
@@ -10,6 +10,7 @@ import adt.SortedListInterface; //may need to change to adt package
 import order.Order;
 import order.Package;
 import general.Address;
+import adt.CircularList;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
@@ -64,81 +65,199 @@ class Menu {
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
+    public static int choice;
     public static Flag flag;
-    String[] foodArr1;
-    String[] foodArr2;
-    String[] foodArr3;
-    int sizeChoice = 0;
-    int packageChoice;
 
-    public SortedListInterface<Package> packages = new SortedArrayList<>();
-    QueueInterface<Order> orderList = new LinkedQueue<>();
-    Order order;
-    Address newAddress;
-    Customer customer;
-    Payment newPayment;
-    LocalDate caterDate;
-
-
-    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
+    // shit needed to run the program
+    public static CircularList<Customer> customerList = new CircularList<>();
+    public static Customer loggedInCustomer = null;
+    public static SortedListInterface<Package> packages = new SortedArrayList<>();
+    public static QueueInterface<Order> orderList = new LinkedQueue<>();
+    public static SortedListInterface<Payment> payList = new SortedLinkedList<>();
 
     public static void main(String[] args) {
-        TARCatering system = new TARCatering();
-
+        init();
         Menu.mainBanner();
-        //testPayment();
-        system.initialize();
-        system.Order();
-        system.editOrder();
+
+        int wrongInputCounter = 0;
+        while (true) {
+            Menu.mainMenu();
+            while (true) {
+                try {
+                    System.out.print("Your choice: ");
+                    choice = Integer.parseInt(scan.next());
+                    break;
+                } catch (Exception e) {
+                    ++wrongInputCounter;
+                    if (wrongInputCounter == 30) {
+                        System.out.println("you are failure, you make my son look like CEO");
+                        System.out.println("now you dont get to use the program");
+                        System.out.println("i raised a doughnut, such a failure");
+                        System.exit(0);
+                    } else if (wrongInputCounter == 20) {
+                        System.out.println("no no seriously, enter a number");
+                        System.out.println();
+                    } else if (wrongInputCounter == 10) {
+                        System.out.println("what are you doing? enter the right input pls");
+                        System.out.println();
+                    }
+                }
+            }
+            System.out.println();
+
+            if (flag == Flag.NO_LOGIN) {
+                noLoginInput();
+            } else if (flag == Flag.CUSTOMER_LOGIN) {
+                customerInput();
+            }
+        }
     }
 
+    public static void init() {
+        flag = Flag.NO_LOGIN;
 
-    //OrderCrap
-    public void initialize(){
+        // customer init
+        Customer c1 = new Customer("Jim", "jimllh-wm20@student.tarc.edu.my", "Male", "012-7746260", new Address("Jim's address", "", "", ""));
+        Customer c2 = new Customer("Gym", "jimllh-wm20@student.tarc.edu.my", "Alpha Male", "012-7746260", new Address("Jim's address", "", "", ""));
+        Customer c3 = new Customer("Jym", "jimllh-wm20@student.tarc.edu.my", "Chad", "012-7746260", new Address("Jim's address", "", "", ""));
+        customerList.insert(c1);
+        customerList.insert(c2);
+        customerList.insert(c3);
+
+        // flag = Flag.CUSTOMER_LOGIN;
+        // loggedInCustomer = c1;
+
+        // order and package init
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
         String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
         packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
-        
-        newAddress = new Address("addressName", "address1", "address2", "address3");
-        customer = new Customer("Brian", "hktalonz@gmail.com", "Male", "01112100350", newAddress);
-        order = new Order();
-        caterDate = LocalDate.of(2022,10,22);
-        
-        orderList.enqueue(new Order("O001",customer, new Package("PK001", "Vegetarian Friendly", 'S', 40.00, foodArr1), "Done", newAddress, LocalDate.now(), caterDate));
-        orderList.enqueue(new Order("O002",customer, new Package("PK002", "No Babi", 'L', 80.00, foodArr2), "Done", newAddress, LocalDate.now(), caterDate));
+
+        LocalDate caterDate = LocalDate.of(2022,10,22);;
+
+        Order o1 = new Order("O001", c1, packages.search(0), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o2 = new Order("O002", c2, packages.search(1), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o3 = new Order("O003", c3, packages.search(2), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        orderList.enqueue(o1);
+        orderList.enqueue(o2);
+        orderList.enqueue(o3);
+
+        // payment init
+        Payment p1 = new Payment("P0001", 420.69, LocalDate.of(2022, 9, 11), "VISA", o1);
+        Payment p2 = new Payment("P0002", 420.69, LocalDate.of(2022, 9, 11), "NASA", o2);
+        Payment p3 = new Payment("P0003", 420.69, LocalDate.of(2022, 9, 11), "SASA", o3);
+        payList.add(p1);
+        payList.add(p2);
+        payList.add(p3);
 
     }
 
-    public void Order(){
-        char size = ' '; 
-        double addPrice = 0;
-        
-        do{
-            System.out.println("Choose the package to order: ");
-            for(int i=1;i<=packages.getNumberOfEntries();i++){
-                System.out.println("(" + i + ")Package " + i + ", " + packages.search(i-1).getDesc());
-            }
-            System.out.println("(4)Exit");
-            packageChoice = scan.nextInt();
-            
-            if(packageChoice <=0 || packageChoice >=5){
-                System.out.println("Invalid Choice. Try Again.");
-            }else{
-                do{
-                    System.out.println("Choose package size to serve: ");
-                    System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
-                    System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
-                    System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
-                    System.out.println("4. Back");
-                    sizeChoice = scan.nextInt();
+    public static void login() {
+        System.out.print("Enter username: ");
+        String name = scan.next();
 
-                }while(sizeChoice <= 0 || sizeChoice >= 5);
+        System.out.print("Enter email: ");
+        String email = scan.next();
+
+        Customer found = customerList.search(new Customer(name, email));
+        if (found == null) {
+            System.out.println("Incorrect details you donkey");
+            return;
+        }
+
+        System.out.println("Successfully logged in");
+        System.out.println();
+        loggedInCustomer = found;
+        flag = Flag.CUSTOMER_LOGIN;
+    }
+
+    public static void logout() {
+        loggedInCustomer = null;
+        flag = Flag.NO_LOGIN;
+        System.out.println("Successfully logged out");
+        System.out.println();
+    }
+
+    public static void customerInput() {
+        switch (choice) {
+            case 1:
+                placeOrder();
+                break;
+            case 2:
+                checkOrders();
+                break;
+            case 3:
+                checkPayments();
+                break;
+            case 4:
+                logout();
+                break;
+            case 5:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static void noLoginInput() {
+        switch (choice) {
+            case 1:
+                login();
+                break;
+            case 2:
+                createAccount();
+                break;
+            case 3:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static void checkOrders() {
+        Iterator<Order> orders = orderList.getIterator();
+        while (orders.hasNext()) {
+            Order order = orders.next();
+            if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                System.out.println(order);
             }
-            
-            switch(sizeChoice){
+        }
+    }
+
+    public static void checkPayments() {
+        Iterator<Payment> payments = payList.getIterator();
+        while (payments.hasNext()) {
+            Payment payment = payments.next();
+            if (payment.getOrder().getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                System.out.println(payment);
+            }
+        }
+    }
+
+    public static void placeOrder() {
+        System.out.println("Choose the package to order: ");
+
+        int i;
+        for(i = 0; i < packages.getNumberOfEntries(); i++) {
+            System.out.println((i + 1) + ") " + packages.search(i).getDesc());
+        }
+        System.out.println((i + 1) + ") Exit");
+        System.out.print("Your choice: ");
+        int selectedPackage = scan.nextInt();
+        System.out.println();
+
+        System.out.println("Choose package size to serve: ");
+        System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
+        System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
+        System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
+        System.out.println("4. Back");
+        System.out.print("Your choice: ");
+        int sizeChoice = scan.nextInt();
+        System.out.println();
+
+        char size;
+        double addPrice;
+        switch (sizeChoice) {
             case 1:
                 size = 'S';
                 addPrice = 20.00;
@@ -156,216 +275,37 @@ public class TARCatering {
             default:
                 System.out.println("Invalid Response! try again.");
                 break;
-            }
-            
-        }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
-        
-        packageChoice -=1;
-        
-        Package newPackage = new Package(packages.search(packageChoice).getPackageID(), packages.search(packageChoice).getDesc(), size , 
-            packages.search(packageChoice).getPrice() + addPrice, packages.search(packageChoice).getFood());
-                   
-        
-        String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        orderList.enqueue(new Order(newID, customer, newPackage, "Not Done", newAddress, LocalDate.now(), caterDate));
-    }
-     
-    public void editOrder(){
-        int editChoice;
-        do{
-            do{
-                System.out.println(orderList.nextNode());
-                
-            }while(orderList.nextNode().getCustomerID().equals("U1000"));
-            System.out.println("\nSelect a order to edit: ");
-            editChoice = scan.nextInt();
-            
-            
-        }while(editChoice < 0 || editChoice > orderList.totalEntries());
-        
-        //orderList.editNode(editChoice , new Order());
-        
-    }
-
-    //Leong Wen Wei (Test Functions)
-    public static void testPayment(){
-
-        int choice = 0; //for Payment Menu
-
-        SortedListInterface<Payment> payList = new SortedLinkedList<>();
-
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
-
-        //create and add the employee object
-        LocalDate d1 = LocalDate.of(2002,11,11);
-        LocalDate d2 = LocalDate.of(2022,12,12);
-        LocalDate d3 = LocalDate.of(2022,10,10);
-        LocalDate d4 = LocalDate.of(2022,1,1);
-        LocalDate d5 = LocalDate.of(2022,4,5);
-        LocalDate d6 = LocalDate.of(2022,6,7);
-        payList.add(new Payment("P0002", 433.33, d1, "VISA"));
-        payList.add(new Payment("P0001", 675.33, d2, "MAYBANK"));
-        payList.add(new Payment("P0003", 843.33, d3, "HSBC"));
-        payList.add(new Payment("P0005", 659.88, d4, "HSBC"));
-        payList.add(new Payment("P0006", 200.00, d5, "PUBLIC BANK"));
-        payList.add(new Payment("P0004", 669.37, d6, "MAYBANK"));
-        payList.add(new Payment("P0007", 420.66, LocalDate.of(2022,6,3), "VISA"));
-
-        do{
-            Iterator<Payment> payIterator = payList.getIterator();
-            String date;
-            System.out.println("\n*******************Payment Menu*************************");
-            System.out.println("1) Display Payment List                                 ");
-            System.out.println("2) Add Payment                                          ");
-            System.out.println("3) Remove Payment                                       ");
-            System.out.println("4) Search Payment                                       ");
-            System.out.println("5) Delete Payment List                                  ");
-            System.out.println("6) Exit Payment Menu                                    ");
-            System.out.println("********************************************************");
-            System.out.print("Enter a choice : ");
-            choice = scan.nextInt();
-
-            switch (choice) {
-                case 1: //display
-                    //display (using iterator to print)
-                    if (payList.isEmpty()){
-                        System.out.println("Your List is Empty...");
-                        break;
-                    }
-
-                    while(payIterator.hasNext()){
-                        Payment pay = payIterator.next();
-                        date = dateFormat.format(pay.getPaymentDate());
-                        System.out.println("paymentID = " + pay.getPaymentID() + String.format(" , paymentAmt = %.2f", pay.getPaymentAmt()) + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
-                    }
-                     System.out.println("Current amount of Records : " + payList.getNumberOfEntries());
-
-
-                    break;
-
-                case 2: //add
-                    //ID auto generation
-                    int newUniqueNum = 0;
-                    boolean isUniquePayId;
-                    String generateNewPayId;
-
-                    do{
-                        //generate a newPayId
-                        isUniquePayId = true;
-                        newUniqueNum = (int)(Math.random()*(9999-1+1)+1);
-
-                        //set it to a ID format
-                        if(newUniqueNum < 10) generateNewPayId = "P000" + String.valueOf(newUniqueNum);
-
-                        else if (newUniqueNum < 100) generateNewPayId = "P00" + String.valueOf(newUniqueNum);
-
-                        else if (newUniqueNum < 1000) generateNewPayId = "P0" + String.valueOf(newUniqueNum);
-                        //9999 or less
-                        else generateNewPayId = "P" + String.valueOf(newUniqueNum);
-
-                        //reinitialize the Iterator to reset it.
-                        payIterator = payList.getIterator();
-
-                        //check for duplicate PayID
-                        while(payIterator.hasNext()){
-                            Payment pay = payIterator.next();
-                            if(generateNewPayId.equals(pay.getPaymentID())){
-                                isUniquePayId = false;
-                            }
-                        }
-
-                    } while(isUniquePayId == false);
-
-                    //print to Id to be added.
-                    System.out.println("Payment ID " + generateNewPayId);
-
-                    System.out.print("\nEnter the Payment Amount : ");
-                    Double addAmt = scan.nextDouble();
-
-                    //add with the current date.
-                    LocalDate dToAdd = LocalDate.now();
-
-                    System.out.print("\n\nEnter the Payment Method :");
-                    String addMethod = scan.nextLine() + scan.nextLine();
-
-                    Payment checkpay = new Payment(generateNewPayId, addAmt, dToAdd, addMethod);
-
-                    if (!payList.contains(checkpay)){
-                        payList.add(checkpay);
-                        System.out.println("New payment added.");
-                    }
-
-                    else {
-                        System.out.println("This payment already exists.");
-                    }
-
-                    break;
-
-                case 3: //remove
-                    if (payList.isEmpty()){
-                        System.out.println("You have nothing to delete, the list is empty...");
-                        break;
-                    }
-
-                    System.out.print("Enter the ID you want to remove by : ");
-                    String removeId = scan.nextLine() + scan.nextLine();
-
-                    //find the object
-                    while(payIterator.hasNext()){
-                        Payment pay = payIterator.next();
-                        if(removeId.equals(pay.getPaymentID())){
-                            if(!payList.remove(pay)){
-                                System.out.println("\nERROR: Unable to remove record.");
-                            }
-
-                            else{
-                                System.out.println("\nRecord Found and Removed!");
-                            }
-                            break;
-                        }
-                    }
-
-                    break;
-
-                case 4: //search
-                    boolean found = false;
-                    System.out.println("Enter the ID you want to search by : ");
-                    String searchId = scan.nextLine() + scan.nextLine();
-                    while(payIterator.hasNext()){
-                        Payment pay = payIterator.next();
-                        date = dateFormat.format(pay.getPaymentDate());
-                        if(searchId.equals(pay.getPaymentID())){
-                            System.out.println("\n===Record found!===");
-                            System.out.println("paymentID = " + pay.getPaymentID() + String.format(" , paymentAmt = %.2f", pay.getPaymentAmt()) + ", paymentDate = " + date + ", paymentMethod = " + pay.getPaymentMethod());
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (found == false) System.out.println("\n===No Such Record found...===");
-                    break;
-
-                case 5: //clear
-                    System.out.println("I don't know why you wanted to delete all the records, but ok boss.");
-                    payList.clear();
-                    System.out.println("PAYMENT LIST CLEARED.");
-                    break;
-
-                case 6://exit
-                    //System.out.print(payList.getLast().getPaymentID());
-                    //System.out.println("Bye bye!");
-
-                    break;
-
-                default:
-                    System.out.println("\nERROR: Please insert a number from 1 to 6.\n");
-                    break;
-            }
         }
-        while (choice < 6);
 
-
+        String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
+        Order order = new Order(newID, loggedInCustomer, packages.search(selectedPackage - 1), "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        orderList.enqueue(order);
+        System.out.println("Successfully placed order");
     }
 
+    public static void createAccount() {
+        System.out.println("Creating account:-");
+        System.out.print("Name: ");
+        String name = scan.next();
 
+        System.out.print("Email: ");
+        String email = scan.next();
+
+        System.out.print("Gender (M/F): ");
+        String gender = scan.next().charAt(0) == 'M' ? "Male" : "Female";
+
+        System.out.print("Phone number (011-xxxxxxx): ");
+        String phoneNum = scan.next();
+
+        // big brain moment
+        System.out.print("Address: ");
+        String addressStr = scan.next();
+        Address address = new Address(name + "'s address", addressStr + scan.nextLine(), "", "");
+
+        Customer customer = new Customer(name, email, gender, phoneNum, address);
+        customerList.insert(customer);
+
+        System.out.println();
+        System.out.println("Successfully created account");
+    }
 }
