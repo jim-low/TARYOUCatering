@@ -9,7 +9,7 @@ import java.util.Iterator;
 /**
  * CircularQueue
  */
-public class CircularQueue<T> implements CircularQueueInterface<T> {
+public class CircularQueue<T extends Comparable<T>> implements CircularQueueInterface<T> {
     private Node<T> lastNode;
 
     public CircularQueue(){
@@ -65,6 +65,23 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
     
     public Iterator<T> getIterator(){
         return new CircularQueueIterator();
+    }
+
+    @Override
+    public T search(T data) {
+        if(lastNode == null){
+            return null;
+        }
+        
+        Node<T> curr = lastNode.getNext();
+        
+        while(curr != lastNode){
+            if(curr.getData().compareTo(data) == 0){
+                return curr.getData();
+            }
+            curr = (curr.getNext());
+        }
+        return null;
     }
 
     private class CircularQueueIterator implements Iterator<T>{

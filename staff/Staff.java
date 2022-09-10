@@ -7,10 +7,9 @@ import main.TARCatering;
 /**
  * Customer
  */
-public class Staff extends Person{
+public class Staff extends Person implements Comparable<Staff>{
     private String position;
     private double salary;
-    private static CircularQueue<StaffSchedule> scheduleList = new CircularQueue<>();
     
     //Constructor
     public Staff(String name, String email, String gender, String phoneNum, String position, double salary){
@@ -58,10 +57,18 @@ public class Staff extends Person{
         System.out.print("Position: ");
         String position = TARCatering.scan.nextLine();
         
-        System.out.print("Salary (XXX.XX) :");
+        System.out.print("Salary (XXXX.XX) :");
         double salary = TARCatering.scan.nextDouble();
 
         return new Staff(name, email, gender, phoneNum, position, salary);
+    }
+
+    @Override
+    public int compareTo(Staff o) {
+        if(this.getName().equals(o.getName()) && this.getEmail().equals(o.getEmail())){
+            return 0;
+        }
+        return -1;
     }
 
 }
