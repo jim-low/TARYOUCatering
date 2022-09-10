@@ -5,7 +5,7 @@ import adt.QueueInterface;
 import customer.Customer;
 import general.Address;
 import payment.Payment;
-        
+
 
 import java.time.LocalDate;
 
@@ -13,21 +13,21 @@ public class Order {
     private String orderID;
     private Customer customerID;
     private Package packageID;
-    private Payment paymentID;
+    // private Payment paymentID;
     private String status;
     private Address cateringAddress;
     private LocalDate orderDate;
     private LocalDate caterDate;
-    
+
     public Order(){
-        
+
     }
-    
-    public Order(String orderID, Customer customerID, Package packageID, Payment paymentID, String status, Address cateringAddress, LocalDate orderDate, LocalDate caterDate) {
+
+    public Order(String orderID, Customer customerID, Package packageID, String status, Address cateringAddress, LocalDate orderDate, LocalDate caterDate) {
         this.orderID = orderID;
         this.customerID = customerID;
         this.packageID = packageID;
-        this.paymentID = paymentID;
+        // this.paymentID = paymentID;
         this.status = status;
         this.cateringAddress = cateringAddress;
         this.orderDate = orderDate;
@@ -58,13 +58,13 @@ public class Order {
         this.packageID = packageID;
     }
 
-    public Payment getPaymentID() {
-        return paymentID;
-    }
+    // public Payment getPaymentID() {
+    //     return paymentID;
+    // }
 
-    public void setPaymentID(Payment paymentID) {
-        this.paymentID = paymentID;
-    }
+    // public void setPaymentID(Payment paymentID) {
+    //     this.paymentID = paymentID;
+    // }
 
     public String getStatus() {
         return status;
@@ -97,12 +97,12 @@ public class Order {
     public void setCaterDate(LocalDate caterDate) {
         this.caterDate = caterDate;
     }
-    
-    
+
+
     @Override
     public String toString() {
         return "Order: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() +
-            "\nPackageID: " + packageID.getPackageID() + "\nPaymentID: " + paymentID.getPaymentID() + "\nStatus:" + status +
+            "\nPackageID: " + packageID.getPackageID() + "\nStatus:" + status +
             "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + "\nCateringAddressLine2: " + cateringAddress.getAddressLine2() +
             "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate;
     }
