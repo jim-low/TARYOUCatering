@@ -11,6 +11,10 @@ import main.TARCatering;
 public class Customer extends Person implements Comparable<Customer> {
     private Address savedAddress;
 
+    public Customer(String name, String email) {
+        this(name, email, "", "", null);
+    }
+
     public Customer(String name, String email, String gender, String phoneNum, Address savedAddress) {
         super(name, email, gender, phoneNum);
         this.savedAddress = savedAddress;
@@ -101,5 +105,10 @@ public class Customer extends Person implements Comparable<Customer> {
             return 0;
         }
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 }
