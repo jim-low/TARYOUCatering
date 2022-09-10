@@ -80,8 +80,10 @@ public class TARCatering {
 
         while (true) {
             Menu.mainMenu();
-
+            System.out.print("Your choice: ");
             int choice = scan.nextInt();
+            System.out.println();
+
             if (flag == Flag.NO_LOGIN) {
                 switch (choice) {
                     case 1:
@@ -96,8 +98,9 @@ public class TARCatering {
                 }
             } else if (flag == Flag.CUSTOMER_LOGIN) {
                 switch (choice) {
-                    case 1:
-                        login();
+                    case 1: // place order
+                        System.out.println("placing order...");
+                        System.out.println("done :)");
                         break;
                     case 2: // check orders
                         Iterator<Order> orders = orderList.getIterator();
