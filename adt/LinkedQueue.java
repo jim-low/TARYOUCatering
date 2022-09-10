@@ -67,7 +67,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         for(int i = 0; i < numberOfEntries; i++){
             node = currentNode.getData();
             currentNode = currentNode.getNext();
-            System.out.println((i+1) + ". " + node);
+            System.out.println("\n"+ (i+1) + ". " + node);
         }
         
     }

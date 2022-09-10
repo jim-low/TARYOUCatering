@@ -2,6 +2,7 @@ package order;
 
 import customer.Customer;
 import general.Address;
+        
 
 import java.time.LocalDate;
 
@@ -13,11 +14,11 @@ public class Order {
     private Address cateringAddress;
     private LocalDate orderDate;
     private LocalDate caterDate;
-
+    
     public Order(){
-
+        
     }
-
+    
     public Order(String orderID, Customer customerID, Package packageID, String status, Address cateringAddress, LocalDate orderDate, LocalDate caterDate) {
         this.orderID = orderID;
         this.customerID = customerID;
@@ -83,14 +84,15 @@ public class Order {
     public void setCaterDate(LocalDate caterDate) {
         this.caterDate = caterDate;
     }
-
-
+    
+    
     @Override
     public String toString() {
-        return "\nOrder: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() +
-            "\nCustomerPhone: " + customerID.getPhoneNum() + "\nPackageID: " + packageID.getPackageID() + "\nStatus:" + status +
-            "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + "\nCateringAddressLine2: " + cateringAddress.getAddressLine2() +
-            "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate;
+        return "\n==============================\n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() + 
+                "\nPackageID: " + packageID.getPackageID() + "\nPackageSize: " + packageID.getPackageSize() + "\nPackagePrice: " + packageID.getPrice() +
+                "\nStatus: " + status +
+                "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + ", " + cateringAddress.getAddressLine2() +", " + cateringAddress.getAddressLine3() + 
+                "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate;
     }
 
 
