@@ -36,7 +36,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
             currentNode = currentNode.getNext();
         }
 
-      return newNode;
+        return newNode;
     }
 
     public T getFront() {
