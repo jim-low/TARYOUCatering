@@ -48,6 +48,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
         return front;
     }
+    
     public T nextNode(){
         T node =null;
         Node<T> currentNode = firstNode;
@@ -60,7 +61,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
         return node;
     }
-
+    
     public void listAllNode(){
         T node;
         Node<T> currentNode = firstNode;
