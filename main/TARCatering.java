@@ -1,5 +1,7 @@
 package main;
 
+import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Iterator;
 import payment.Payment;
@@ -7,19 +9,11 @@ import adt.SortedLinkedList; //may need to change to adt package
 import adt.SortedListInterface; //may need to change to adt package
 import order.Order;
 import order.Package;
-import general.Person;
 import general.Address;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
 import customer.Customer;
-import java.util.Date;
-
-enum Flag {
-    NO_LOGIN,
-    CUSTOMER_LOGIN,
-    STAFF_LOGIN,
-}
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
@@ -28,12 +22,18 @@ public class TARCatering {
     String[] foodArr3;
     int sizeChoice = 0;
     int packageChoice;
-
+    
     public SortedListInterface<Package> packages = new SortedArrayList<>();
-
-
+    QueueInterface<Order> orderList = new LinkedQueue<>();
+    Order order;
+    Address newAddress;
+    Customer customer;
+    Payment newPayment;
+    LocalDate caterDate;
+    
+    
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
-
+    
     public static void main(String[] args) {
         TARCatering system = new TARCatering();
 
@@ -43,7 +43,6 @@ public class TARCatering {
         system.EnqueueOrder(system.Order());
     }
 
-class Menu {
     public static void mainBanner() {
         System.out.println("             _       __     __                             __");
         System.out.println("            | |     / /__  / /________  ____ ___  ___     / /_____");
@@ -59,27 +58,30 @@ class Menu {
         System.out.println("                                                                     /____/");
     }
 
-    public static void mainMenu() {
-        if (TARCatering.flag == Flag.NO_LOGIN) {
-            System.out.println("1. Login");
-            System.out.println("2. Create Account");
-            System.out.println("3. Exit");
     //OrderCrap
     public void initialize(){
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
         String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
-
         packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
+        
+        newAddress = new Address("addressName", "address1", "address2", "address3");
+        customer = new Customer("Brian", "hktalonz@gmail.com", "Male", "01112100350", newAddress);
+        newPayment = new Payment("P001", packages.search(packageChoice).getPrice(), LocalDate.now() , "BANK IN");
+        order = new Order();
+        caterDate = LocalDate.now();
+        
+        orderList.enqueue(new Order("O001",customer, packages.search(packageChoice), newPayment, "Done", newAddress, LocalDate.now(), caterDate));
+        orderList.enqueue(new Order("O002",customer, packages.search(packageChoice), newPayment, "Done", newAddress, LocalDate.now(), caterDate));
+        
     }
-
+    
     public int Order(){
-        char size = ' ';
+        char size = ' '; 
         double addPrice = 0;
-}
-    public void choosePackage(){
+        
         do{
             System.out.println("Choose the package to order: ");
             for(int i=1;i<=packages.getNumberOfEntries();i++){
@@ -87,7 +89,7 @@ class Menu {
             }
             System.out.println("(4)Exit");
             packageChoice = scan.nextInt();
-
+            
             if(packageChoice <=0 || packageChoice >=5){
                 System.out.println("Invalid Choice. Try Again.");
             }else{
@@ -101,41 +103,53 @@ class Menu {
 
                 }while(sizeChoice <= 0 || sizeChoice >= 5);
             }
+            
+            switch(sizeChoice){
+            case 1:
+                size = 'S';
+                addPrice = 20.00;
+                break;
+            case 2:
+                size = 'M';
+                addPrice = 40.00;
+                break;
+            case 3:
+                size = 'L';
+                addPrice = 60.00;
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("Invalid Response! try again.");
+                break;
+            }
+            
         }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
-
-
-        if(sizeChoice == 1){
-            size = 'S';
-            addPrice = 20.00;
-        }else if(sizeChoice == 2){
-            size = 'M';
-            addPrice = 40.00;
-        }else if(sizeChoice == 3){
-            size = 'L';
-            addPrice = 60.00;
-        }
-
-
-        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size ,
-                    packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
-
-        System.out.println(packages.search(packageChoice - 1));
-
+        
+        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size , 
+            packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
+                   
+        
         return (packageChoice - 1);
     }
-
+     
     public void EnqueueOrder(int packageChoice){
-        QueueInterface<Order> orderList = new LinkedQueue<>();
-        Order o = new Order();
-        Address newAddress = new Address("addressName", "address1", "address2", "address3");
-        Customer customer = new Customer("Brian", "hktalonz@gmail.com", "Male", "01112100350", newAddress);
-        Payment newPayment = new Payment("P001", packages.search(packageChoice).getPrice(), LocalDate.now() , "BANK IN");
-        LocalDate caterDate = LocalDate.of(2022, 10, 13);
-
-        orderList.enqueue(new Order("O001",customer, packages.search(packageChoice), newPayment, "Not Done", newAddress, LocalDate.now(), caterDate));
+        
+        String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
+        orderList.enqueue(new Order(newID, customer, packages.search(packageChoice), newPayment, "Not Done", newAddress, LocalDate.now(), caterDate));
+        
         System.out.println(orderList.getNewNode());
     }
-
+    
+    public void listAllOrders(){
+        System.out.println(orderList);
+    }
+    
+    public void editOrder(String orderID){
+        
+        
+    }
+    
     //Leong Wen Wei (Test Functions)
     public void testPayment(){
 
@@ -274,36 +288,12 @@ class Menu {
                     System.out.println("\nERROR: Please insert a number from 1 to 6.\n");
                     break;
             }
-
+            
         }
+        while (choice < 6);
 
-        if (TARCatering.flag == Flag.CUSTOMER_LOGIN) {
-            System.out.println("1. Place order");
-            System.out.println("2. Check orders");
-            System.out.println("3. Check payments");
-            System.out.println("4. Logout");
-            System.out.println("5. Exit");
-        }
 
-        if (TARCatering.flag == Flag.STAFF_LOGIN) {
-            System.out.println("1. Add Package");
-            System.out.println("2. Remove Package");
-            System.out.println("3. Edit Package");
-            System.out.println("4. Logout");
-            System.out.println("5. Exit");
-        }
     }
-}
 
-public class TARCatering {
-    public static Scanner scan = new Scanner(System.in);
-    public static Flag flag;
-    public static Person loggedInAccount;
 
-    public static void main(String[] args) {
-        flag = Flag.NO_LOGIN;
-
-        Menu.mainBanner();
-        Menu.mainMenu();
-    }
 }

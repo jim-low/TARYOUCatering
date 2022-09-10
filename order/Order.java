@@ -3,12 +3,10 @@ package order;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import customer.Customer;
-import general.Person;
 import general.Address;
 import payment.Payment;
         
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public class Order {
@@ -20,7 +18,6 @@ public class Order {
     private Address cateringAddress;
     private LocalDate orderDate;
     private LocalDate caterDate;
-    QueueInterface<Order> orderList = new LinkedQueue<>();
     
     public Order(){
         
@@ -101,13 +98,7 @@ public class Order {
         this.caterDate = caterDate;
     }
     
-    public String generateID(){
-        return String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-    }
-    public String getOrder(){
-        return orderList.getNewNode().getOrderID();
-    }
-
+    
     @Override
     public String toString() {
         return "Order: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() +
