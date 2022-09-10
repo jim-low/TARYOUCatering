@@ -65,6 +65,7 @@ class Menu {
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
+    public static int choice;
     public static Flag flag;
 
     // shit needed to run the program
@@ -81,52 +82,13 @@ public class TARCatering {
         while (true) {
             Menu.mainMenu();
             System.out.print("Your choice: ");
-            int choice = scan.nextInt();
+            choice = scan.nextInt();
             System.out.println();
 
             if (flag == Flag.NO_LOGIN) {
-                switch (choice) {
-                    case 1:
-                        login();
-                        break;
-                    case 2:
-                        System.out.println("I would put a create account method here but for now no need ba");
-                        break;
-                    case 3:
-                        System.exit(0);
-                        break;
-                }
+                noLoginInput();
             } else if (flag == Flag.CUSTOMER_LOGIN) {
-                switch (choice) {
-                    case 1: // place order
-                        System.out.println("placing order...");
-                        System.out.println("done :)");
-                        break;
-                    case 2: // check orders
-                        Iterator<Order> orders = orderList.getIterator();
-                        while (orders.hasNext()) {
-                            Order order = orders.next();
-                            if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
-                                System.out.println(order);
-                            }
-                        }
-                        break;
-                    case 3: // check payments
-                        Iterator<Payment> payments = payList.getIterator();
-                        while (payments.hasNext()) {
-                            Payment payment = payments.next();
-                            if (payment.getOrder().getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
-                                System.out.println(payment);
-                            }
-                        }
-                        break;
-                    case 4:
-                        logout();
-                        break;
-                    case 5:
-                        System.exit(0);
-                        break;
-                }
+                customerInput();
             }
         }
     }
@@ -191,5 +153,60 @@ public class TARCatering {
         loggedInCustomer = null;
         flag = Flag.NO_LOGIN;
         System.out.println("Successfully logged out");
+    }
+
+    public static void customerInput() {
+        switch (choice) {
+            case 1: // place order
+                System.out.println("placing order...");
+                System.out.println("done :)");
+                break;
+            case 2: // check orders
+                checkOrders();
+                break;
+            case 3: // check payments
+                checkPayments();
+                break;
+            case 4:
+                logout();
+                break;
+            case 5:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static void noLoginInput() {
+        switch (choice) {
+            case 1:
+                login();
+                break;
+            case 2:
+                System.out.println("I would put a create account method here but for now no need ba");
+                break;
+            case 3:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static void checkOrders() {
+        Iterator<Order> orders = orderList.getIterator();
+        while (orders.hasNext()) {
+            Order order = orders.next();
+            if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                System.out.println(order);
+            }
+        }
+    }
+
+    public static void checkPayments() {
+        Iterator<Payment> payments = payList.getIterator();
+        while (payments.hasNext()) {
+            Payment payment = payments.next();
+            if (payment.getOrder().getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                System.out.println(payment);
+            }
+        }
     }
 }
