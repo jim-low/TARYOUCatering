@@ -1,11 +1,7 @@
 package order;
 
-import adt.LinkedQueue;
-import adt.QueueInterface;
 import customer.Customer;
 import general.Address;
-import payment.Payment;
-
 
 import java.time.LocalDate;
 
@@ -13,7 +9,6 @@ public class Order {
     private String orderID;
     private Customer customerID;
     private Package packageID;
-    // private Payment paymentID;
     private String status;
     private Address cateringAddress;
     private LocalDate orderDate;
@@ -27,7 +22,6 @@ public class Order {
         this.orderID = orderID;
         this.customerID = customerID;
         this.packageID = packageID;
-        // this.paymentID = paymentID;
         this.status = status;
         this.cateringAddress = cateringAddress;
         this.orderDate = orderDate;
@@ -57,15 +51,7 @@ public class Order {
     public void setPackageID(Package packageID) {
         this.packageID = packageID;
     }
-
-    // public Payment getPaymentID() {
-    //     return paymentID;
-    // }
-
-    // public void setPaymentID(Payment paymentID) {
-    //     this.paymentID = paymentID;
-    // }
-
+    
     public String getStatus() {
         return status;
     }
@@ -101,8 +87,8 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() +
-            "\nPackageID: " + packageID.getPackageID() + "\nStatus:" + status +
+        return "\nOrder: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + 
+            "\nCustomerPhone: " + customerID.getPhoneNum() + "\nPackageID: " + packageID.getPackageID() + "\nStatus:" + status +
             "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + "\nCateringAddressLine2: " + cateringAddress.getAddressLine2() +
             "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate;
     }

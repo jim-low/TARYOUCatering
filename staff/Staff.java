@@ -64,8 +64,4 @@ public class Staff extends Person{
         return new Staff(name, email, gender, phoneNum, position, salary);
     }
 
-    //Retrieve Staff Schedule
-    public static CircularQueue<StaffSchedule> checkStaffSchedule(){
-        
-    }
 }
