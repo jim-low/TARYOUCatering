@@ -62,7 +62,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
     }
 
     public T listAll(){
-        T node = null;
+        T node = null; 
 
         return node;
     }
