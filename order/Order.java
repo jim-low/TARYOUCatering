@@ -18,6 +18,9 @@ public class Order {
     public Order(){
         
     }
+    public Order(Order object){
+        
+    }
     
     public Order(String orderID, Customer customerID, Package packageID, String status, Address cateringAddress, LocalDate orderDate, LocalDate caterDate) {
         this.orderID = orderID;
@@ -92,8 +95,7 @@ public class Order {
                 "\nPackageID: " + packageID.getPackageID() + "\nPackageSize: " + packageID.getPackageSize() + "\nPackagePrice: " + packageID.getPrice() +
                 "\nStatus: " + status +
                 "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + ", " + cateringAddress.getAddressLine2() +", " + cateringAddress.getAddressLine3() + 
-                "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate;
+                "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate + "\n";
     }
-
-
 }
+

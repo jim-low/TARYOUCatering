@@ -197,6 +197,9 @@ public class TARCatering {
             case 5:
                 System.exit(0);
                 break;
+            case 6:
+                editOrder();
+                break;
         }
     }
 
@@ -240,7 +243,7 @@ public class TARCatering {
         int i;
         char size = ' ';
         double addPrice = 0;
-        
+        System.out.println("\n");
         for(i = 0; i < packages.getNumberOfEntries(); i++) {
             System.out.println((i + 1) + ") " + packages.search(i).getDesc());
         }
@@ -289,25 +292,70 @@ public class TARCatering {
         System.out.println("Successfully placed order");
     }
     
-    
-    public void editOrder(){
+    public static void editOrder(){
         int editChoice;
+        int totalChoices =0;
+        //Order[] newOrder = new Order[orderList.totalEntries()];
+        String orderToBeEdit = "";
         Iterator<Order> orders = orderList.getIterator();
+        String newStatus = "";
         
+        int statusChoice = 0;
         do{
             while (orders.hasNext()) {
                 Order order = orders.next();
                 if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                    //newOrder[totalChoices] = order;
                     System.out.println(order);
+                    totalChoices++;
                 }
             }
             
-            System.out.println("\nSelect a order to edit: ");
+            System.out.print("\nSelect a orderID number to edit(e.g->1,2,3): ");
             editChoice = scan.nextInt();
-            if(editChoice > orderList.totalEntries()){
+            orderToBeEdit = String.format("O%03d", editChoice);
+            Order searchedOrder = new Order();
+            orders = orderList.getIterator();
+            while (orders.hasNext()) {
+                Order order = orders.next();
+                if (order.getOrderID().equals(orderToBeEdit)) {
+                    searchedOrder = order;
+                    System.out.println(searchedOrder);
+                }
+            }
+            //array method
+            //            for(int i = 0; i< totalChoices;i++){
+            //                if(newOrder[i].getOrderID().equals(orderToBeEdit)){
+            //                    searchedOrder = orderList.search(newOrder[i]);
+            //                }
+            //            }
+            
+            do{
+                System.out.println("Enter new Status: ");
+                System.out.println("1. Done");
+                System.out.println("2. Cancelled");
+                statusChoice = scan.nextInt();
+
+                switch(statusChoice){
+                    case 1: 
+                        newStatus = "Done";
+                        break;
+                    case 2: 
+                        newStatus = "Cancelled";
+                        break;
+                    default:
+                        System.out.println("Invalid Input. Try Again!");
+                        break;
+                }
+            }while(statusChoice < 1 || statusChoice > 2);
+            
+            orderList.editNode(searchedOrder, new Order(searchedOrder.getOrderID(),searchedOrder.getCustomerID(), searchedOrder.getPackageID(), 
+                    newStatus, searchedOrder.getCateringAddress(), searchedOrder.getOrderDate(), searchedOrder.getCaterDate()));
+            
+            if(editChoice > totalChoices || editChoice < 1){
                 System.out.println("Invalid input. Try Again!");
             }
-        }while(editChoice < 0 || editChoice > orderList.totalEntries());
+        }while(editChoice < 1 || editChoice > totalChoices);
         
         //orderList.editNode(editChoice , new Order());
         

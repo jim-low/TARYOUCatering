@@ -78,34 +78,20 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return numberOfEntries;
     }
     
-    public T search(int selectedIndex){
-        T searchEntry = null;
-        Node<T> currentNode = firstNode;
-        int index = 0;
-        if(!isEmpty()){
-            while(index < numberOfEntries && selectedIndex < numberOfEntries){
-                searchEntry = currentNode.getData();
-                currentNode = currentNode.getNext();
-                index++;
+    
+    public void editNode(T order, T replaceEntry){
+        Node<T> searchEntry = firstNode;
+        T returnEntry = null;
+        while(searchEntry != null){
+            returnEntry = searchEntry.getData();
+            if(returnEntry.equals(order)){
+                searchEntry.setData(replaceEntry);
             }
+            searchEntry = searchEntry.getNext();
         }
-        return searchEntry;
+        //System.out.println("edited : " + searchEntry);
     }
     
-    public void editNode(int index, T replaceEntry){
-        T searchEntry = null;
-        Node<T> currentNode = firstNode;
-        
-        if(!isEmpty()){
-            for(int i = 0; i <index;i++){
-                searchEntry = currentNode.getData();
-                currentNode = currentNode.getNext();
-            
-            }
-        }
-    }
-    
-
     public T dequeue() {
         T front = null;
 
