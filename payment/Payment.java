@@ -2,6 +2,7 @@ package payment;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import order.Order;
 
 public class Payment implements Comparable<Payment>{
 
@@ -9,17 +10,17 @@ public class Payment implements Comparable<Payment>{
     double paymentAmt;
     LocalDate paymentDate;
     String paymentMethod;
+    Order order;
     //CircularLinkedList<Order> totalPayments; //assume this is an array.
 
-    public Payment(String paymentID, double paymentAmt, LocalDate paymentDate, String paymentMethod) {
+    
+
+    public Payment(String paymentID, double paymentAmt, LocalDate paymentDate, String paymentMethod, Order order) {
         this.paymentID = paymentID;
         this.paymentAmt = paymentAmt;
         this.paymentDate = paymentDate;
         this.paymentMethod = paymentMethod;
-    }
-
-    public Payment() {
-        
+        this.order = order;
     }
 
     public void setPaymentID(String paymentID) {
@@ -53,13 +54,21 @@ public class Payment implements Comparable<Payment>{
     public String getPaymentMethod() {
         return paymentMethod;
     }
+    
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
 
     //do not add functions that receive input or display output.
 
     public Payment searchPayment(String id){
 
         if (this.paymentID.equals(id)){
-            Payment foundPayment = new Payment(this.paymentID, this.paymentAmt, this.paymentDate, this.paymentMethod);
+            Payment foundPayment = new Payment(this.paymentID, this.paymentAmt, this.paymentDate, this.paymentMethod, this.order);
             //return the matched object
             return foundPayment;
         }
@@ -70,23 +79,21 @@ public class Payment implements Comparable<Payment>{
 
     @Override
     public String toString() {
-        return "paymentID = " + paymentID + String.format(" , paymentAmt = %.2f", paymentAmt) + ", paymentDate = " + paymentDate + ", paymentMethod = " + paymentMethod;
+        return "paymentID = " + paymentID + String.format(" , paymentAmt = %.2f", paymentAmt) + ", paymentDate = " + paymentDate + ", paymentMethod = " + paymentMethod + "CaterDate = " + order.getCaterDate();
     }
 
     @Override
-    public int compareTo(Payment p) {
+    public int compareTo(Payment p) { 
         //if comparing using id
         //String[] numToCompare = p.paymentID.split("[a-zA-Z]+");
         //String[] currentNum = this.paymentID.split("[a-zA-Z]+");
         //return Integer.parseInt(currentNum[1]) - Integer.parseInt(numToCompare[1]);
-
-        //compare using dates
-        LocalDate dateToCompare = p.getPaymentDate();
-        LocalDate currentPDate = this.paymentDate;
+        
+        //compare using cater dates
+        LocalDate dateToCompare = p.order.getCaterDate();
+        LocalDate currentPDate = this.order.getCaterDate();
         int dateCompareValue = currentPDate.compareTo(dateToCompare);
         return dateCompareValue;
     }
 
 }
-
-
