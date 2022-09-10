@@ -2,6 +2,7 @@ package adt;
 
 
 import general.Node;
+import java.util.Iterator;
 
 
 
@@ -10,7 +11,6 @@ import general.Node;
  */
 public class CircularQueue<T> implements CircularQueueInterface<T> {
     private Node<T> lastNode;
-    private int size;
 
     public CircularQueue(){
         lastNode = null;
@@ -27,7 +27,6 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
             lastNode.setNext(newNode);
         }
         lastNode = newNode;
-        ++this.size;
     }
 
     public T dequeue() {
@@ -41,7 +40,6 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
                 lastNode.setNext(lastNode.getNext().getNext());
             }
         }
-        --this.size;
         return front;
     }
 
@@ -63,7 +61,33 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
             lastNode.setNext(null);
         }
         lastNode = null;
-        --this.size;
     }
     
+    public Iterator<T> getIterator(){
+        return new CircularQueueIterator();
+    }
+
+    private class CircularQueueIterator implements Iterator<T>{
+        private Node<T> currentNode;
+        
+        public CircularQueueIterator() {
+            currentNode = lastNode.getNext();
+        }
+        
+        public boolean hasNext(){
+            return currentNode!= null;
+        }
+        
+        @Override
+        public T next(){
+            T currentData = null;
+            if(hasNext()){
+                currentData = currentNode.getData();
+                currentNode = currentNode.getNext();
+                return currentData;
+            }else{
+                return null;
+            }
+        }
+    }
 }
