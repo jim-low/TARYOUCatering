@@ -168,6 +168,7 @@ public class TARCatering {
         }
 
         System.out.println("Successfully logged in");
+        System.out.println();
         loggedInCustomer = found;
         flag = Flag.CUSTOMER_LOGIN;
     }
@@ -176,6 +177,7 @@ public class TARCatering {
         loggedInCustomer = null;
         flag = Flag.NO_LOGIN;
         System.out.println("Successfully logged out");
+        System.out.println();
     }
 
     public static void customerInput() {
