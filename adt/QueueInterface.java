@@ -20,6 +20,8 @@ public interface QueueInterface<T> {
 
     public void clear();
     
+    public T nextNode();
+    
     public void listAllNode();
     
     public T search(int index);

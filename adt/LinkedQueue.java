@@ -49,7 +49,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return front;
     }
     public T nextNode(){
-        T node = null;
+        T node =null;
         Node<T> currentNode = firstNode;
 
         while(currentNode !=null){

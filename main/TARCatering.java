@@ -173,9 +173,13 @@ public class TARCatering {
     public void editOrder(){
         int editChoice;
         do{
-            orderList.listAllNode();
-            System.out.println("\nSelect a number: ");
+            do{
+                System.out.println(orderList.nextNode());
+                
+            }while(orderList.nextNode().getCustomerID().equals("U1000"));
+            System.out.println("\nSelect a order to edit: ");
             editChoice = scan.nextInt();
+            
             
         }while(editChoice < 0 || editChoice > orderList.totalEntries());
         
