@@ -49,9 +49,8 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
           array[selectedIndex] = replaceEntry;
           
           return true;
-      }else{
-        return false;
       }
+      return false;
   }
 
   public boolean remove(T anEntry) {
@@ -141,6 +140,10 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     for (int index = removedIndex; index < lastIndex; index++) {
       array[index] = array[index + 1];
     }
+  }
+  
+  public T getLast() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 
 }

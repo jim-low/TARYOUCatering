@@ -22,4 +22,6 @@ public interface SortedListInterface<T extends Comparable<T>> {
     public Iterator<T> getIterator();
 
     public T search(int index);
+    
+    public T getLast();
 }
