@@ -104,6 +104,9 @@ public class TARCatering {
         customerList.insert(c2);
         customerList.insert(c3);
 
+        flag = Flag.CUSTOMER_LOGIN;
+        loggedInCustomer = c1;
+
         // order and package init
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
@@ -158,8 +161,7 @@ public class TARCatering {
     public static void customerInput() {
         switch (choice) {
             case 1: // place order
-                System.out.println("placing order...");
-                System.out.println("done :)");
+                placeOrder();
                 break;
             case 2: // check orders
                 checkOrders();
@@ -208,5 +210,54 @@ public class TARCatering {
                 System.out.println(payment);
             }
         }
+    }
+
+    public static void placeOrder() {
+        System.out.println("Choose the package to order: ");
+
+        int i;
+        for(i = 0; i < packages.getNumberOfEntries(); i++) {
+            System.out.println((i + 1) + ") " + packages.search(i).getDesc());
+        }
+        System.out.println((i + 1) + ") Exit");
+        System.out.print("Your choice: ");
+        int selectedPackage = scan.nextInt();
+        System.out.println();
+
+        System.out.println("Choose package size to serve: ");
+        System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
+        System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
+        System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
+        System.out.println("4. Back");
+        System.out.print("Your choice: ");
+        int sizeChoice = scan.nextInt();
+        System.out.println();
+
+        char size;
+        double addPrice;
+        switch (sizeChoice) {
+            case 1:
+                size = 'S';
+                addPrice = 20.00;
+                break;
+            case 2:
+                size = 'M';
+                addPrice = 40.00;
+                break;
+            case 3:
+                size = 'L';
+                addPrice = 60.00;
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("Invalid Response! try again.");
+                break;
+        }
+
+        String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
+        Order order = new Order(newID, loggedInCustomer, packages.search(selectedPackage - 1), "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        orderList.enqueue(order);
+        System.out.println("Successfully placed order");
     }
 }
