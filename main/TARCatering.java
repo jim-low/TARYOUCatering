@@ -1,7 +1,6 @@
 package main;
 
 import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import java.util.Iterator;
