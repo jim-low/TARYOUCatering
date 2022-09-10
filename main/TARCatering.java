@@ -1,7 +1,5 @@
 package main;
 
-import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Iterator;
 import payment.Payment;
@@ -16,6 +14,12 @@ import adt.QueueInterface;
 import adt.SortedArrayList;
 import customer.Customer;
 import java.util.Date;
+
+enum Flag {
+    NO_LOGIN,
+    CUSTOMER_LOGIN,
+    STAFF_LOGIN,
+}
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
@@ -39,6 +43,7 @@ public class TARCatering {
         system.EnqueueOrder(system.Order());
     }
 
+class Menu {
     public static void mainBanner() {
         System.out.println("             _       __     __                             __");
         System.out.println("            | |     / /__  / /________  ____ ___  ___     / /_____");
@@ -54,11 +59,17 @@ public class TARCatering {
         System.out.println("                                                                     /____/");
     }
 
+    public static void mainMenu() {
+        if (TARCatering.flag == Flag.NO_LOGIN) {
+            System.out.println("1. Login");
+            System.out.println("2. Create Account");
+            System.out.println("3. Exit");
     //OrderCrap
     public void initialize(){
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
         String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
+
         packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
@@ -67,7 +78,8 @@ public class TARCatering {
     public int Order(){
         char size = ' ';
         double addPrice = 0;
-
+}
+    public void choosePackage(){
         do{
             System.out.println("Choose the package to order: ");
             for(int i=1;i<=packages.getNumberOfEntries();i++){
@@ -264,10 +276,34 @@ public class TARCatering {
             }
 
         }
-        while (choice < 6);
 
+        if (TARCatering.flag == Flag.CUSTOMER_LOGIN) {
+            System.out.println("1. Place order");
+            System.out.println("2. Check orders");
+            System.out.println("3. Check payments");
+            System.out.println("4. Logout");
+            System.out.println("5. Exit");
+        }
 
+        if (TARCatering.flag == Flag.STAFF_LOGIN) {
+            System.out.println("1. Add Package");
+            System.out.println("2. Remove Package");
+            System.out.println("3. Edit Package");
+            System.out.println("4. Logout");
+            System.out.println("5. Exit");
+        }
     }
+}
 
+public class TARCatering {
+    public static Scanner scan = new Scanner(System.in);
+    public static Flag flag;
+    public static Person loggedInAccount;
 
+    public static void main(String[] args) {
+        flag = Flag.NO_LOGIN;
+
+        Menu.mainBanner();
+        Menu.mainMenu();
+    }
 }
