@@ -17,6 +17,10 @@ public class Customer extends Person implements Comparable<Customer> {
         super(name, email, gender, phoneNum);
         this.savedAddress = savedAddress;
     }
+    
+    public Customer(){
+        
+    }
 
     public Address getSavedAddress() {
         return savedAddress;

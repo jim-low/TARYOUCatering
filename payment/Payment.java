@@ -18,6 +18,10 @@ public class Payment implements Comparable<Payment>{
         this.paymentMethod = paymentMethod;
     }
 
+    public Payment() {
+        
+    }
+
     public void setPaymentID(String paymentID) {
         this.paymentID = paymentID;
     }
@@ -70,12 +74,12 @@ public class Payment implements Comparable<Payment>{
     }
 
     @Override
-    public int compareTo(Payment p) { 
+    public int compareTo(Payment p) {
         //if comparing using id
         //String[] numToCompare = p.paymentID.split("[a-zA-Z]+");
         //String[] currentNum = this.paymentID.split("[a-zA-Z]+");
         //return Integer.parseInt(currentNum[1]) - Integer.parseInt(numToCompare[1]);
-        
+
         //compare using dates
         LocalDate dateToCompare = p.getPaymentDate();
         LocalDate currentPDate = this.paymentDate;

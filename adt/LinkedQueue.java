@@ -1,26 +1,18 @@
 package adt;
 
 import java.util.Iterator;
+import order.Order;
 
 public class LinkedQueue<T> implements QueueInterface<T>{
-
     private Node firstNode;
     private Node lastNode;
+    private int numberOfEntries;
 
     public LinkedQueue() {
         firstNode = null;
         lastNode = null;
     }
-    
-  public T getNewNode(){
-      T back = null;
-      if (!isEmpty()) {
-        back = lastNode.data;
-      }
 
-    return back;
-  }
-  
     public void enqueue(T newEntry) {
         Node newNode = new Node(newEntry, null);
 
@@ -29,10 +21,22 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         } else {
             lastNode.next = newNode;
         }
-
+        numberOfEntries++;
         lastNode = newNode;
     }
+    
+    public T getNewNode(){
+        T newNode = null;
+        Node currentNode = firstNode;
 
+        while(currentNode !=null){
+            newNode = currentNode.data;
+            currentNode = currentNode.next;
+        }
+
+      return newNode;
+    }
+  
     public T getFront() {
         T front = null;
 
@@ -42,6 +46,25 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
         return front;
     }
+    public T nextNode(){
+        T node = null;
+        Node currentNode = firstNode;
+        
+        while(currentNode !=null){
+            node = currentNode.data;
+            currentNode = currentNode.next;
+            
+        }
+        
+        return node;
+    }
+    
+    public T listAll(){
+        T node = null;
+        
+        return node;
+    }
+    
 
     public T dequeue() {
         T front = null;
@@ -54,7 +77,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
                 lastNode = null;
             }
         }
-
+        numberOfEntries--;
         return front;
     } // end dequeue
 
@@ -123,4 +146,5 @@ public class LinkedQueue<T> implements QueueInterface<T>{
             this.next = next;
         }
     }
+    
 }

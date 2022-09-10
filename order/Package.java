@@ -14,6 +14,9 @@ public class Package implements Comparable<Package>{
         this.price = price;
         this.food = food;
     }
+    public Package(){
+        
+    }
     public Package(String packageID){
         this.packageID= packageID;
     }
@@ -73,14 +76,12 @@ public class Package implements Comparable<Package>{
         
         return showString;
     }
-
+    
     @Override
     public int compareTo(Package p) {
         int id = Integer.parseInt(this.packageID.replaceAll("[a-zA-Z]", ""));
         int pID = Integer.parseInt(p.packageID.replaceAll("[a-zA-Z]", ""));
-
+        
         return(id- pID);
     }
-
-
 }

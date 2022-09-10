@@ -1,26 +1,38 @@
 package main;
 
-import java.time.LocalDate; 
+import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Iterator;
 import payment.Payment;
-import adt.SortedLinkedList; 
-import adt.SortedListInterface; 
+import adt.SortedLinkedList; //may need to change to adt package
+import adt.SortedListInterface; //may need to change to adt package
 import order.Order;
-import order.OrderList;
 import order.Package;
-import general.Person;
 import general.Address;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
-import java.util.Date;
+import customer.Customer;
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
+    String[] foodArr1;
+    String[] foodArr2;
+    String[] foodArr3;
+    int sizeChoice = 0;
+    int packageChoice;
 
     public SortedListInterface<Package> packages = new SortedArrayList<>();
+    QueueInterface<Order> orderList = new LinkedQueue<>();
+    Order order;
+    Address newAddress;
+    Customer customer;
+    Payment newPayment;
+    LocalDate caterDate;
+
+
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
 
     public static void main(String[] args) {
         TARCatering system = new TARCatering();
@@ -28,8 +40,7 @@ public class TARCatering {
         mainBanner();
         //testPayment();
         system.initialize();
-        system.choosePackage();
-        //showInput();
+        system.EnqueueOrder(system.Order());
     }
 
     public static void mainBanner() {
@@ -49,49 +60,94 @@ public class TARCatering {
 
     //OrderCrap
     public void initialize(){
-        String[] foodArr1 = {"Fishes", "Meat-lookalike vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
+        String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
         String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
-
         packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
+
+        newAddress = new Address("addressName", "address1", "address2", "address3");
+        customer = new Customer("Brian", "hktalonz@gmail.com", "Male", "01112100350", newAddress);
+        newPayment = new Payment("P001", packages.search(packageChoice).getPrice(), LocalDate.now() , "BANK IN");
+        order = new Order();
+        caterDate = LocalDate.now();
+
+        orderList.enqueue(new Order("O001",customer, packages.search(packageChoice), newPayment, "Done", newAddress, LocalDate.now(), caterDate));
+        orderList.enqueue(new Order("O002",customer, packages.search(packageChoice), newPayment, "Done", newAddress, LocalDate.now(), caterDate));
+
     }
-    public void choosePackage(){
-        int sizeChoice=0;
-        int packageChoice;
+
+    public int Order(){
+        char size = ' ';
+        double addPrice = 0;
+
         do{
             System.out.println("Choose the package to order: ");
-            System.out.println("(1)Package 1 ");
-            System.out.println("(2)Package 2 ");
-            System.out.println("(3)Package 3 ");
+            for(int i=1;i<=packages.getNumberOfEntries();i++){
+                System.out.println("(" + i + ")Package " + i + ", " + packages.search(i-1).getDesc());
+            }
             System.out.println("(4)Exit");
             packageChoice = scan.nextInt();
 
-            do{
-                System.out.println("Choose package size to serve: ");
-                System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
-                System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
-                System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
-                System.out.println("4. Back");
+            if(packageChoice <=0 || packageChoice >=5){
+                System.out.println("Invalid Choice. Try Again.");
+            }else{
+                do{
+                    System.out.println("Choose package size to serve: ");
+                    System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
+                    System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
+                    System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
+                    System.out.println("4. Back");
+                    sizeChoice = scan.nextInt();
 
-            }while(sizeChoice < 1 || sizeChoice > 4);
+                }while(sizeChoice <= 0 || sizeChoice >= 5);
+            }
+
+            switch(sizeChoice){
+            case 1:
+                size = 'S';
+                addPrice = 20.00;
+                break;
+            case 2:
+                size = 'M';
+                addPrice = 40.00;
+                break;
+            case 3:
+                size = 'L';
+                addPrice = 60.00;
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("Invalid Response! try again.");
+                break;
+            }
+
+        }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
+
+        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size ,
+            packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
 
 
-        }while(packageChoice < 1 || packageChoice > 4 || sizeChoice == 4);
-
-
+        return (packageChoice - 1);
     }
 
+    public void EnqueueOrder(int packageChoice){
 
-    public static void showInput(){
-        /*
-           orderList.enqueue(new Order("O0001", new Person("Brian", "Male", "C0001", "brian@gmail.com","011-12100350"),
-           new Package("PK001", "Random Desc here", "5 people", 100.00, foodArr), new Payment("PM001", 100.00, new Date(22/06/2022), "Credit Card"), "Not Done",
-           new Address(null, "Home", "addressline1", "addressLine2", "addressLine3"), new Date(22-6-2022), new Date(10-9-2022)));
-           */
-        QueueInterface<Order> orderList = new LinkedQueue<>();
-        System.out.println(orderList.getFront());
+        String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
+        orderList.enqueue(new Order(newID, customer, packages.search(packageChoice), newPayment, "Not Done", newAddress, LocalDate.now(), caterDate));
+
+        System.out.println(orderList.getNewNode());
+    }
+
+    public void listAllOrders(){
+        System.out.println(orderList);
+    }
+
+    public void editOrder(String orderID){
+
+
     }
 
     //Leong Wen Wei (Test Functions)

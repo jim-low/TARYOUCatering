@@ -21,6 +21,10 @@ public class Address {
         ++idNumber;
     }
 
+    public Address() {
+        
+    }
+
     public String getAddressID() {
         return addressID;
     }
