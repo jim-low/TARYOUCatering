@@ -89,6 +89,7 @@ public class TARCatering {
         //testPayment();
         system.initialize();
         system.Order();
+        system.editOrder();
     }
 
 
@@ -106,8 +107,8 @@ public class TARCatering {
         order = new Order();
         caterDate = LocalDate.of(2022,10,22);
         
-        orderList.enqueue(new Order("O001",customer, packages.search(0), "Done", newAddress, LocalDate.now(), caterDate));
-        orderList.enqueue(new Order("O002",customer, packages.search(1), "Done", newAddress, LocalDate.now(), caterDate));
+        orderList.enqueue(new Order("O001",customer, new Package("PK001", "Vegetarian Friendly", 'S', 40.00, foodArr1), "Done", newAddress, LocalDate.now(), caterDate));
+        orderList.enqueue(new Order("O002",customer, new Package("PK002", "No Babi", 'L', 80.00, foodArr2), "Done", newAddress, LocalDate.now(), caterDate));
 
     }
 
@@ -159,18 +160,21 @@ public class TARCatering {
             
         }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
         
-        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size , 
-            packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
+        packageChoice -=1;
+        
+        Package newPackage = new Package(packages.search(packageChoice).getPackageID(), packages.search(packageChoice).getDesc(), size , 
+            packages.search(packageChoice).getPrice() + addPrice, packages.search(packageChoice).getFood());
                    
         
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        orderList.enqueue(new Order(newID, customer, packages.search(packageChoice), "Not Done", newAddress, LocalDate.now(), caterDate));
+        orderList.enqueue(new Order(newID, customer, newPackage, "Not Done", newAddress, LocalDate.now(), caterDate));
     }
      
     public void editOrder(){
         int editChoice;
         do{
             orderList.listAllNode();
+            System.out.println("\nSelect a number: ");
             editChoice = scan.nextInt();
             
         }while(editChoice < 0 || editChoice > orderList.totalEntries());

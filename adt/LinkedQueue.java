@@ -67,7 +67,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         for(int i = 0; i < numberOfEntries; i++){
             node = currentNode.getData();
             currentNode = currentNode.getNext();
-            System.out.println((i+1) + ". " + node);
+            System.out.println("\n"+ (i+1) + ". " + node);
         }
         
     }
@@ -80,11 +80,12 @@ public class LinkedQueue<T> implements QueueInterface<T>{
     public T search(int selectedIndex){
         T searchEntry = null;
         Node<T> currentNode = firstNode;
-        
+        int index = 0;
         if(!isEmpty()){
-            for(int i = 0; i <selectedIndex;i++){
+            while(index < numberOfEntries && selectedIndex < numberOfEntries){
                 searchEntry = currentNode.getData();
                 currentNode = currentNode.getNext();
+                index++;
             }
         }
         return searchEntry;
