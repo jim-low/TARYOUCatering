@@ -211,24 +211,24 @@ public class TARCatering {
                     int newUniqueNum = 0;
                     boolean isUniquePayId;
                     String generateNewPayId;
-                    
+
                     do{
                         //generate a newPayId
                         isUniquePayId = true;
                         newUniqueNum = (int)(Math.random()*(9999-1+1)+1);
-                        
+
                         //set it to a ID format
                         if(newUniqueNum < 10) generateNewPayId = "P000" + String.valueOf(newUniqueNum);
-                        
+
                         else if (newUniqueNum < 100) generateNewPayId = "P00" + String.valueOf(newUniqueNum);
-                        
+
                         else if (newUniqueNum < 1000) generateNewPayId = "P0" + String.valueOf(newUniqueNum);
                         //9999 or less
                         else generateNewPayId = "P" + String.valueOf(newUniqueNum);
-                    
+
                         //reinitialize the Iterator to reset it.
                         payIterator = payList.getIterator();
-                    
+
                         //check for duplicate PayID
                         while(payIterator.hasNext()){
                             Payment pay = payIterator.next();
@@ -236,16 +236,16 @@ public class TARCatering {
                                 isUniquePayId = false;
                             }
                         }
-                    
+
                     } while(isUniquePayId == false);
-                    
-                    //print to Id to be added. 
+
+                    //print to Id to be added.
                     System.out.println("Payment ID " + generateNewPayId);
 
                     System.out.print("\nEnter the Payment Amount : ");
                     Double addAmt = scan.nextDouble();
 
-                    //add with the current date. 
+                    //add with the current date.
                     LocalDate dToAdd = LocalDate.now();
 
                     System.out.print("\n\nEnter the Payment Method :");
@@ -269,10 +269,10 @@ public class TARCatering {
                         System.out.println("You have nothing to delete, the list is empty...");
                         break;
                     }
-                    
+
                     System.out.print("Enter the ID you want to remove by : ");
                     String removeId = scan.nextLine() + scan.nextLine();
-                    
+
                     //find the object
                     while(payIterator.hasNext()){
                         Payment pay = payIterator.next();
@@ -280,14 +280,14 @@ public class TARCatering {
                             if(!payList.remove(pay)){
                                 System.out.println("\nERROR: Unable to remove record.");
                             }
-                            
+
                             else{
                                 System.out.println("\nRecord Found and Removed!");
                             }
                             break;
                         }
                     }
-                    
+
                     break;
 
                 case 4: //search
