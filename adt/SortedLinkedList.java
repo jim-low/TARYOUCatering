@@ -131,21 +131,21 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
     public T search(int index) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public T getLast() {
         Node<T> currentNode = firstNode;
-        
+
         if (currentNode == null){
             return null;
         }
-        
+
         while(currentNode.getNext() != null){
             currentNode = currentNode.getNext();
         }
-        
+
         return currentNode.getData();
     }
-    
+
     public boolean edit(int selectedIndex, T replaceEntry) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
