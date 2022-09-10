@@ -22,7 +22,7 @@ public class TARCatering {
     String[] foodArr3;
     int sizeChoice = 0;
     int packageChoice;
-    
+
     public SortedListInterface<Package> packages = new SortedArrayList<>();
     QueueInterface<Order> orderList = new LinkedQueue<>();
     Order order;
@@ -30,10 +30,10 @@ public class TARCatering {
     Customer customer;
     Payment newPayment;
     LocalDate caterDate;
-    
-    
+
+
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
-    
+
     public static void main(String[] args) {
         TARCatering system = new TARCatering();
 
@@ -66,22 +66,22 @@ public class TARCatering {
         packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
-        
+
         newAddress = new Address("addressName", "address1", "address2", "address3");
         customer = new Customer("Brian", "hktalonz@gmail.com", "Male", "01112100350", newAddress);
         newPayment = new Payment("P001", packages.search(packageChoice).getPrice(), LocalDate.now() , "BANK IN");
         order = new Order();
         caterDate = LocalDate.now();
-        
+
         orderList.enqueue(new Order("O001",customer, packages.search(packageChoice), newPayment, "Done", newAddress, LocalDate.now(), caterDate));
         orderList.enqueue(new Order("O002",customer, packages.search(packageChoice), newPayment, "Done", newAddress, LocalDate.now(), caterDate));
-        
+
     }
-    
+
     public int Order(){
-        char size = ' '; 
+        char size = ' ';
         double addPrice = 0;
-        
+
         do{
             System.out.println("Choose the package to order: ");
             for(int i=1;i<=packages.getNumberOfEntries();i++){
@@ -89,7 +89,7 @@ public class TARCatering {
             }
             System.out.println("(4)Exit");
             packageChoice = scan.nextInt();
-            
+
             if(packageChoice <=0 || packageChoice >=5){
                 System.out.println("Invalid Choice. Try Again.");
             }else{
@@ -103,7 +103,7 @@ public class TARCatering {
 
                 }while(sizeChoice <= 0 || sizeChoice >= 5);
             }
-            
+
             switch(sizeChoice){
             case 1:
                 size = 'S';
@@ -123,33 +123,33 @@ public class TARCatering {
                 System.out.println("Invalid Response! try again.");
                 break;
             }
-            
+
         }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
-        
-        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size , 
+
+        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size ,
             packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
-                   
-        
+
+
         return (packageChoice - 1);
     }
-     
+
     public void EnqueueOrder(int packageChoice){
-        
+
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
         orderList.enqueue(new Order(newID, customer, packages.search(packageChoice), newPayment, "Not Done", newAddress, LocalDate.now(), caterDate));
-        
+
         System.out.println(orderList.getNewNode());
     }
-    
+
     public void listAllOrders(){
         System.out.println(orderList);
     }
-    
+
     public void editOrder(String orderID){
-        
-        
+
+
     }
-    
+
     //Leong Wen Wei (Test Functions)
     public void testPayment(){
 
@@ -288,7 +288,7 @@ public class TARCatering {
                     System.out.println("\nERROR: Please insert a number from 1 to 6.\n");
                     break;
             }
-            
+
         }
         while (choice < 6);
 
