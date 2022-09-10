@@ -24,12 +24,12 @@ public class TARCatering {
     String[] foodArr3;
     int sizeChoice = 0;
     int packageChoice;
-    
+
     public SortedListInterface<Package> packages = new SortedArrayList<>();
-    
-    
+
+
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy"); //set Date to a more readable format
-    
+
     public static void main(String[] args) {
         TARCatering system = new TARCatering();
 
@@ -63,11 +63,11 @@ public class TARCatering {
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
     }
-    
+
     public int Order(){
-        char size = ' '; 
+        char size = ' ';
         double addPrice = 0;
-        
+
         do{
             System.out.println("Choose the package to order: ");
             for(int i=1;i<=packages.getNumberOfEntries();i++){
@@ -75,7 +75,7 @@ public class TARCatering {
             }
             System.out.println("(4)Exit");
             packageChoice = scan.nextInt();
-            
+
             if(packageChoice <=0 || packageChoice >=5){
                 System.out.println("Invalid Choice. Try Again.");
             }else{
@@ -90,8 +90,8 @@ public class TARCatering {
                 }while(sizeChoice <= 0 || sizeChoice >= 5);
             }
         }while(packageChoice <= 0 || packageChoice >= 5 || sizeChoice == 4);
-        
-        
+
+
         if(sizeChoice == 1){
             size = 'S';
             addPrice = 20.00;
@@ -102,16 +102,16 @@ public class TARCatering {
             size = 'L';
             addPrice = 60.00;
         }
-        
-        
-        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size , 
-            packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
-                   
+
+
+        packages.edit(packageChoice-1, new Package(packages.search(packageChoice-1).getPackageID(), packages.search(packageChoice-1).getDesc(), size ,
+                    packages.search(packageChoice-1).getPrice() + addPrice, packages.search(packageChoice-1).getFood()));
+
         System.out.println(packages.search(packageChoice - 1));
-        
+
         return (packageChoice - 1);
     }
-     
+
     public void EnqueueOrder(int packageChoice){
         QueueInterface<Order> orderList = new LinkedQueue<>();
         Order o = new Order();
@@ -119,11 +119,11 @@ public class TARCatering {
         Customer customer = new Customer("Brian", "hktalonz@gmail.com", "Male", "01112100350", newAddress);
         Payment newPayment = new Payment("P001", packages.search(packageChoice).getPrice(), LocalDate.now() , "BANK IN");
         LocalDate caterDate = LocalDate.of(2022, 10, 13);
-        
+
         orderList.enqueue(new Order("O001",customer, packages.search(packageChoice), newPayment, "Not Done", newAddress, LocalDate.now(), caterDate));
         System.out.println(orderList.getNewNode());
     }
-    
+
     //Leong Wen Wei (Test Functions)
     public void testPayment(){
 
@@ -262,7 +262,7 @@ public class TARCatering {
                     System.out.println("\nERROR: Please insert a number from 1 to 6.\n");
                     break;
             }
-            
+
         }
         while (choice < 6);
 
