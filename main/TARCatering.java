@@ -5,12 +5,16 @@ import java.util.Scanner;
 
 import java.util.Iterator;
 import payment.Payment;
+import staff.Staff;
 import adt.SortedLinkedList; //may need to change to adt package
 import adt.SortedListInterface; //may need to change to adt package
 import order.Order;
 import order.Package;
 import general.Address;
+import general.Person;
 import adt.CircularList;
+import adt.CircularQueue;
+import adt.CircularQueueInterface;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
@@ -18,6 +22,7 @@ import customer.Customer;
 
 enum Flag {
     NO_LOGIN,
+    ABOUT_TO_LOGIN,
     CUSTOMER_LOGIN,
     STAFF_LOGIN,
 }
@@ -45,6 +50,11 @@ class Menu {
             System.out.println("3. Exit");
         }
 
+        if (TARCatering.flag == Flag.ABOUT_TO_LOGIN) {
+            System.out.println("1. Staff");
+            System.out.println("2. Customer");
+        }
+
         if (TARCatering.flag == Flag.CUSTOMER_LOGIN) {
             System.out.println("1. Place order");
             System.out.println("2. Check orders");
@@ -61,7 +71,11 @@ class Menu {
             System.out.println("5. Exit");
         }
     }
+
+    public static void loginMenu() {
+    }
 }
+
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
@@ -70,10 +84,11 @@ public class TARCatering {
 
     // shit needed to run the program
     public static CircularList<Customer> customerList = new CircularList<>();
-    public static Customer loggedInCustomer = null;
+    public static Person loggedInUser = null;
     public static SortedListInterface<Package> packages = new SortedArrayList<>();
     public static QueueInterface<Order> orderList = new LinkedQueue<>();
     public static SortedListInterface<Payment> payList = new SortedLinkedList<>();
+    public static CircularQueueInterface<Staff> staffList = new CircularQueue<>();
 
     public static void main(String[] args) {
         init();
@@ -107,8 +122,12 @@ public class TARCatering {
 
             if (flag == Flag.NO_LOGIN) {
                 noLoginInput();
+            } else if (flag == Flag.ABOUT_TO_LOGIN) {
+                loginInput();
             } else if (flag == Flag.CUSTOMER_LOGIN) {
                 customerInput();
+            } else if (flag == Flag.STAFF_LOGIN) {
+                staffInput();
             }
         }
     }
@@ -124,8 +143,13 @@ public class TARCatering {
         customerList.insert(c2);
         customerList.insert(c3);
 
-        // flag = Flag.CUSTOMER_LOGIN;
-        // loggedInCustomer = c1;
+        // staff init
+        Staff s1 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Male", "012-7746260", "Manager", 420.00);
+        Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Alpha Male", "012-7746260", "Head Chef", 420.00);
+        Staff s3 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Chad", "012-7746260", "Head Server", 420.00);
+        staffList.enqueue(s1);
+        staffList.enqueue(s2);
+        staffList.enqueue(s3);
 
         // order and package init
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
@@ -154,7 +178,7 @@ public class TARCatering {
 
     }
 
-    public static void login() {
+    public static void customerLogin() {
         System.out.print("Enter username: ");
         String name = scan.next();
 
@@ -169,15 +193,32 @@ public class TARCatering {
 
         System.out.println("Successfully logged in");
         System.out.println();
-        loggedInCustomer = found;
+        loggedInUser = found;
         flag = Flag.CUSTOMER_LOGIN;
     }
 
     public static void logout() {
-        loggedInCustomer = null;
+        loggedInUser = null;
         flag = Flag.NO_LOGIN;
         System.out.println("Successfully logged out");
         System.out.println();
+    }
+
+    public static void staffInput() {
+        switch (choice) {
+            case 1: // add package
+                break;
+            case 2: // remove package
+                break;
+            case 3: // edit package
+                break;
+            case 4:
+                logout();
+                break;
+            case 5:
+                System.exit(0);
+                break;
+        }
     }
 
     public static void customerInput() {
@@ -203,7 +244,7 @@ public class TARCatering {
     public static void noLoginInput() {
         switch (choice) {
             case 1:
-                login();
+                flag = Flag.ABOUT_TO_LOGIN;
                 break;
             case 2:
                 createAccount();
@@ -218,7 +259,7 @@ public class TARCatering {
         Iterator<Order> orders = orderList.getIterator();
         while (orders.hasNext()) {
             Order order = orders.next();
-            if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+            if (order.getCustomerID().getUserID().equals(loggedInUser.getUserID())) {
                 System.out.println(order);
             }
         }
@@ -228,7 +269,7 @@ public class TARCatering {
         Iterator<Payment> payments = payList.getIterator();
         while (payments.hasNext()) {
             Payment payment = payments.next();
-            if (payment.getOrder().getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+            if (payment.getOrder().getCustomerID().getUserID().equals(loggedInUser.getUserID())) {
                 System.out.println(payment);
             }
         }
@@ -278,7 +319,7 @@ public class TARCatering {
         }
 
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        Order order = new Order(newID, loggedInCustomer, packages.search(selectedPackage - 1), "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        Order order = new Order(newID, (Customer)loggedInUser, packages.search(selectedPackage - 1), "Not Done", ((Customer)loggedInUser).getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
         System.out.println("Successfully placed order");
     }
@@ -307,5 +348,35 @@ public class TARCatering {
 
         System.out.println();
         System.out.println("Successfully created account");
+    }
+
+    public static void loginInput() {
+        switch (choice) {
+            case 1:
+                staffLogin();
+                break;
+            case 2:
+                customerLogin();
+                break;
+        }
+    }
+
+    public static void staffLogin() {
+        System.out.print("Enter username: ");
+        String name = scan.next();
+
+        System.out.print("Enter email: ");
+        String email = scan.next();
+
+        Staff found = staffList.search(new Staff(name, email));
+        if (found == null) {
+            System.out.println("Incorrect details you donkey");
+            return;
+        }
+
+        System.out.println("Successfully logged in");
+        System.out.println();
+        loggedInUser = found;
+        flag = Flag.STAFF_LOGIN;
     }
 }
