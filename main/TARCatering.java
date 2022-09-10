@@ -65,6 +65,7 @@ class Menu {
 
 public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
+    public static int choice;
     public static Flag flag;
 
     // shit needed to run the program
@@ -78,55 +79,36 @@ public class TARCatering {
         init();
         Menu.mainBanner();
 
+        int wrongInputCounter = 0;
         while (true) {
             Menu.mainMenu();
-            System.out.print("Your choice: ");
-            int choice = scan.nextInt();
+            while (true) {
+                try {
+                    System.out.print("Your choice: ");
+                    choice = Integer.parseInt(scan.next());
+                    break;
+                } catch (Exception e) {
+                    ++wrongInputCounter;
+                    if (wrongInputCounter == 30) {
+                        System.out.println("you are failure, you make my son look like CEO");
+                        System.out.println("now you dont get to use the program");
+                        System.out.println("i raised a doughnut, such a failure");
+                        System.exit(0);
+                    } else if (wrongInputCounter == 20) {
+                        System.out.println("no no seriously, enter a number");
+                        System.out.println();
+                    } else if (wrongInputCounter == 10) {
+                        System.out.println("what are you doing? enter the right input pls");
+                        System.out.println();
+                    }
+                }
+            }
             System.out.println();
 
             if (flag == Flag.NO_LOGIN) {
-                switch (choice) {
-                    case 1:
-                        login();
-                        break;
-                    case 2:
-                        System.out.println("I would put a create account method here but for now no need ba");
-                        break;
-                    case 3:
-                        System.exit(0);
-                        break;
-                }
+                noLoginInput();
             } else if (flag == Flag.CUSTOMER_LOGIN) {
-                switch (choice) {
-                    case 1: // place order
-                        System.out.println("placing order...");
-                        System.out.println("done :)");
-                        break;
-                    case 2: // check orders
-                        Iterator<Order> orders = orderList.getIterator();
-                        while (orders.hasNext()) {
-                            Order order = orders.next();
-                            if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
-                                System.out.println(order);
-                            }
-                        }
-                        break;
-                    case 3: // check payments
-                        Iterator<Payment> payments = payList.getIterator();
-                        while (payments.hasNext()) {
-                            Payment payment = payments.next();
-                            if (payment.getOrder().getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
-                                System.out.println(payment);
-                            }
-                        }
-                        break;
-                    case 4:
-                        logout();
-                        break;
-                    case 5:
-                        System.exit(0);
-                        break;
-                }
+                customerInput();
             }
         }
     }
@@ -141,6 +123,9 @@ public class TARCatering {
         customerList.insert(c1);
         customerList.insert(c2);
         customerList.insert(c3);
+
+        // flag = Flag.CUSTOMER_LOGIN;
+        // loggedInCustomer = c1;
 
         // order and package init
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
@@ -183,6 +168,7 @@ public class TARCatering {
         }
 
         System.out.println("Successfully logged in");
+        System.out.println();
         loggedInCustomer = found;
         flag = Flag.CUSTOMER_LOGIN;
     }
@@ -191,5 +177,135 @@ public class TARCatering {
         loggedInCustomer = null;
         flag = Flag.NO_LOGIN;
         System.out.println("Successfully logged out");
+        System.out.println();
+    }
+
+    public static void customerInput() {
+        switch (choice) {
+            case 1:
+                placeOrder();
+                break;
+            case 2:
+                checkOrders();
+                break;
+            case 3:
+                checkPayments();
+                break;
+            case 4:
+                logout();
+                break;
+            case 5:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static void noLoginInput() {
+        switch (choice) {
+            case 1:
+                login();
+                break;
+            case 2:
+                createAccount();
+                break;
+            case 3:
+                System.exit(0);
+                break;
+        }
+    }
+
+    public static void checkOrders() {
+        Iterator<Order> orders = orderList.getIterator();
+        while (orders.hasNext()) {
+            Order order = orders.next();
+            if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                System.out.println(order);
+            }
+        }
+    }
+
+    public static void checkPayments() {
+        Iterator<Payment> payments = payList.getIterator();
+        while (payments.hasNext()) {
+            Payment payment = payments.next();
+            if (payment.getOrder().getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                System.out.println(payment);
+            }
+        }
+    }
+
+    public static void placeOrder() {
+        System.out.println("Choose the package to order: ");
+
+        int i;
+        for(i = 0; i < packages.getNumberOfEntries(); i++) {
+            System.out.println((i + 1) + ") " + packages.search(i).getDesc());
+        }
+        System.out.println((i + 1) + ") Exit");
+        System.out.print("Your choice: ");
+        int selectedPackage = scan.nextInt();
+        System.out.println();
+
+        System.out.println("Choose package size to serve: ");
+        System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
+        System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
+        System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
+        System.out.println("4. Back");
+        System.out.print("Your choice: ");
+        int sizeChoice = scan.nextInt();
+        System.out.println();
+
+        char size;
+        double addPrice;
+        switch (sizeChoice) {
+            case 1:
+                size = 'S';
+                addPrice = 20.00;
+                break;
+            case 2:
+                size = 'M';
+                addPrice = 40.00;
+                break;
+            case 3:
+                size = 'L';
+                addPrice = 60.00;
+                break;
+            case 4:
+                break;
+            default:
+                System.out.println("Invalid Response! try again.");
+                break;
+        }
+
+        String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
+        Order order = new Order(newID, loggedInCustomer, packages.search(selectedPackage - 1), "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        orderList.enqueue(order);
+        System.out.println("Successfully placed order");
+    }
+
+    public static void createAccount() {
+        System.out.println("Creating account:-");
+        System.out.print("Name: ");
+        String name = scan.next();
+
+        System.out.print("Email: ");
+        String email = scan.next();
+
+        System.out.print("Gender (M/F): ");
+        String gender = scan.next().charAt(0) == 'M' ? "Male" : "Female";
+
+        System.out.print("Phone number (011-xxxxxxx): ");
+        String phoneNum = scan.next();
+
+        // big brain moment
+        System.out.print("Address: ");
+        String addressStr = scan.next();
+        Address address = new Address(name + "'s address", addressStr + scan.nextLine(), "", "");
+
+        Customer customer = new Customer(name, email, gender, phoneNum, address);
+        customerList.insert(customer);
+
+        System.out.println();
+        System.out.println("Successfully created account");
     }
 }

@@ -51,7 +51,7 @@ public class Order {
     public void setPackageID(Package packageID) {
         this.packageID = packageID;
     }
-    
+
     public String getStatus() {
         return status;
     }
@@ -87,7 +87,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "\nOrder: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + 
+        return "\nOrder: \n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() +
             "\nCustomerPhone: " + customerID.getPhoneNum() + "\nPackageID: " + packageID.getPackageID() + "\nStatus:" + status +
             "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + "\nCateringAddressLine2: " + cateringAddress.getAddressLine2() +
             "\nCateringAddressLine3: " + cateringAddress.getAddressLine3() + "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate;
