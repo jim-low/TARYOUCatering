@@ -104,8 +104,8 @@ public class TARCatering {
         customerList.insert(c2);
         customerList.insert(c3);
 
-        flag = Flag.CUSTOMER_LOGIN;
-        loggedInCustomer = c1;
+        // flag = Flag.CUSTOMER_LOGIN;
+        // loggedInCustomer = c1;
 
         // order and package init
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
@@ -160,13 +160,13 @@ public class TARCatering {
 
     public static void customerInput() {
         switch (choice) {
-            case 1: // place order
+            case 1:
                 placeOrder();
                 break;
-            case 2: // check orders
+            case 2:
                 checkOrders();
                 break;
-            case 3: // check payments
+            case 3:
                 checkPayments();
                 break;
             case 4:
@@ -184,7 +184,7 @@ public class TARCatering {
                 login();
                 break;
             case 2:
-                System.out.println("I would put a create account method here but for now no need ba");
+                createAccount();
                 break;
             case 3:
                 System.exit(0);
@@ -259,5 +259,31 @@ public class TARCatering {
         Order order = new Order(newID, loggedInCustomer, packages.search(selectedPackage - 1), "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
         System.out.println("Successfully placed order");
+    }
+
+    public static void createAccount() {
+        System.out.println("Creating account:-");
+        System.out.print("Name: ");
+        String name = scan.next();
+
+        System.out.print("Email: ");
+        String email = scan.next();
+
+        System.out.print("Gender (M/F): ");
+        String gender = scan.next().charAt(0) == 'M' ? "Male" : "Female";
+
+        System.out.print("Phone number (011-xxxxxxx): ");
+        String phoneNum = scan.next();
+
+        // big brain moment
+        System.out.print("Address: ");
+        String addressStr = scan.next();
+        Address address = new Address(name + "'s address", addressStr + scan.nextLine(), "", "");
+
+        Customer customer = new Customer(name, email, gender, phoneNum, address);
+        customerList.insert(customer);
+
+        System.out.println();
+        System.out.println("Successfully created account");
     }
 }

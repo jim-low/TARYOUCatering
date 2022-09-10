@@ -106,4 +106,9 @@ public class Customer extends Person implements Comparable<Customer> {
         }
         return -1;
     }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }

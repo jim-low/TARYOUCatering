@@ -91,11 +91,10 @@ public class CircularList<T extends Comparable<T>> implements CircularListInterf
         Node<T> curr = this.head;
 
         for (int i = 0; i < this.size; ++i) {
-            System.out.println("searching");
             if (curr.getData().compareTo(data) == 0) {
                 return curr.getData();
             }
-            curr.setNext(curr.getNext());
+            curr = (curr.getNext());
         }
 
         return null;
