@@ -79,10 +79,30 @@ public class TARCatering {
         init();
         Menu.mainBanner();
 
+        int wrongInputCounter = 0;
         while (true) {
             Menu.mainMenu();
-            System.out.print("Your choice: ");
-            choice = scan.nextInt();
+            while (true) {
+                try {
+                    System.out.print("Your choice: ");
+                    choice = Integer.parseInt(scan.next());
+                    break;
+                } catch (Exception e) {
+                    ++wrongInputCounter;
+                    if (wrongInputCounter == 30) {
+                        System.out.println("you are failure, you make my son look like CEO");
+                        System.out.println("now you dont get to use the program");
+                        System.out.println("i raised a doughnut, such a failure");
+                        System.exit(0);
+                    } else if (wrongInputCounter == 20) {
+                        System.out.println("no no seriously, enter a number");
+                        System.out.println();
+                    } else if (wrongInputCounter == 10) {
+                        System.out.println("what are you doing? enter the right input pls");
+                        System.out.println();
+                    }
+                }
+            }
             System.out.println();
 
             if (flag == Flag.NO_LOGIN) {
