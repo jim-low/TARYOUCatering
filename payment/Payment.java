@@ -13,7 +13,9 @@ public class Payment implements Comparable<Payment>{
     Order order;
     //CircularLinkedList<Order> totalPayments; //assume this is an array.
 
-    
+    public Payment(String paymentID, double paymentAmt, LocalDate paymentDate, String paymentMethod) {
+        this(paymentID, paymentAmt, paymentDate, paymentMethod, null);
+    }
 
     public Payment(String paymentID, double paymentAmt, LocalDate paymentDate, String paymentMethod, Order order) {
         this.paymentID = paymentID;
@@ -54,7 +56,7 @@ public class Payment implements Comparable<Payment>{
     public String getPaymentMethod() {
         return paymentMethod;
     }
-    
+
     public void setOrder(Order order) {
         this.order = order;
     }
@@ -83,12 +85,12 @@ public class Payment implements Comparable<Payment>{
     }
 
     @Override
-    public int compareTo(Payment p) { 
+    public int compareTo(Payment p) {
         //if comparing using id
         //String[] numToCompare = p.paymentID.split("[a-zA-Z]+");
         //String[] currentNum = this.paymentID.split("[a-zA-Z]+");
         //return Integer.parseInt(currentNum[1]) - Integer.parseInt(numToCompare[1]);
-        
+
         //compare using cater dates
         LocalDate dateToCompare = p.order.getCaterDate();
         LocalDate currentPDate = this.order.getCaterDate();
