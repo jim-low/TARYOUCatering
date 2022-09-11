@@ -2,8 +2,11 @@ package main;
 
 import java.io.IOException;
 import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import adt.CircularList;
 import adt.CircularQueue;
@@ -36,6 +39,7 @@ class Menu {
             new ProcessBuilder("clear").inheritIO().start().waitFor();
         }
 
+        System.out.println(LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM uuuu")) + "\t\t\t\t\t\t\t\t\t" + LocalTime.now().format(DateTimeFormatter.ofPattern("H:mm")));
         System.out.println("             _       __     __                             __");
         System.out.println("            | |     / /__  / /________  ____ ___  ___     / /_____");
         System.out.println("            | | /| / / _ \\/ / ___/ __ \\/ __ `__ \\/ _ \\   / __/ __ \\");
@@ -217,7 +221,7 @@ public class TARCatering {
         }
     }
 
-    public static void loginInput() {
+    public static void loginInput() throws InterruptedException {
         switch (choice) {
             case 1:
                 staffLogin();
@@ -364,7 +368,7 @@ public class TARCatering {
         System.out.println("Successfully created account");
     }
 
-    public static void customerLogin() {
+    public static void customerLogin() throws InterruptedException {
         System.out.print("Enter username: ");
         String name = scan.next();
 
@@ -382,9 +386,10 @@ public class TARCatering {
         loggedInUser = found;
         flag = Flag.CUSTOMER_LOGIN;
         resetDisplay = true;
+        TimeUnit.SECONDS.sleep(1);
     }
 
-    public static void staffLogin() {
+    public static void staffLogin() throws InterruptedException {
         System.out.print("Enter username: ");
         String name = scan.next();
 
@@ -402,6 +407,7 @@ public class TARCatering {
         loggedInUser = found;
         flag = Flag.STAFF_LOGIN;
         resetDisplay = true;
+        TimeUnit.SECONDS.sleep(1);
     }
 
     public static void logout() {
