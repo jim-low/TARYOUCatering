@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import adt.CircularList;
+import adt.CircularListInterface;
 import adt.CircularQueue;
 import adt.CircularQueueInterface;
 import adt.LinkedQueue;
@@ -114,7 +115,7 @@ public class TARCatering {
     public static SortedListInterface<Package> packages = new SortedArrayList<>();
     public static QueueInterface<Order> orderList = new LinkedQueue<>();
     public static SortedListInterface<Payment> payList = new SortedLinkedList<>();
-    public static CircularQueueInterface<Staff> staffList = new CircularQueue<>();
+    public static CircularListInterface<Staff> staffList = new CircularList<>();
 
     public static void main(String[] args) throws IOException, InterruptedException {
         init();
@@ -176,9 +177,9 @@ public class TARCatering {
         Staff s1 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Male", "012-7746260", "Manager", 420.00);
         Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Alpha Male", "012-7746260", "Head Chef", 420.00);
         Staff s3 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Chad", "012-7746260", "Head Server", 420.00);
-        staffList.enqueue(s1);
-        staffList.enqueue(s2);
-        staffList.enqueue(s3);
+        staffList.insert(s1);
+        staffList.insert(s2);
+        staffList.insert(s3);
 
         // order and package init
         String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
