@@ -63,7 +63,8 @@ public class Package implements Comparable<Package>{
 
     @Override
     public String toString() {
-        String showString = "packageID=" + packageID + ", desc=" + desc + ", packageSize=" + packageSize + ", price=" + price + ", food= ";
+        String showString = "PackageID: " + packageID + "\nPackage Description: " + desc +
+            "\nPackage Size: " + packageSize + "\nPackage Price: " + price + "\nFood: ";
 
         for(int i = 0; i< food.length;i++){
             if(i != food.length-1){
@@ -72,16 +73,17 @@ public class Package implements Comparable<Package>{
                 showString += food[i];
             }
         }
-
-
         return showString;
     }
 
     @Override
     public int compareTo(Package p) {
-        int id = Integer.parseInt(this.packageID.replaceAll("[a-zA-Z]", ""));
-        int pID = Integer.parseInt(p.packageID.replaceAll("[a-zA-Z]", ""));
+        int firstID = Integer.parseInt(this.getPackageID().substring(2));
+        int secondID = Integer.parseInt(p.getPackageID().substring(2));
 
-        return(id- pID);
+        if (firstID == secondID) {
+            return 0;
+        }
+        return -1;
     }
 }

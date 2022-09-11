@@ -94,10 +94,11 @@ class Menu {
         if (TARCatering.flag == Flag.STAFF_LOGIN) {
             System.out.println("1. Add Package");
             System.out.println("2. Remove Package");
-            System.out.println("3. Edit Package");
+            System.out.println("3. Edit Customer Order Status");
             System.out.println("4. Check Schedule");
-            System.out.println("5. Logout");
-            System.out.println("6. Exit");
+            System.out.println("5. Check Payments");
+            System.out.println("6. Logout");
+            System.out.println("7. Exit");
         }
     }
 }
@@ -248,19 +249,21 @@ public class TARCatering {
         packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
         packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
 
-        LocalDate caterDate = LocalDate.of(2022,10,22);;
+        LocalDate caterDate1 = LocalDate.of(2022,10,22);
+        LocalDate caterDate2 = LocalDate.of(2022,11,22);
+        LocalDate caterDate3 = LocalDate.of(2022,12,22);
 
-        Order o1 = new Order("O001", c1, new Package("PK001", "Vegetarian Friendly", 'S', 40.00, foodArr1), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
-        Order o2 = new Order("O002", c2, new Package("PK002", "No Babi", 'M', 60.00, foodArr2), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
-        Order o3 = new Order("O003", c3, new Package("PK003", "Standard food normal people eat, babi bankyak", 'L', 80.00, foodArr3), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o1 = new Order("O001", c1, new Package("PK001", "Vegetarian Friendly", 'S', 40.00, foodArr1), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate1);
+        Order o2 = new Order("O002", c2, new Package("PK002", "No Babi", 'M', 60.00, foodArr2), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate2);
+        Order o3 = new Order("O003", c3, new Package("PK003", "Standard food normal people eat, babi bankyak", 'L', 80.00, foodArr3), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate3);
         orderList.enqueue(o1);
         orderList.enqueue(o2);
         orderList.enqueue(o3);
 
         // payment init
-        Payment p1 = new Payment("P0001", 420.69, LocalDate.of(2022, 9, 11), "VISA", o1);
-        Payment p2 = new Payment("P0002", 420.69, LocalDate.of(2022, 9, 11), "NASA", o2);
-        Payment p3 = new Payment("P0003", 420.69, LocalDate.of(2022, 9, 11), "SASA", o3);
+        Payment p1 = new Payment(420.69, LocalDate.of(2022, 9, 11), "VISA", o1);
+        Payment p2 = new Payment(420.69, LocalDate.of(2022, 9, 11), "NASA", o2);
+        Payment p3 = new Payment(420.69, LocalDate.of(2022, 9, 11), "SASA", o3);
         payList.add(p1);
         payList.add(p2);
         payList.add(p3);
@@ -317,17 +320,24 @@ public class TARCatering {
     public static void staffInput() {
         switch (choice) {
             case 1: // add package
+                addPackage();
                 break;
             case 2: // remove package
+                removePackage();
                 break;
-            case 3: // edit package
+            case 3: // edit order
+                editOrder();
                 break;
             case 4: // check schedule
                 checkSchedule();
+                break;
             case 5:
-                logout();
+                checkAllPayments();
                 break;
             case 6:
+                logout();
+                break;
+            case 7:
                 System.exit(0);
                 break;
         }
@@ -339,6 +349,7 @@ public class TARCatering {
             return;
         }
 
+        System.out.println("Days that you have to suffer:-");
         ((Staff)loggedInUser).getSchedule().display();
         System.out.println();
     }
@@ -360,6 +371,13 @@ public class TARCatering {
             if (payment.getOrder().getCustomerID().getUserID().equals(loggedInUser.getUserID())) {
                 System.out.println(payment);
             }
+        }
+    }
+
+    public static void checkAllPayments() {
+        Iterator<Payment> payments = payList.getIterator();
+        while (payments.hasNext()) {
+            System.out.println(payments.next());
         }
     }
 
@@ -404,15 +422,20 @@ public class TARCatering {
                 break;
         }
 
-        selectedPackage -=1;
+        selectedPackage -= 1;
 
         Package newPackage = new Package(packages.search(selectedPackage).getPackageID(), packages.search(selectedPackage).getDesc(), size ,
             packages.search(selectedPackage).getPrice() + addPrice, packages.search(selectedPackage).getFood());
 
         Customer currentCustomer = customerList.search((Customer)loggedInUser);
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        Order order = new Order(newID, currentCustomer, newPackage, "Not Done", currentCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        Order order = new Order(newID, currentCustomer, newPackage, "In Progress", currentCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
+
+        Payment payment = new Payment(newPackage.getPrice(), LocalDate.now(), "VISA", order);
+        payList.add(payment);
+        payList.display();
+
         System.out.println("Successfully placed order");
         System.out.println();
     }
@@ -429,15 +452,14 @@ public class TARCatering {
         do{
             while (orders.hasNext()) {
                 Order order = orders.next();
-                if (order.getCustomerID().getUserID().equals(loggedInUser.getUserID())) {
-                    //newOrder[totalChoices] = order;
-                    System.out.println(order);
-                    totalChoices++;
-                }
+                //newOrder[totalChoices] = order;
+                System.out.println(order);
+                totalChoices++;
             }
 
-            System.out.print("\nSelect a orderID number to edit(e.g->1,2,3): ");
+            System.out.print("Select orderID to edit (e.g: 1, 2, 3): ");
             editChoice = scan.nextInt();
+            System.out.println();
             orderToBeEdit = String.format("O%03d", editChoice);
             Order searchedOrder = new Order();
             orders = orderList.getIterator();
@@ -448,17 +470,12 @@ public class TARCatering {
                     System.out.println(searchedOrder);
                 }
             }
-            //array method
-            //            for(int i = 0; i< totalChoices;i++){
-            //                if(newOrder[i].getOrderID().equals(orderToBeEdit)){
-            //                    searchedOrder = orderList.search(newOrder[i]);
-            //                }
-            //            }
 
-            do{
-                System.out.println("Enter new Status: ");
+            do {
+                System.out.println("Enter new status: ");
                 System.out.println("1. Done");
                 System.out.println("2. Cancelled");
+                System.out.print("Your choice: ");
                 statusChoice = scan.nextInt();
 
                 switch(statusChoice){
@@ -472,16 +489,16 @@ public class TARCatering {
                         System.out.println("Invalid Input. Try Again!");
                         break;
                 }
-            }while(statusChoice < 1 || statusChoice > 2);
+            } while(statusChoice < 1 || statusChoice > 2);
 
             orderList.editNode(searchedOrder, new Order(searchedOrder.getOrderID(),searchedOrder.getCustomerID(), searchedOrder.getPackageID(),
                     newStatus, searchedOrder.getCateringAddress(), searchedOrder.getOrderDate(), searchedOrder.getCaterDate()));
             System.out.println("Order has been updated!\n");
 
-            if(editChoice > totalChoices || editChoice < 1){
+            if (editChoice > totalChoices || editChoice < 1) {
                 System.out.println("Invalid input. Try Again!");
             }
-        }while(editChoice < 1 || editChoice > totalChoices);
+        } while(editChoice < 1 || editChoice > totalChoices);
 
         //orderList.editNode(editChoice , new Order());
 
@@ -489,7 +506,7 @@ public class TARCatering {
 
     public static void addPackage(){
         System.out.print("Enter the new package description: ");
-        String tempDesc = scan.next();
+        String tempDesc = scan.next() + scan.nextLine();
 
         System.out.print("Enter the new package price: ");
         double tempPrice = scan.nextDouble();
@@ -498,14 +515,14 @@ public class TARCatering {
         boolean exit = false;
         int foodNum = 1;
         String[] newFoodArr = new String[10];
-        System.out.println("Enter the new package food one by one up to ten only(enter done to exit): ");
-        while(exit == false){
+        System.out.println("Enter the new package food one by one up to ten only (enter \"done\" to exit): ");
+        while(exit == false && foodNum < 11){
             System.out.print(foodNum + ". ");
-            tempFood = scan.next();
+            tempFood = scan.next() + scan.nextLine();
             if(tempFood.equals("done")){
                 exit = true;
             }else{
-                newFoodArr[foodNum] = tempFood;
+                newFoodArr[foodNum - 1] = tempFood;
                 foodNum++;
             }
         }
@@ -514,6 +531,20 @@ public class TARCatering {
         packages.add(new Package(newID, tempDesc, ' ', tempPrice, newFoodArr));
 
         System.out.println("Package is added!\n");
+    }
+
+    public static void removePackage() {
+        packages.display();
+
+        System.out.print("Enter package ID: ");
+        String packageID = scan.next();
+
+        if (!packages.remove(new Package(packageID))) {
+            System.out.println("Failed to remove package.");
+        } else {
+            System.out.println("Successfully removed package.");
+        }
+        System.out.println();
     }
 
     public static void createAccount() {
