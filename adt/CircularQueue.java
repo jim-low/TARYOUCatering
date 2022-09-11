@@ -1,15 +1,12 @@
 package adt;
 
-
 import general.Node;
 import java.util.Iterator;
-
-
 
 /**
  * CircularQueue
  */
-public class CircularQueue<T extends Comparable<T>> implements CircularQueueInterface<T> {
+public class CircularQueue<T> implements CircularQueueInterface<T> {
     private Node<T> lastNode;
 
     public CircularQueue(){
@@ -18,9 +15,9 @@ public class CircularQueue<T extends Comparable<T>> implements CircularQueueInte
 
     public void enqueue (T newEntry){
         Node<T> newNode = new Node<T> (newEntry);
-        if(isEmpty()){
+        if (isEmpty()) {
             newNode.setNext(newNode);
-        }else{
+        } else {
             //            newNode.next = lastNode.next;
             newNode.setNext(lastNode.getNext());
             //            lastNode.next = newNode;
@@ -62,39 +59,22 @@ public class CircularQueue<T extends Comparable<T>> implements CircularQueueInte
         }
         lastNode = null;
     }
-    
+
     public Iterator<T> getIterator(){
         return new CircularQueueIterator();
     }
 
-    @Override
-    public T search(T data) {
-        if(lastNode == null){
-            return null;
-        }
-        
-        Node<T> curr = lastNode.getNext();
-        
-        while(curr != lastNode){
-            if(curr.getData().compareTo(data) == 0){
-                return curr.getData();
-            }
-            curr = (curr.getNext());
-        }
-        return null;
-    }
-
     private class CircularQueueIterator implements Iterator<T>{
         private Node<T> currentNode;
-        
+
         public CircularQueueIterator() {
             currentNode = lastNode.getNext();
         }
-        
+
         public boolean hasNext(){
             return currentNode!= null;
         }
-        
+
         @Override
         public T next(){
             T currentData = null;
@@ -107,4 +87,10 @@ public class CircularQueue<T extends Comparable<T>> implements CircularQueueInte
             }
         }
     }
+
+	@Override
+	public void display() {
+        // TODO: let Jasper do :)
+
+	}
 }

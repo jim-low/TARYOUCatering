@@ -10,6 +10,7 @@ import main.TARCatering;
 public class Staff extends Person implements Comparable<Staff>{
     private String position;
     private double salary;
+    private CircularQueue<Schedule> schedules;
 
     public Staff(String name, String email){
         this(name, email, "", "", "", 0.0);

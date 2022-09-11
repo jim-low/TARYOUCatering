@@ -9,5 +9,5 @@ public interface CircularQueueInterface<T> {
     public boolean isEmpty();
     public void clear();
     public Iterator<T> getIterator();
-    public T search(T data);
+    public void display();
 }
