@@ -43,6 +43,14 @@ public class Staff extends Person implements Comparable<Staff>{
         this.salary = salary;
     }
 
+    public CircularQueue<Schedule> getSchedule() {
+        return schedules;
+    }
+
+    public void setSchedule(CircularQueue<Schedule> schedules) {
+        this.schedules = schedules;
+    }
+
     //Function for create new staff
     public static Staff createStaff(){
         System.out.println("Creating new staff account:-");
