@@ -53,6 +53,7 @@ class Menu {
         if (TARCatering.flag == Flag.ABOUT_TO_LOGIN) {
             System.out.println("1. Staff");
             System.out.println("2. Customer");
+            System.out.println("3. Back");
         }
 
         if (TARCatering.flag == Flag.CUSTOMER_LOGIN) {
@@ -107,7 +108,7 @@ public class TARCatering {
                     if (wrongInputCounter == 30) {
                         System.out.println("you are failure, you make my son look like CEO");
                         System.out.println("now you dont get to use the program");
-                        System.out.println("i raised a doughnut, such a failure");
+                        System.out.println("i swam all the way from China just to raise a doughnut");
                         System.exit(0);
                     } else if (wrongInputCounter == 20) {
                         System.out.println("no no seriously, enter a number");
@@ -322,6 +323,7 @@ public class TARCatering {
         Order order = new Order(newID, (Customer)loggedInUser, packages.search(selectedPackage - 1), "Not Done", ((Customer)loggedInUser).getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
         System.out.println("Successfully placed order");
+        System.out.println();
     }
 
     public static void createAccount() {
@@ -358,6 +360,8 @@ public class TARCatering {
             case 2:
                 customerLogin();
                 break;
+            case 3:
+                flag = Flag.NO_LOGIN;
         }
     }
 
