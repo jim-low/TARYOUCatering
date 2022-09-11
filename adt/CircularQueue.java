@@ -94,11 +94,11 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
             return;
         }
 
-        Node<T> currNode = lastNode.getNext();
+        Node<T> currNode = lastNode;
 
-        while (currNode != lastNode) {
+        do {
             System.out.println(currNode.getData());
             currNode = currNode.getNext();
-        }
+        } while (currNode != lastNode);
 	}
 }

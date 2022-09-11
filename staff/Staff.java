@@ -21,6 +21,7 @@ public class Staff extends Person implements Comparable<Staff>{
         super(name, email, gender, phoneNum);
         this.position = position;
         this.salary = salary;
+        this.schedules = new CircularQueue<>();
     }
 
     //Getter for position
