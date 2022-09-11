@@ -17,14 +17,17 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
     public void enqueue(T newEntry) {
         Node<T> newNode = new Node<T>(newEntry);
-
-        if (isEmpty()) {
-            firstNode = newNode;
-        } else {
-            lastNode.setNext(newNode);
+        if(newNode != null){
+            
+            if (isEmpty()) {
+                firstNode = newNode;
+            } else {
+                lastNode.setNext(newNode);
+            }
+            numberOfEntries++;
+            lastNode = newNode;
         }
-        numberOfEntries++;
-        lastNode = newNode;
+        
     }
 
     public T getNewNode(){
@@ -49,29 +52,6 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return front;
     }
     
-    public T nextNode(){
-        T node =null;
-        Node<T> currentNode = firstNode;
-
-        while(currentNode !=null){
-            node = currentNode.getData();
-            currentNode = currentNode.getNext();
-
-        }
-
-        return node;
-    }
-    
-    public void listAllNode(){
-        T node;
-        Node<T> currentNode = firstNode;
-        for(int i = 0; i < numberOfEntries; i++){
-            node = currentNode.getData();
-            currentNode = currentNode.getNext();
-            System.out.println("\n"+ (i+1) + ". " + node);
-        }
-        
-    }
     
     public int totalEntries(){
         
@@ -111,10 +91,6 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return (firstNode == null) && (lastNode == null);
     }
 
-    public void clear() {
-        firstNode = null;
-        lastNode = null;
-    }
 
     public Iterator<T> getIterator() {
         return new LinkedQueueIterator();

@@ -18,11 +18,6 @@ public interface QueueInterface<T> {
   
     public boolean isEmpty();
 
-    public void clear();
-    
-    public T nextNode();
-    
-    public void listAllNode();
     
     public void editNode(T order, T replaceEntry);
 

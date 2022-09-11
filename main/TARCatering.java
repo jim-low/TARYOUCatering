@@ -345,6 +345,7 @@ public class TARCatering {
             
             orderList.editNode(searchedOrder, new Order(searchedOrder.getOrderID(),searchedOrder.getCustomerID(), searchedOrder.getPackageID(), 
                     newStatus, searchedOrder.getCateringAddress(), searchedOrder.getOrderDate(), searchedOrder.getCaterDate()));
+            System.out.println("Order has been updated!\n");
             
             if(editChoice > totalChoices || editChoice < 1){
                 System.out.println("Invalid input. Try Again!");
@@ -380,6 +381,8 @@ public class TARCatering {
         
         String newID = String.format("PK%03d", Integer.parseInt(packages.getLast().getPackageID().replaceAll("([A-Z])", "")) + 1);
         packages.add(new Package(newID, tempDesc, ' ', tempPrice, newFoodArr));
+        
+        System.out.println("Package is added!\n");
     }
     
     public static void createAccount() {
