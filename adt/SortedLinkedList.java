@@ -184,4 +184,13 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
     public boolean isEmpty(){
         return (numberOfEntries == 0);
     }
+
+	@Override
+	public void display() {
+        Node<T> currNode = firstNode;
+        while (currNode != null) {
+            System.out.println(currNode.getData());
+            currNode = currNode.getNext();
+        }
+	}
 }

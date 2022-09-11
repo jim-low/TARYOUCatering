@@ -21,7 +21,7 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     public boolean add(T newEntry) {
         int i = 0;
         if(newEntry!=null){
-            while (i < numberOfEntries && newEntry.compareTo(array[i]) > 0) {
+            while (i < numberOfEntries && newEntry.compareTo(array[i]) < 0) {
                 i++;
             }
             makeRoom(i + 1);
@@ -72,18 +72,17 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
         //check if empty
         if (numberOfEntries == 0) {
             return false;
-        } else {
-            //get the right index number
-            int index = 0;
-            while(index < numberOfEntries && array[index].compareTo(anEntry) < 0){
-                index++;
-            }
-            //target found, go remove
-            if(array[index].equals(anEntry)){
+        }
+
+        //get the right index number
+        int index = 0;
+        while (index < numberOfEntries) {
+            if (array[index].compareTo(anEntry) == 0) {
                 removeGap(index + 1);
                 numberOfEntries--;
                 return true;
             }
+            index++;
         }
         return false;
     }
@@ -157,5 +156,11 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
         }
     }
 
-
+	@Override
+	public void display() {
+        for (int i = 0; i < numberOfEntries; ++i) {
+            System.out.println(array[i]);
+            System.out.println();
+        }
+	}
 }
