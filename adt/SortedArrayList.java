@@ -20,13 +20,16 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
 
   public boolean add(T newEntry) {
     int i = 0;
-    while (i < numberOfEntries && newEntry.compareTo(array[i]) > 0) {
-      i++;
+    if(newEntry!=null){
+        while (i < numberOfEntries && newEntry.compareTo(array[i]) > 0) {
+          i++;
+        }
+        makeRoom(i + 1);
+        array[i] = newEntry;
+        numberOfEntries++;
+        return true;
     }
-    makeRoom(i + 1);
-    array[i] = newEntry;
-    numberOfEntries++;
-    return true;
+    return false;
   }
   
   public T search(int newIndex){
@@ -42,13 +45,25 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
       return entry;
   }
   
+  public T getLast() {
+      T entry = null;
+      if(!isEmpty()){
+        entry = array[numberOfEntries-1];
+      }
+      return entry;
+  }
+  
+  //ignore
   public boolean edit(int selectedIndex, T replaceEntry){
       T entry = null;
       if(!isEmpty()){
+          if(selectedIndex <= numberOfEntries){
+          
           entry = search(selectedIndex);
           array[selectedIndex] = replaceEntry;
           
           return true;
+        }
       }
       return false;
   }
@@ -90,7 +105,7 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     }
     return found;
   }
-
+  
   public int getNumberOfEntries() {
     return numberOfEntries;
   }
@@ -142,8 +157,5 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     }
   }
   
-  public T getLast() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
 
 }
