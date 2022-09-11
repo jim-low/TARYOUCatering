@@ -1,24 +1,25 @@
 package main;
 
+import java.io.IOException;
 import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
+import java.util.Iterator;
 import java.util.Scanner;
 
-import java.util.Iterator;
-import payment.Payment;
-import staff.Staff;
-import adt.SortedLinkedList; //may need to change to adt package
-import adt.SortedListInterface; //may need to change to adt package
-import order.Order;
-import order.Package;
-import general.Address;
-import general.Person;
 import adt.CircularList;
 import adt.CircularQueue;
 import adt.CircularQueueInterface;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
+import adt.SortedLinkedList; //may need to change to adt package
+import adt.SortedListInterface; //may need to change to adt package
 import customer.Customer;
+import general.Address;
+import general.Person;
+import order.Order;
+import order.Package;
+import payment.Payment;
+import staff.Staff;
 
 enum Flag {
     NO_LOGIN,
@@ -28,7 +29,13 @@ enum Flag {
 }
 
 class Menu {
-    public static void mainBanner() {
+    public static void mainBanner(Person user) throws IOException, InterruptedException {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            new ProcessBuilder("clear").inheritIO().start().waitFor();
+        }
+
         System.out.println("             _       __     __                             __");
         System.out.println("            | |     / /__  / /________  ____ ___  ___     / /_____");
         System.out.println("            | | /| / / _ \\/ / ___/ __ \\/ __ `__ \\/ _ \\   / __/ __ \\");
@@ -41,6 +48,22 @@ class Menu {
         System.out.println("   / / / ___ |/ _, _/ / / /_/ / /_/ / /___/ /_/ / /_/  __/ /  / / / / / /_/ /");
         System.out.println("  /_/ /_/  |_/_/ |_| /_/\\____/\\____/\\____/\\__,_/\\__/\\___/_/  /_/_/ /_/\\__, /");
         System.out.println("                                                                     /____/");
+
+        if (user != null) {
+            if (user instanceof Customer) {
+                System.out.println("Name: " + user.getName());
+                System.out.println("Email: " + user.getEmail());
+            }
+
+            if (user instanceof Staff) {
+                System.out.println("Staff name: " + user.getName());
+                System.out.println("Position: " + ((Staff)user).getPosition());
+            }
+
+            System.out.println();
+        }
+
+        TARCatering.resetDisplay = false;
     }
 
     public static void mainMenu() {
@@ -72,9 +95,6 @@ class Menu {
             System.out.println("5. Exit");
         }
     }
-
-    public static void loginMenu() {
-    }
 }
 
 
@@ -82,6 +102,7 @@ public class TARCatering {
     public static Scanner scan = new Scanner(System.in);
     public static int choice;
     public static Flag flag;
+    public static boolean resetDisplay = true;
 
     // shit needed to run the program
     public static CircularList<Customer> customerList = new CircularList<>();
@@ -91,12 +112,15 @@ public class TARCatering {
     public static SortedListInterface<Payment> payList = new SortedLinkedList<>();
     public static CircularQueueInterface<Staff> staffList = new CircularQueue<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         init();
-        Menu.mainBanner();
 
         int wrongInputCounter = 0;
         while (true) {
+            if (resetDisplay) {
+                Menu.mainBanner(loggedInUser);
+            }
+
             Menu.mainMenu();
             while (true) {
                 try {
@@ -179,46 +203,30 @@ public class TARCatering {
 
     }
 
-    public static void customerLogin() {
-        System.out.print("Enter username: ");
-        String name = scan.next();
-
-        System.out.print("Enter email: ");
-        String email = scan.next();
-
-        Customer found = customerList.search(new Customer(name, email));
-        if (found == null) {
-            System.out.println("Incorrect details you donkey");
-            return;
-        }
-
-        System.out.println("Successfully logged in");
-        System.out.println();
-        loggedInUser = found;
-        flag = Flag.CUSTOMER_LOGIN;
-    }
-
-    public static void logout() {
-        loggedInUser = null;
-        flag = Flag.NO_LOGIN;
-        System.out.println("Successfully logged out");
-        System.out.println();
-    }
-
-    public static void staffInput() {
+    public static void noLoginInput() {
         switch (choice) {
-            case 1: // add package
+            case 1:
+                flag = Flag.ABOUT_TO_LOGIN;
                 break;
-            case 2: // remove package
+            case 2:
+                createAccount();
                 break;
-            case 3: // edit package
-                break;
-            case 4:
-                logout();
-                break;
-            case 5:
+            case 3:
                 System.exit(0);
                 break;
+        }
+    }
+
+    public static void loginInput() {
+        switch (choice) {
+            case 1:
+                staffLogin();
+                break;
+            case 2:
+                customerLogin();
+                break;
+            case 3:
+                flag = Flag.NO_LOGIN;
         }
     }
 
@@ -242,15 +250,18 @@ public class TARCatering {
         }
     }
 
-    public static void noLoginInput() {
+    public static void staffInput() {
         switch (choice) {
-            case 1:
-                flag = Flag.ABOUT_TO_LOGIN;
+            case 1: // add package
                 break;
-            case 2:
-                createAccount();
+            case 2: // remove package
                 break;
-            case 3:
+            case 3: // edit package
+                break;
+            case 4:
+                logout();
+                break;
+            case 5:
                 System.exit(0);
                 break;
         }
@@ -319,8 +330,9 @@ public class TARCatering {
                 break;
         }
 
+        Customer currentCustomer = customerList.search((Customer)loggedInUser);
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        Order order = new Order(newID, (Customer)loggedInUser, packages.search(selectedPackage - 1), "Not Done", ((Customer)loggedInUser).getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        Order order = new Order(newID, currentCustomer, packages.search(selectedPackage - 1), "Not Done", currentCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
         System.out.println("Successfully placed order");
         System.out.println();
@@ -352,17 +364,24 @@ public class TARCatering {
         System.out.println("Successfully created account");
     }
 
-    public static void loginInput() {
-        switch (choice) {
-            case 1:
-                staffLogin();
-                break;
-            case 2:
-                customerLogin();
-                break;
-            case 3:
-                flag = Flag.NO_LOGIN;
+    public static void customerLogin() {
+        System.out.print("Enter username: ");
+        String name = scan.next();
+
+        System.out.print("Enter email: ");
+        String email = scan.next();
+
+        Customer found = customerList.search(new Customer(name, email));
+        if (found == null) {
+            System.out.println("Incorrect details you donkey");
+            return;
         }
+
+        System.out.println("Successfully logged in");
+        System.out.println();
+        loggedInUser = found;
+        flag = Flag.CUSTOMER_LOGIN;
+        resetDisplay = true;
     }
 
     public static void staffLogin() {
@@ -382,5 +401,13 @@ public class TARCatering {
         System.out.println();
         loggedInUser = found;
         flag = Flag.STAFF_LOGIN;
+        resetDisplay = true;
+    }
+
+    public static void logout() {
+        loggedInUser = null;
+        flag = Flag.NO_LOGIN;
+        System.out.println("Successfully logged out");
+        System.out.println();
     }
 }
