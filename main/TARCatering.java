@@ -110,7 +110,6 @@ public class TARCatering {
     public static Flag flag;
     public static boolean resetDisplay = true;
 
-    // shit needed to run the program
     public static CircularList<Customer> customerList = new CircularList<>();
     public static Person loggedInUser = null;
     public static SortedListInterface<Package> packages = new SortedArrayList<>();
@@ -136,9 +135,7 @@ public class TARCatering {
                 } catch (Exception e) {
                     ++wrongInputCounter;
                     if (wrongInputCounter == 30) {
-                        System.out.println("you are failure, you make my son look like CEO");
                         System.out.println("now you dont get to use the program");
-                        System.out.println("i swam all the way from China just to raise a doughnut");
                         System.exit(0);
                     } else if (wrongInputCounter == 20) {
                         System.out.println("no no seriously, enter a number");
@@ -168,7 +165,7 @@ public class TARCatering {
 
         // customer init
         Customer c1 = new Customer("Jim", "jimllh-wm20@student.tarc.edu.my", "Male", "012-7746260", new Address("Jim's address", "", "", ""));
-        Customer c2 = new Customer("Gym", "jimllh-wm20@student.tarc.edu.my", "Alpha Male", "012-7746260", new Address("Jim's address", "", "", ""));
+        Customer c2 = new Customer("Gym", "jimllh-wm20@student.tarc.edu.my", "Female", "012-7746260", new Address("Jim's address", "", "", ""));
         Customer c3 = new Customer("Jym", "jimllh-wm20@student.tarc.edu.my", "Chad", "012-7746260", new Address("Jim's address", "", "", ""));
         customerList.insert(c1);
         customerList.insert(c2);
@@ -176,7 +173,7 @@ public class TARCatering {
 
         // staff init
         Staff s1 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Male", "012-7746260", "Manager", 420.00);
-        Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Alpha Male", "012-7746260", "Head Chef", 420.00);
+        Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Female", "012-7746260", "Head Chef", 420.00);
         Staff s3 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Chad", "012-7746260", "Head Server", 420.00);
         Schedule sch1 = new Schedule();
         sch1.setStartTime(9, 0);
@@ -582,7 +579,7 @@ public class TARCatering {
 
         Customer found = customerList.search(new Customer(name, email));
         if (found == null) {
-            System.out.println("Incorrect details you donkey");
+            System.out.println("Incorrect details");
             return;
         }
 
@@ -603,7 +600,7 @@ public class TARCatering {
 
         Staff found = staffList.search(new Staff(name, email));
         if (found == null) {
-            System.out.println("Incorrect details you donkey");
+            System.out.println("Incorrect details");
             return;
         }
 
