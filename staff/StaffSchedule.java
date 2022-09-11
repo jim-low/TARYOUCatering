@@ -1,22 +1,21 @@
 package staff;
 
-import general.Person;
 import java.util.Date;
 
 public class StaffSchedule {
-    private Person userID;
+    private Staff userID;
     private Date time;
     private String day;
 
     //Contructor for StaffSchedule
-    public StaffSchedule(Person userID, Date time, String day){
+    public StaffSchedule(Staff userID, Date time, String day){
         this.userID = userID;
         this.time = time;
         this.day = day;
     }
 
     //Getter for userID
-    public Person getUserID(){
+    public Staff getUserID(){
         return userID;
     }
 
