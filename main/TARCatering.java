@@ -1,7 +1,7 @@
 package main;
 
 import java.io.IOException;
-import java.time.LocalDate; //Date display weird outpur, assumed to be unsupported.
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
@@ -13,8 +13,8 @@ import adt.CircularListInterface;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
-import adt.SortedLinkedList; //may need to change to adt package
-import adt.SortedListInterface; //may need to change to adt package
+import adt.SortedLinkedList;
+import adt.SortedListInterface;
 import customer.Customer;
 import general.Address;
 import general.Person;
@@ -110,7 +110,6 @@ public class TARCatering {
     public static Flag flag;
     public static boolean resetDisplay = true;
 
-    // shit needed to run the program
     public static CircularList<Customer> customerList = new CircularList<>();
     public static Person loggedInUser = null;
     public static SortedListInterface<Package> packages = new SortedArrayList<>();
@@ -134,19 +133,8 @@ public class TARCatering {
                     choice = Integer.parseInt(scan.next());
                     break;
                 } catch (Exception e) {
-                    ++wrongInputCounter;
-                    if (wrongInputCounter == 30) {
-                        System.out.println("you are failure, you make my son look like CEO");
-                        System.out.println("now you dont get to use the program");
-                        System.out.println("i swam all the way from China just to raise a doughnut");
-                        System.exit(0);
-                    } else if (wrongInputCounter == 20) {
-                        System.out.println("no no seriously, enter a number");
-                        System.out.println();
-                    } else if (wrongInputCounter == 10) {
-                        System.out.println("what are you doing? enter the right input pls");
-                        System.out.println();
-                    }
+                    System.out.println("Incorrect input.");
+                    System.out.println();
                 }
             }
             System.out.println();
@@ -168,7 +156,7 @@ public class TARCatering {
 
         // customer init
         Customer c1 = new Customer("Jim", "jimllh-wm20@student.tarc.edu.my", "Male", "012-7746260", new Address("Jim's address", "", "", ""));
-        Customer c2 = new Customer("Gym", "jimllh-wm20@student.tarc.edu.my", "Alpha Male", "012-7746260", new Address("Jim's address", "", "", ""));
+        Customer c2 = new Customer("Gym", "jimllh-wm20@student.tarc.edu.my", "Mail", "012-7746260", new Address("Jim's address", "", "", ""));
         Customer c3 = new Customer("Jym", "jimllh-wm20@student.tarc.edu.my", "Chad", "012-7746260", new Address("Jim's address", "", "", ""));
         customerList.insert(c1);
         customerList.insert(c2);
@@ -176,7 +164,7 @@ public class TARCatering {
 
         // staff init
         Staff s1 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Male", "012-7746260", "Manager", 420.00);
-        Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Alpha Male", "012-7746260", "Head Chef", 420.00);
+        Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Mail", "012-7746260", "Head Chef", 420.00);
         Staff s3 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Chad", "012-7746260", "Head Server", 420.00);
         Schedule sch1 = new Schedule();
         sch1.setStartTime(9, 0);
@@ -242,28 +230,28 @@ public class TARCatering {
         staffList.insert(s3);
 
         // order and package init
-        String[] foodArr1 = {"Fishes", "Meat-imitated vegetable", "More Vegetable", "Literal Grass", "Fish Soup"};
+        String[] foodArr1 = {"Fishes", "vegan meat", "More Vegetable", "Vegetable", "Fish Soup"};
         String[] foodArr2 = {"Fishes", "Beef", "Curry", "Vegetables", "Fish Soup"};
         String[] foodArr3 = {"Fish", "Pork", "Vegetables", "Beef", "Fish Soup"};
-        packages.add(new Package("PK001", "Vegetarian Friendly", ' ', 20.00, foodArr1));
-        packages.add(new Package("PK002", "No Babi", ' ', 20.00, foodArr2));
-        packages.add(new Package("PK003", "Standard food normal people eat, babi bankyak", ' ', 20.00, foodArr3));
+        packages.add(new Package("PK001", "Vegetarian Catering Package", ' ', 20.00, foodArr1));
+        packages.add(new Package("PK002", "Halal Catering Package", ' ', 20.00, foodArr2));
+        packages.add(new Package("PK003", "Wedding Catering Package", ' ', 20.00, foodArr3));
 
         LocalDate caterDate1 = LocalDate.of(2022,10,22);
         LocalDate caterDate2 = LocalDate.of(2022,11,22);
         LocalDate caterDate3 = LocalDate.of(2022,12,22);
 
-        Order o1 = new Order("O001", c1, new Package("PK001", "Vegetarian Friendly", 'S', 40.00, foodArr1), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate1);
-        Order o2 = new Order("O002", c2, new Package("PK002", "No Babi", 'M', 60.00, foodArr2), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate2);
-        Order o3 = new Order("O003", c3, new Package("PK003", "Standard food normal people eat, babi bankyak", 'L', 80.00, foodArr3), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate3);
+        Order o1 = new Order("O001", c1, new Package("PK001", "Vegetarian Catering Package", 'S', 40.00, foodArr1), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate1);
+        Order o2 = new Order("O002", c2, new Package("PK002", "Halal Catering Package", 'M', 60.00, foodArr2), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate2);
+        Order o3 = new Order("O003", c3, new Package("PK003", "Wedding Catering Package", 'L', 80.00, foodArr3), "In Progress", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate3);
         orderList.enqueue(o1);
         orderList.enqueue(o2);
         orderList.enqueue(o3);
 
         // payment init
         Payment p1 = new Payment(420.69, LocalDate.of(2022, 9, 11), "VISA", o1);
-        Payment p2 = new Payment(420.69, LocalDate.of(2022, 9, 11), "NASA", o2);
-        Payment p3 = new Payment(420.69, LocalDate.of(2022, 9, 11), "SASA", o3);
+        Payment p2 = new Payment(420.69, LocalDate.of(2022, 9, 11), "VISA", o2);
+        Payment p3 = new Payment(420.69, LocalDate.of(2022, 9, 11), "VISA", o3);
         payList.add(p1);
         payList.add(p2);
         payList.add(p3);
@@ -349,7 +337,7 @@ public class TARCatering {
             return;
         }
 
-        System.out.println("Days that you have to suffer:-");
+        System.out.println("Work Schedule:-");
         ((Staff)loggedInUser).getSchedule().display();
         System.out.println();
     }
@@ -582,7 +570,7 @@ public class TARCatering {
 
         Customer found = customerList.search(new Customer(name, email));
         if (found == null) {
-            System.out.println("Incorrect details you donkey");
+            System.out.println("Incorrect details");
             return;
         }
 
@@ -603,7 +591,7 @@ public class TARCatering {
 
         Staff found = staffList.search(new Staff(name, email));
         if (found == null) {
-            System.out.println("Incorrect details you donkey");
+            System.out.println("Incorrect details");
             return;
         }
 
