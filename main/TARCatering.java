@@ -10,8 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import adt.CircularList;
 import adt.CircularListInterface;
-import adt.CircularQueue;
-import adt.CircularQueueInterface;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
@@ -96,8 +94,9 @@ class Menu {
             System.out.println("1. Add Package");
             System.out.println("2. Remove Package");
             System.out.println("3. Edit Package");
-            System.out.println("4. Logout");
-            System.out.println("5. Exit");
+            System.out.println("4. Check Schedule");
+            System.out.println("5. Logout");
+            System.out.println("6. Exit");
         }
     }
 }
@@ -263,13 +262,25 @@ public class TARCatering {
                 break;
             case 3: // edit package
                 break;
-            case 4:
+            case 4: // check schedule
+                checkSchedule();
+            case 5:
                 logout();
                 break;
-            case 5:
+            case 6:
                 System.exit(0);
                 break;
         }
+    }
+
+    public static void checkSchedule() {
+        if (!(loggedInUser instanceof Staff)) {
+            System.out.println("Only staff may view schedule");
+            return;
+        }
+
+        ((Staff)loggedInUser).getSchedule().display();
+        System.out.println();
     }
 
     public static void checkOrders() {
