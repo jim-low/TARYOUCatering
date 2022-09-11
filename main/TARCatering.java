@@ -403,20 +403,20 @@ public class TARCatering {
                 System.out.println("Invalid Response! try again.");
                 break;
         }
-        
+
         selectedPackage -=1;
-        
-        Package newPackage = new Package(packages.search(selectedPackage).getPackageID(), packages.search(selectedPackage).getDesc(), size , 
+
+        Package newPackage = new Package(packages.search(selectedPackage).getPackageID(), packages.search(selectedPackage).getDesc(), size ,
             packages.search(selectedPackage).getPrice() + addPrice, packages.search(selectedPackage).getFood());
 
         Customer currentCustomer = customerList.search((Customer)loggedInUser);
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        Order order = new Order(newID, loggedInCustomer, newPackage, "Not Done", loggedInCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        Order order = new Order(newID, currentCustomer, newPackage, "Not Done", currentCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
         System.out.println("Successfully placed order");
         System.out.println();
     }
-    
+
     public static void editOrder(){
         int editChoice;
         int totalChoices =0;
@@ -424,18 +424,18 @@ public class TARCatering {
         String orderToBeEdit = "";
         Iterator<Order> orders = orderList.getIterator();
         String newStatus = "";
-        
+
         int statusChoice = 0;
         do{
             while (orders.hasNext()) {
                 Order order = orders.next();
-                if (order.getCustomerID().getUserID().equals(loggedInCustomer.getUserID())) {
+                if (order.getCustomerID().getUserID().equals(loggedInUser.getUserID())) {
                     //newOrder[totalChoices] = order;
                     System.out.println(order);
                     totalChoices++;
                 }
             }
-            
+
             System.out.print("\nSelect a orderID number to edit(e.g->1,2,3): ");
             editChoice = scan.nextInt();
             orderToBeEdit = String.format("O%03d", editChoice);
@@ -454,7 +454,7 @@ public class TARCatering {
             //                    searchedOrder = orderList.search(newOrder[i]);
             //                }
             //            }
-            
+
             do{
                 System.out.println("Enter new Status: ");
                 System.out.println("1. Done");
@@ -462,10 +462,10 @@ public class TARCatering {
                 statusChoice = scan.nextInt();
 
                 switch(statusChoice){
-                    case 1: 
+                    case 1:
                         newStatus = "Done";
                         break;
-                    case 2: 
+                    case 2:
                         newStatus = "Cancelled";
                         break;
                     default:
@@ -473,27 +473,27 @@ public class TARCatering {
                         break;
                 }
             }while(statusChoice < 1 || statusChoice > 2);
-            
-            orderList.editNode(searchedOrder, new Order(searchedOrder.getOrderID(),searchedOrder.getCustomerID(), searchedOrder.getPackageID(), 
+
+            orderList.editNode(searchedOrder, new Order(searchedOrder.getOrderID(),searchedOrder.getCustomerID(), searchedOrder.getPackageID(),
                     newStatus, searchedOrder.getCateringAddress(), searchedOrder.getOrderDate(), searchedOrder.getCaterDate()));
             System.out.println("Order has been updated!\n");
-            
+
             if(editChoice > totalChoices || editChoice < 1){
                 System.out.println("Invalid input. Try Again!");
             }
         }while(editChoice < 1 || editChoice > totalChoices);
-        
+
         //orderList.editNode(editChoice , new Order());
-        
+
     }
 
     public static void addPackage(){
         System.out.print("Enter the new package description: ");
         String tempDesc = scan.next();
-        
+
         System.out.print("Enter the new package price: ");
         double tempPrice = scan.nextDouble();
-        
+
         String tempFood = "";
         boolean exit = false;
         int foodNum = 1;
@@ -509,13 +509,13 @@ public class TARCatering {
                 foodNum++;
             }
         }
-        
+
         String newID = String.format("PK%03d", Integer.parseInt(packages.getLast().getPackageID().replaceAll("([A-Z])", "")) + 1);
         packages.add(new Package(newID, tempDesc, ' ', tempPrice, newFoodArr));
-        
+
         System.out.println("Package is added!\n");
     }
-    
+
     public static void createAccount() {
         System.out.println("Creating account:-");
         System.out.print("Name: ");
