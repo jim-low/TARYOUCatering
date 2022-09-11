@@ -18,7 +18,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
     public void enqueue(T newEntry) {
         Node<T> newNode = new Node<T>(newEntry);
         if(newNode != null){
-            
+
             if (isEmpty()) {
                 firstNode = newNode;
             } else {
@@ -27,7 +27,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
             numberOfEntries++;
             lastNode = newNode;
         }
-        
+
     }
 
     public T getNewNode(){
@@ -51,14 +51,14 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
         return front;
     }
-    
-    
+
+
     public int totalEntries(){
-        
+
         return numberOfEntries;
     }
-    
-    
+
+
     public void editNode(T order, T replaceEntry){
         Node<T> searchEntry = firstNode;
         T returnEntry = null;
@@ -71,7 +71,7 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         }
         //System.out.println("edited : " + searchEntry);
     }
-    
+
     public T dequeue() {
         T front = null;
 

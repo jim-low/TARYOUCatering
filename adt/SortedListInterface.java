@@ -16,7 +16,7 @@ public interface SortedListInterface<T extends Comparable<T>> {
     public T search(int index); //search the element in that specific index
 
     public T getLast(); //gets the last element in the array
-    
+
     public void clear(); //remove all entries from the list.
 
     public int getNumberOfEntries(); //get how many total entries are in the list.

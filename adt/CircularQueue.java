@@ -88,8 +88,8 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
         }
     }
 
-	@Override
-	public void display() {
+    @Override
+    public void display() {
         if (lastNode == null) {
             return;
         }
@@ -100,5 +100,5 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
             System.out.println(currNode.getData());
             currNode = currNode.getNext();
         } while (currNode != lastNode);
-	}
+    }
 }

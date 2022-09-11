@@ -8,17 +8,17 @@ public interface QueueInterface<T> {
 
     public T dequeue();
 
-     public Iterator<T> getIterator();
-  
+    public Iterator<T> getIterator();
+
     public T getNewNode();
-  
-     public T getFront();
-     
-     public int totalEntries();
-  
+
+    public T getFront();
+
+    public int totalEntries();
+
     public boolean isEmpty();
 
-    
+
     public void editNode(T order, T replaceEntry);
 
 }

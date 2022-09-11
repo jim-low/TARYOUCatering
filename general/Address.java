@@ -22,7 +22,7 @@ public class Address {
     }
 
     public Address() {
-        
+
     }
 
     public String getAddressID() {
