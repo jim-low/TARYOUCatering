@@ -1,10 +1,7 @@
 package adt;
 
-
 import general.Node;
 import java.util.Iterator;
-
-
 
 /**
  * CircularQueue
@@ -18,9 +15,9 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
 
     public void enqueue (T newEntry){
         Node<T> newNode = new Node<T> (newEntry);
-        if(isEmpty()){
+        if (isEmpty()) {
             newNode.setNext(newNode);
-        }else{
+        } else {
             //            newNode.next = lastNode.next;
             newNode.setNext(lastNode.getNext());
             //            lastNode.next = newNode;
@@ -62,22 +59,22 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
         }
         lastNode = null;
     }
-    
+
     public Iterator<T> getIterator(){
         return new CircularQueueIterator();
     }
 
     private class CircularQueueIterator implements Iterator<T>{
         private Node<T> currentNode;
-        
+
         public CircularQueueIterator() {
             currentNode = lastNode.getNext();
         }
-        
+
         public boolean hasNext(){
             return currentNode!= null;
         }
-        
+
         @Override
         public T next(){
             T currentData = null;
@@ -90,4 +87,18 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
             }
         }
     }
+
+	@Override
+	public void display() {
+        if (lastNode == null) {
+            return;
+        }
+
+        Node<T> currNode = lastNode;
+
+        do {
+            System.out.println(currNode.getData());
+            currNode = currNode.getNext();
+        } while (currNode != lastNode);
+	}
 }
