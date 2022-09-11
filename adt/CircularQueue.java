@@ -90,7 +90,15 @@ public class CircularQueue<T> implements CircularQueueInterface<T> {
 
 	@Override
 	public void display() {
-        // TODO: let Jasper do :)
+        if (lastNode == null) {
+            return;
+        }
 
+        Node<T> currNode = lastNode;
+
+        do {
+            System.out.println(currNode.getData());
+            currNode = currNode.getNext();
+        } while (currNode != lastNode);
 	}
 }

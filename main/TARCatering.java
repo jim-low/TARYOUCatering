@@ -10,8 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 import adt.CircularList;
 import adt.CircularListInterface;
-import adt.CircularQueue;
-import adt.CircularQueueInterface;
 import adt.LinkedQueue;
 import adt.QueueInterface;
 import adt.SortedArrayList;
@@ -23,6 +21,7 @@ import general.Person;
 import order.Order;
 import order.Package;
 import payment.Payment;
+import staff.Schedule;
 import staff.Staff;
 
 enum Flag {
@@ -96,8 +95,9 @@ class Menu {
             System.out.println("1. Add Package");
             System.out.println("2. Remove Package");
             System.out.println("3. Edit Package");
-            System.out.println("4. Logout");
-            System.out.println("5. Exit");
+            System.out.println("4. Check Schedule");
+            System.out.println("5. Logout");
+            System.out.println("6. Exit");
         }
     }
 }
@@ -177,6 +177,65 @@ public class TARCatering {
         Staff s1 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Male", "012-7746260", "Manager", 420.00);
         Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Alpha Male", "012-7746260", "Head Chef", 420.00);
         Staff s3 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Chad", "012-7746260", "Head Server", 420.00);
+        Schedule sch1 = new Schedule();
+        sch1.setStartTime(9, 0);
+        sch1.setEndTime(17, 0);
+        sch1.setDay(1);
+
+        Schedule sch2 = new Schedule();
+        sch2.setStartTime(9, 0);
+        sch2.setEndTime(17, 0);
+        sch2.setDay(2);
+
+        Schedule sch3 = new Schedule();
+        sch3.setStartTime(9, 0);
+        sch3.setEndTime(17, 0);
+        sch3.setDay(3);
+
+        Schedule sch4 = new Schedule();
+        sch4.setStartTime(9, 0);
+        sch4.setEndTime(17, 0);
+        sch4.setDay(4);
+
+        Schedule sch5 = new Schedule();
+        sch5.setStartTime(9, 0);
+        sch5.setEndTime(17, 0);
+        sch5.setDay(17);
+
+        Schedule sch6 = new Schedule();
+        sch6.setStartTime(9, 0);
+        sch6.setEndTime(17, 0);
+        sch6.setDay(6);
+
+        Schedule sch7 = new Schedule();
+        sch7.setStartTime(9, 0);
+        sch7.setEndTime(17, 0);
+        sch7.setDay(7);
+
+        s1.getSchedule().enqueue(sch1);
+        s1.getSchedule().enqueue(sch2);
+        s1.getSchedule().enqueue(sch3);
+        s1.getSchedule().enqueue(sch4);
+        s1.getSchedule().enqueue(sch5);
+        s1.getSchedule().enqueue(sch6);
+        s1.getSchedule().enqueue(sch7);
+
+        s2.getSchedule().enqueue(sch1);
+        s2.getSchedule().enqueue(sch2);
+        s2.getSchedule().enqueue(sch3);
+        s2.getSchedule().enqueue(sch4);
+        s2.getSchedule().enqueue(sch5);
+        s2.getSchedule().enqueue(sch6);
+        s2.getSchedule().enqueue(sch7);
+
+        s3.getSchedule().enqueue(sch1);
+        s3.getSchedule().enqueue(sch2);
+        s3.getSchedule().enqueue(sch3);
+        s3.getSchedule().enqueue(sch4);
+        s3.getSchedule().enqueue(sch5);
+        s3.getSchedule().enqueue(sch6);
+        s3.getSchedule().enqueue(sch7);
+
         staffList.insert(s1);
         staffList.insert(s2);
         staffList.insert(s3);
@@ -263,13 +322,25 @@ public class TARCatering {
                 break;
             case 3: // edit package
                 break;
-            case 4:
+            case 4: // check schedule
+                checkSchedule();
+            case 5:
                 logout();
                 break;
-            case 5:
+            case 6:
                 System.exit(0);
                 break;
         }
+    }
+
+    public static void checkSchedule() {
+        if (!(loggedInUser instanceof Staff)) {
+            System.out.println("Only staff may view schedule");
+            return;
+        }
+
+        ((Staff)loggedInUser).getSchedule().display();
+        System.out.println();
     }
 
     public static void checkOrders() {
