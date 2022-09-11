@@ -17,14 +17,17 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
     public void enqueue(T newEntry) {
         Node<T> newNode = new Node<T>(newEntry);
+        if(newNode != null){
 
-        if (isEmpty()) {
-            firstNode = newNode;
-        } else {
-            lastNode.setNext(newNode);
+            if (isEmpty()) {
+                firstNode = newNode;
+            } else {
+                lastNode.setNext(newNode);
+            }
+            numberOfEntries++;
+            lastNode = newNode;
         }
-        numberOfEntries++;
-        lastNode = newNode;
+
     }
 
     public T getNewNode(){
@@ -48,61 +51,26 @@ public class LinkedQueue<T> implements QueueInterface<T>{
 
         return front;
     }
-    public T nextNode(){
-        T node = null;
-        Node<T> currentNode = firstNode;
 
-        while(currentNode !=null){
-            node = currentNode.getData();
-            currentNode = currentNode.getNext();
 
-        }
-
-        return node;
-    }
-
-    public void listAllNode(){
-        T node;
-        Node<T> currentNode = firstNode;
-        for(int i = 0; i < numberOfEntries; i++){
-            node = currentNode.getData();
-            currentNode = currentNode.getNext();
-            System.out.println((i+1) + ". " + node);
-        }
-        
-    }
-    
     public int totalEntries(){
-        
+
         return numberOfEntries;
     }
-    
-    public T search(int selectedIndex){
-        T searchEntry = null;
-        Node<T> currentNode = firstNode;
-        
-        if(!isEmpty()){
-            for(int i = 0; i <selectedIndex;i++){
-                searchEntry = currentNode.getData();
-                currentNode = currentNode.getNext();
+
+
+    public void editNode(T order, T replaceEntry){
+        Node<T> searchEntry = firstNode;
+        T returnEntry = null;
+        while(searchEntry != null){
+            returnEntry = searchEntry.getData();
+            if(returnEntry.equals(order)){
+                searchEntry.setData(replaceEntry);
             }
+            searchEntry = searchEntry.getNext();
         }
-        return searchEntry;
+        //System.out.println("edited : " + searchEntry);
     }
-    
-    public void editNode(int index, T replaceEntry){
-        T searchEntry = null;
-        Node<T> currentNode = firstNode;
-        
-        if(!isEmpty()){
-            for(int i = 0; i <index;i++){
-                searchEntry = currentNode.getData();
-                currentNode = currentNode.getNext();
-            
-            }
-        }
-    }
-    
 
     public T dequeue() {
         T front = null;
@@ -123,10 +91,6 @@ public class LinkedQueue<T> implements QueueInterface<T>{
         return (firstNode == null) && (lastNode == null);
     }
 
-    public void clear() {
-        firstNode = null;
-        lastNode = null;
-    }
 
     public Iterator<T> getIterator() {
         return new LinkedQueueIterator();

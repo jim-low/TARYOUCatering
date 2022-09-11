@@ -21,6 +21,7 @@ import general.Person;
 import order.Order;
 import order.Package;
 import payment.Payment;
+import staff.Schedule;
 import staff.Staff;
 
 enum Flag {
@@ -176,6 +177,65 @@ public class TARCatering {
         Staff s1 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Male", "012-7746260", "Manager", 420.00);
         Staff s2 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Alpha Male", "012-7746260", "Head Chef", 420.00);
         Staff s3 = new Staff("Jasper", "jaspercjs-pm20@student.tarc.edu.my", "Chad", "012-7746260", "Head Server", 420.00);
+        Schedule sch1 = new Schedule();
+        sch1.setStartTime(9, 0);
+        sch1.setEndTime(17, 0);
+        sch1.setDay(1);
+
+        Schedule sch2 = new Schedule();
+        sch2.setStartTime(9, 0);
+        sch2.setEndTime(17, 0);
+        sch2.setDay(2);
+
+        Schedule sch3 = new Schedule();
+        sch3.setStartTime(9, 0);
+        sch3.setEndTime(17, 0);
+        sch3.setDay(3);
+
+        Schedule sch4 = new Schedule();
+        sch4.setStartTime(9, 0);
+        sch4.setEndTime(17, 0);
+        sch4.setDay(4);
+
+        Schedule sch5 = new Schedule();
+        sch5.setStartTime(9, 0);
+        sch5.setEndTime(17, 0);
+        sch5.setDay(17);
+
+        Schedule sch6 = new Schedule();
+        sch6.setStartTime(9, 0);
+        sch6.setEndTime(17, 0);
+        sch6.setDay(6);
+
+        Schedule sch7 = new Schedule();
+        sch7.setStartTime(9, 0);
+        sch7.setEndTime(17, 0);
+        sch7.setDay(7);
+
+        s1.getSchedule().enqueue(sch1);
+        s1.getSchedule().enqueue(sch2);
+        s1.getSchedule().enqueue(sch3);
+        s1.getSchedule().enqueue(sch4);
+        s1.getSchedule().enqueue(sch5);
+        s1.getSchedule().enqueue(sch6);
+        s1.getSchedule().enqueue(sch7);
+
+        s2.getSchedule().enqueue(sch1);
+        s2.getSchedule().enqueue(sch2);
+        s2.getSchedule().enqueue(sch3);
+        s2.getSchedule().enqueue(sch4);
+        s2.getSchedule().enqueue(sch5);
+        s2.getSchedule().enqueue(sch6);
+        s2.getSchedule().enqueue(sch7);
+
+        s3.getSchedule().enqueue(sch1);
+        s3.getSchedule().enqueue(sch2);
+        s3.getSchedule().enqueue(sch3);
+        s3.getSchedule().enqueue(sch4);
+        s3.getSchedule().enqueue(sch5);
+        s3.getSchedule().enqueue(sch6);
+        s3.getSchedule().enqueue(sch7);
+
         staffList.insert(s1);
         staffList.insert(s2);
         staffList.insert(s3);
@@ -190,9 +250,9 @@ public class TARCatering {
 
         LocalDate caterDate = LocalDate.of(2022,10,22);;
 
-        Order o1 = new Order("O001", c1, packages.search(0), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
-        Order o2 = new Order("O002", c2, packages.search(1), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
-        Order o3 = new Order("O003", c3, packages.search(2), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o1 = new Order("O001", c1, new Package("PK001", "Vegetarian Friendly", 'S', 40.00, foodArr1), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o2 = new Order("O002", c2, new Package("PK002", "No Babi", 'M', 60.00, foodArr2), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
+        Order o3 = new Order("O003", c3, new Package("PK003", "Standard food normal people eat, babi bankyak", 'L', 80.00, foodArr3), "Done", new Address("Jim's address", "", "", ""), LocalDate.now(), caterDate);
         orderList.enqueue(o1);
         orderList.enqueue(o2);
         orderList.enqueue(o3);
@@ -307,6 +367,9 @@ public class TARCatering {
         System.out.println("Choose the package to order: ");
 
         int i;
+        char size = ' ';
+        double addPrice = 0;
+        System.out.println("\n");
         for(i = 0; i < packages.getNumberOfEntries(); i++) {
             System.out.println((i + 1) + ") " + packages.search(i).getDesc());
         }
@@ -319,13 +382,10 @@ public class TARCatering {
         System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
         System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
         System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
-        System.out.println("4. Back");
         System.out.print("Your choice: ");
         int sizeChoice = scan.nextInt();
         System.out.println();
 
-        char size;
-        double addPrice;
         switch (sizeChoice) {
             case 1:
                 size = 'S';
@@ -339,19 +399,121 @@ public class TARCatering {
                 size = 'L';
                 addPrice = 60.00;
                 break;
-            case 4:
-                break;
             default:
                 System.out.println("Invalid Response! try again.");
                 break;
         }
 
+        selectedPackage -=1;
+
+        Package newPackage = new Package(packages.search(selectedPackage).getPackageID(), packages.search(selectedPackage).getDesc(), size ,
+            packages.search(selectedPackage).getPrice() + addPrice, packages.search(selectedPackage).getFood());
+
         Customer currentCustomer = customerList.search((Customer)loggedInUser);
         String newID = String.format("O%03d", Integer.parseInt(orderList.getNewNode().getOrderID().replaceAll("([A-Z])", "")) + 1);
-        Order order = new Order(newID, currentCustomer, packages.search(selectedPackage - 1), "Not Done", currentCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
+        Order order = new Order(newID, currentCustomer, newPackage, "Not Done", currentCustomer.getSavedAddress(), LocalDate.now(), LocalDate.of(2022,10,22));
         orderList.enqueue(order);
         System.out.println("Successfully placed order");
         System.out.println();
+    }
+
+    public static void editOrder(){
+        int editChoice;
+        int totalChoices =0;
+        //Order[] newOrder = new Order[orderList.totalEntries()];
+        String orderToBeEdit = "";
+        Iterator<Order> orders = orderList.getIterator();
+        String newStatus = "";
+
+        int statusChoice = 0;
+        do{
+            while (orders.hasNext()) {
+                Order order = orders.next();
+                if (order.getCustomerID().getUserID().equals(loggedInUser.getUserID())) {
+                    //newOrder[totalChoices] = order;
+                    System.out.println(order);
+                    totalChoices++;
+                }
+            }
+
+            System.out.print("\nSelect a orderID number to edit(e.g->1,2,3): ");
+            editChoice = scan.nextInt();
+            orderToBeEdit = String.format("O%03d", editChoice);
+            Order searchedOrder = new Order();
+            orders = orderList.getIterator();
+            while (orders.hasNext()) {
+                Order order = orders.next();
+                if (order.getOrderID().equals(orderToBeEdit)) {
+                    searchedOrder = order;
+                    System.out.println(searchedOrder);
+                }
+            }
+            //array method
+            //            for(int i = 0; i< totalChoices;i++){
+            //                if(newOrder[i].getOrderID().equals(orderToBeEdit)){
+            //                    searchedOrder = orderList.search(newOrder[i]);
+            //                }
+            //            }
+
+            do{
+                System.out.println("Enter new Status: ");
+                System.out.println("1. Done");
+                System.out.println("2. Cancelled");
+                statusChoice = scan.nextInt();
+
+                switch(statusChoice){
+                    case 1:
+                        newStatus = "Done";
+                        break;
+                    case 2:
+                        newStatus = "Cancelled";
+                        break;
+                    default:
+                        System.out.println("Invalid Input. Try Again!");
+                        break;
+                }
+            }while(statusChoice < 1 || statusChoice > 2);
+
+            orderList.editNode(searchedOrder, new Order(searchedOrder.getOrderID(),searchedOrder.getCustomerID(), searchedOrder.getPackageID(),
+                    newStatus, searchedOrder.getCateringAddress(), searchedOrder.getOrderDate(), searchedOrder.getCaterDate()));
+            System.out.println("Order has been updated!\n");
+
+            if(editChoice > totalChoices || editChoice < 1){
+                System.out.println("Invalid input. Try Again!");
+            }
+        }while(editChoice < 1 || editChoice > totalChoices);
+
+        //orderList.editNode(editChoice , new Order());
+
+    }
+
+    public static void addPackage(){
+        System.out.print("Enter the new package description: ");
+        String tempDesc = scan.next();
+
+        System.out.print("Enter the new package price: ");
+        double tempPrice = scan.nextDouble();
+
+        String tempFood = "";
+        boolean exit = false;
+        int foodNum = 1;
+        String[] newFoodArr = new String[10];
+        System.out.println("Enter the new package food one by one up to ten only(enter done to exit): ");
+        while(exit == false){
+            System.out.print(foodNum + ". ");
+            tempFood = scan.next();
+            if(tempFood.equals("done")){
+                exit = true;
+            }else{
+                newFoodArr[foodNum] = tempFood;
+                foodNum++;
+            }
+        }
+
+        String newID = String.format("PK%03d", Integer.parseInt(packages.getLast().getPackageID().replaceAll("([A-Z])", "")) + 1);
+        packages.add(new Package(newID, tempDesc, ' ', tempPrice, newFoodArr));
+
+        System.out.println("Package is added!\n");
     }
 
     public static void createAccount() {
