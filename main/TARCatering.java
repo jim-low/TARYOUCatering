@@ -197,9 +197,6 @@ public class TARCatering {
             case 5:
                 System.exit(0);
                 break;
-            case 6:
-                editOrder();
-                break;
         }
     }
 
@@ -256,7 +253,6 @@ public class TARCatering {
         System.out.println("1. Small, additional RM20  (Suitable for 1 to 20 People) ");
         System.out.println("2. Medium, additional RM40  (Suitable for 20 to 50 People) ");
         System.out.println("3. Large, additional RM60 (Suitable for 50 to 100 People) ");
-        System.out.println("4. Back");
         System.out.print("Your choice: ");
         int sizeChoice = scan.nextInt();
         System.out.println();
@@ -273,8 +269,6 @@ public class TARCatering {
             case 3:
                 size = 'L';
                 addPrice = 60.00;
-                break;
-            case 4:
                 break;
             default:
                 System.out.println("Invalid Response! try again.");
@@ -361,6 +355,33 @@ public class TARCatering {
         
     }
 
+    public static void addPackage(){
+        System.out.print("Enter the new package description: ");
+        String tempDesc = scan.next();
+        
+        System.out.print("Enter the new package price: ");
+        double tempPrice = scan.nextDouble();
+        
+        String tempFood = "";
+        boolean exit = false;
+        int foodNum = 1;
+        String[] newFoodArr = new String[10];
+        System.out.println("Enter the new package food one by one up to ten only(enter done to exit): ");
+        while(exit == false){
+            System.out.print(foodNum + ". ");
+            tempFood = scan.next();
+            if(tempFood.equals("done")){
+                exit = true;
+            }else{
+                newFoodArr[foodNum] = tempFood;
+                foodNum++;
+            }
+        }
+        
+        String newID = String.format("PK%03d", Integer.parseInt(packages.getLast().getPackageID().replaceAll("([A-Z])", "")) + 1);
+        packages.add(new Package(newID, tempDesc, ' ', tempPrice, newFoodArr));
+    }
+    
     public static void createAccount() {
         System.out.println("Creating account:-");
         System.out.print("Name: ");

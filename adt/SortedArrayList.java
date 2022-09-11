@@ -41,6 +41,15 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
       
       return entry;
   }
+  
+  public T getLast() {
+      T entry = null;
+      if(!isEmpty()){
+        entry = array[numberOfEntries-1];
+      }
+      return entry;
+  }
+  
   //ignore
   public boolean edit(int selectedIndex, T replaceEntry){
       T entry = null;
@@ -90,7 +99,7 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     }
     return found;
   }
-
+  
   public int getNumberOfEntries() {
     return numberOfEntries;
   }
@@ -142,8 +151,5 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     }
   }
   
-  public T getLast() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
 
 }
