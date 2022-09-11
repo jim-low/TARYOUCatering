@@ -91,10 +91,9 @@ public class Order {
 
     @Override
     public String toString() {
-        return "\n==============================\n" + "OrderID: " + orderID + "\nCustomerID:" + customerID.getUserID() + "\nCustomerName: " + customerID.getName() + "\nCustomerPhone: " + customerID.getPhoneNum() +
-            "\nPackageID: " + packageID.getPackageID() + "\nPackageSize: " + packageID.getPackageSize() + "\nPackagePrice: " + packageID.getPrice() +
+        return "OrderID: " + orderID + "\nCustomer name: " + customerID.getName() + "\nCustomer phone: " + customerID.getPhoneNum() +
+            "\nPackageID: " + packageID.getPackageID() +
             "\nStatus: " + status +
-            "\nCateringAddressLine1: " + cateringAddress.getAddressLine1() + ", " + cateringAddress.getAddressLine2() +", " + cateringAddress.getAddressLine3() +
             "\nOrderDate: " + orderDate + "\nCaterDate: " + caterDate + "\n";
     }
 }
