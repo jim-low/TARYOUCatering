@@ -84,5 +84,4 @@ public class Staff extends Person implements Comparable<Staff>{
         }
         return -1;
     }
-
 }

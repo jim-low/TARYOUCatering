@@ -1,11 +1,8 @@
 package adt;
 
 //DO NOT use any predefined collection interfaces and classes from the Java Collections Framework.
-import java.util.Date;
-import payment.Payment;
 import general.Node;
 import java.util.Iterator;
-import adt.SortedListInterface;
 
 public class SortedLinkedList<T extends Comparable<T>> implements SortedListInterface<T> {
     //remember to add validations for your ADTs, other validations that are not related to ADTs are not required.
@@ -185,12 +182,12 @@ public class SortedLinkedList<T extends Comparable<T>> implements SortedListInte
         return (numberOfEntries == 0);
     }
 
-	@Override
-	public void display() {
+    @Override
+    public void display() {
         Node<T> currNode = firstNode;
         while (currNode != null) {
             System.out.println(currNode.getData());
             currNode = currNode.getNext();
         }
-	}
+    }
 }

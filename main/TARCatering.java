@@ -422,7 +422,6 @@ public class TARCatering {
 
         Payment payment = new Payment(newPackage.getPrice(), LocalDate.now(), "VISA", order);
         payList.add(payment);
-        payList.display();
 
         System.out.println("Successfully placed order");
         System.out.println();

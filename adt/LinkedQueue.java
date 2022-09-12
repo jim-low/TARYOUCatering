@@ -3,7 +3,6 @@ package adt;
 import java.util.Iterator;
 
 import general.Node;
-import order.Order;
 
 public class LinkedQueue<T> implements QueueInterface<T>{
     private Node<T> firstNode;

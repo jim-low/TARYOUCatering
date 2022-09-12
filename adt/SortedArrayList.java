@@ -1,5 +1,4 @@
 package adt;
-import order.Package;
 
 import java.util.Iterator;
 
@@ -156,11 +155,11 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
         }
     }
 
-	@Override
-	public void display() {
+    @Override
+    public void display() {
         for (int i = 0; i < numberOfEntries; ++i) {
             System.out.println(array[i]);
             System.out.println();
         }
-	}
+    }
 }

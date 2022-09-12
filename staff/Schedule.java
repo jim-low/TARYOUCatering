@@ -6,7 +6,6 @@ public class Schedule {
     private Calendar startTime;
     private Calendar endTime;
 
-    //Contructor for StaffSchedule
     public Schedule(){
         this.startTime = Calendar.getInstance();
         this.endTime = Calendar.getInstance();

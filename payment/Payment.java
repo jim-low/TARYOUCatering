@@ -1,6 +1,5 @@
 package payment;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -15,7 +14,6 @@ public class Payment implements Comparable<Payment>{
     Order order;
 
     private static int idNumber = 1;
-    //CircularLinkedList<Order> totalPayments; //assume this is an array.
 
     public Payment(double paymentAmt, LocalDate paymentDate, String paymentMethod) {
         this(paymentAmt, paymentDate, paymentMethod, null);
@@ -71,8 +69,6 @@ public class Payment implements Comparable<Payment>{
         return order;
     }
 
-    //do not add functions that receive input or display output.
-
     public Payment searchPayment(String id){
 
         if (this.paymentID.equals(id)){
@@ -104,5 +100,4 @@ public class Payment implements Comparable<Payment>{
         int dateCompareValue = currentPDate.compareTo(dateToCompare);
         return dateCompareValue;
     }
-
 }

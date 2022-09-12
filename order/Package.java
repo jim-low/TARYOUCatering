@@ -14,9 +14,10 @@ public class Package implements Comparable<Package>{
         this.price = price;
         this.food = food;
     }
+    
     public Package(){
-
     }
+
     public Package(String packageID){
         this.packageID= packageID;
     }

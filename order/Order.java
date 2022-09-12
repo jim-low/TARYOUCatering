@@ -16,8 +16,8 @@ public class Order {
     private LocalDate caterDate;
 
     public Order(){
-
     }
+
     public Order(Order object){
 
     }
@@ -87,7 +87,6 @@ public class Order {
     public void setCaterDate(LocalDate caterDate) {
         this.caterDate = caterDate;
     }
-
 
     @Override
     public String toString() {
